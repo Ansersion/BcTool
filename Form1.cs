@@ -25,6 +25,7 @@ namespace BcTool
         private Dictionary<int, DataGridView> index2DataGridViewDic = new Dictionary<int, DataGridView>();
         private Dictionary<int, bool> index2isCustomDic = new Dictionary<int, bool>();
         private Dictionary<int, string> index2FileNameDic = new Dictionary<int, string>();
+        private VirtualRunningForm virtualRunningForm;
 
 
         public BcTool()
@@ -91,6 +92,8 @@ namespace BcTool
             index2FileNameDic.Add(7, "systemUnit.csv");
             index2FileNameDic.Add(8, "systemGroup.csv");
             index2FileNameDic.Add(9, "systemBasic.csv");
+
+            virtualRunningForm = new VirtualRunningForm();
         }
 
         private void appendMessage(string tag, string msg)
@@ -473,6 +476,23 @@ namespace BcTool
                     appendMessage(MESSAGE_TAG_INVALID_OPERATION, "Save Error");
                 }
             }
+        }
+
+        private void startRunning_Click(object sender, EventArgs e)
+        {
+            if(virtualRunningForm.IsDisposed)
+            {
+                virtualRunningForm = new VirtualRunningForm();
+            }
+            if(!virtualRunningForm.IsAccessible)
+            {
+                virtualRunningForm.Show();
+            }
+        }
+
+        private void customLangDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
