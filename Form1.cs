@@ -156,12 +156,12 @@ namespace BcTool
             string password = "3333333333333333333333333333333333333333333333333333333333333333";
 
             IntPtr snPtr = Marshal.AllocHGlobal(sn.Length + 1);
-            byte[] snBytes = System.Text.Encoding.ASCII.GetBytes(sn);
-            Marshal.Copy(snBytes, 0, snPtr, sn.Length);
+            byte[] snBytes = Tools.addCStringEndFlag(System.Text.Encoding.ASCII.GetBytes(sn));
+            Marshal.Copy(snBytes, 0, snPtr, snBytes.Length);
 
             IntPtr passwordPtr = Marshal.AllocHGlobal(password.Length + 1);
-            byte[] passwordBytes = System.Text.Encoding.ASCII.GetBytes(password);
-            Marshal.Copy(passwordBytes, 0, passwordPtr, password.Length);
+            byte[] passwordBytes = Tools.addCStringEndFlag(System.Text.Encoding.ASCII.GetBytes(password));
+            Marshal.Copy(passwordBytes, 0, passwordPtr, passwordBytes.Length);
 
             IntPtr intPtrPack = BPLibApi.BP_PackConnect(ref bPContext, snPtr, passwordPtr);
             BPLibApi.PackBuf packBufSend = (BPLibApi.PackBuf)Marshal.PtrToStructure(intPtrPack, typeof(BPLibApi.PackBuf));
