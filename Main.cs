@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +19,7 @@ namespace BcTool
         private int[] systemLanguageTabIndex = { 4, 5, 6 };
 
         private NetMng netMng = new NetMng();
+        private Simulator simulator;
 
         public BcTool()
         {
@@ -32,6 +34,7 @@ namespace BcTool
             loadReadOnlyDataGridView("sys_enum_language_resource.csv", this.systemEnumDataGridView, 2);
             loadReadOnlyDataGridView("sys_sig_info_basic.csv", this.systemBasicDataGridView, 2);
             progressBar1.Value = 0;
+            simulator = new Simulator();
         }
 
         private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, int offsetLine)
@@ -168,6 +171,30 @@ namespace BcTool
             byte[] sendBytes = new byte[packBufSend.MsgSize];
             Marshal.Copy(packBufSend.PackStart, sendBytes, 0, sendBytes.Length);
             netMng.write(sendBytes);
+        }
+
+        private void buttonStopSim_Click(object sender, EventArgs e)
+        {
+            if(simulator.IsDisposed)
+            {
+                simulator = new Simulator();
+            }
+            Random rd = new Random();
+            Hashtable hashtable = new Hashtable();
+            int signalId = rd.Next(1, 0xFFFF);
+            SignalDataItem tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
+            hashtable.Add(1, tmp);
+            signalId = rd.Next(1, 0xFFFF);
+            tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
+            hashtable.Add(2, tmp);
+            signalId = rd.Next(1, 0xFFFF);
+            tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
+            hashtable.Add(3, tmp);
+            simulator.setSignalDataItemTable(hashtable);
+            simulator.Show();
+            simulator.reloadSignalTable();
+
+            
         }
     }
 }
