@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BPLibApi.cs" />
+    <Compile Include="DataGridViewChecker.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

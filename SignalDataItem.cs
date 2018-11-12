@@ -9,6 +9,12 @@ namespace BcTool
 {
     class SignalDataItem
     {
+
+        public const string GRIDVIEW_SIGNAL_ID = "SignalID";
+        public const string GRIDVIEW_TYPE = "Type";
+        public const string GRIDVIEW_VALUE = "Value";
+        public const string GRIDVIEW_ALARM = "Alarm";
+
         public enum ValueType
         {
             U32, 
@@ -28,24 +34,47 @@ namespace BcTool
             RW,
         }
 
-        public int signalId;
-        public Boolean enabled;
-        public String macro;
-        public Boolean alarm;
-        public ValueType valueType;
-        public int unitLangId;
-        public BcPermission bcPermission;
-        public Boolean display;
-        public int accuracy;
-        public Object minValue;
-        public Object maxValue;
-        public Object defaultValue;
-        public int groupLangId;
-        public Hashtable enumLangIdTable;
-        public Boolean statistics;
-        public int alarmClass;
-        public int alarmBefDelay;
-        public int alarmAftDelay;
+        private int signalId;
+        private Boolean enabled;
+        private String macro;
+        private Boolean alarm;
+        private ValueType valueType;
+        private int unitLangId;
+        private BcPermission bcPermission;
+        private Boolean display;
+        private int accuracy;
+        private Object minValue;
+        private Object maxValue;
+        private Object defaultValue;
+        private int groupLangId;
+        private Hashtable enumLangIdTable;
+        private Boolean statistics;
+        private int alarmClass;
+        private int alarmBefDelay;
+        private int alarmAftDelay;
+
+        public int SignalId { get => signalId; set => signalId = value; }
+        public bool Enabled { get => enabled; set => enabled = value; }
+        public string Macro { get => macro; set => macro = value; }
+        public bool Alarm { get => alarm; set => alarm = value; }
+        internal ValueType ValueType1 { get => valueType; set => valueType = value; }
+        public int UnitLangId { get => unitLangId; set => unitLangId = value; }
+        internal BcPermission BcPermission1 { get => bcPermission; set => bcPermission = value; }
+        public bool Display { get => display; set => display = value; }
+        public int Accuracy { get => accuracy; set => accuracy = value; }
+        public object MinValue { get => minValue; set => minValue = value; }
+        public object MaxValue { get => maxValue; set => maxValue = value; }
+        public object DefaultValue { get => defaultValue; set => defaultValue = value; }
+        public int GroupLangId { get => groupLangId; set => groupLangId = value; }
+        public Hashtable EnumLangIdTable { get => enumLangIdTable; set => enumLangIdTable = value; }
+        public bool Statistics { get => statistics; set => statistics = value; }
+        public int AlarmClass { get => alarmClass; set => alarmClass = value; }
+        public int AlarmBefDelay { get => alarmBefDelay; set => alarmBefDelay = value; }
+        public int AlarmAftDelay { get => alarmAftDelay; set => alarmAftDelay = value; }
+
+        public SignalDataItem()
+        {
+        }
 
         public SignalDataItem(int signalId, bool enabled, string macro, bool alarm, ValueType valueType, int unitLangId, BcPermission bcPermission, bool display, int accuracy, object minValue, object maxValue, object defaultValue, int groupLangId, Hashtable enumLangIdTable, bool statistics, int alarmClass, int alarmBefDelay, int alarmAftDelay)
         {
@@ -66,7 +95,7 @@ namespace BcTool
             this.statistics = statistics;
             this.alarmClass = alarmClass;
             this.alarmBefDelay = alarmBefDelay;
-            this.alarmAftDelay = alarmAftDelay;
+            this.AlarmAftDelay = alarmAftDelay;
         }
 
         public String getSignalIdString()

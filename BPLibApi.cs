@@ -10,6 +10,8 @@ namespace BcTool
     class BPLibApi
     {
 
+        public const int SYSTEM_SIGNAL_TABLE_NUM = 16;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct PackBuf
         {

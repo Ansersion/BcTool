@@ -30,11 +30,11 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewSignalTable = new System.Windows.Forms.DataGridView();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SignalID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Alarm = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.richTextBoxSim = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -56,7 +56,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.richTextBoxSim);
             this.splitContainer1.Size = new System.Drawing.Size(800, 450);
             this.splitContainer1.SplitterDistance = 301;
             this.splitContainer1.TabIndex = 0;
@@ -79,15 +79,9 @@
             this.dataGridViewSignalTable.RowTemplate.Height = 30;
             this.dataGridViewSignalTable.Size = new System.Drawing.Size(800, 301);
             this.dataGridViewSignalTable.TabIndex = 0;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(800, 145);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.dataGridViewSignalTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSignalTable_CellEndEdit);
+            this.dataGridViewSignalTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSignalTable_CellValueChanged);
+            this.dataGridViewSignalTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridViewSignalTable_CurrentCellDirtyStateChanged);
             // 
             // SignalID
             // 
@@ -118,6 +112,17 @@
             this.Alarm.HeaderText = "Alarm";
             this.Alarm.Name = "Alarm";
             // 
+            // richTextBoxSim
+            // 
+            this.richTextBoxSim.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxSim.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxSim.Name = "richTextBoxSim";
+            this.richTextBoxSim.ReadOnly = true;
+            this.richTextBoxSim.Size = new System.Drawing.Size(800, 145);
+            this.richTextBoxSim.TabIndex = 0;
+            this.richTextBoxSim.Text = "";
+            this.richTextBoxSim.WordWrap = false;
+            // 
             // Simulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -139,7 +144,7 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridViewSignalTable;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBoxSim;
         private System.Windows.Forms.DataGridViewTextBoxColumn SignalID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;

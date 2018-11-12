@@ -20,6 +20,8 @@ namespace BcTool
 
         private NetMng netMng = new NetMng();
         private Simulator simulator;
+        private List<DataGridView> dist2DataGridViewList;
+        private List<Hashtable> dist2SignalDataItemHashTable;
 
         public BcTool()
         {
@@ -29,12 +31,18 @@ namespace BcTool
 
         private void myInit()
         {
+            progressBar1.Value = 0;
+            dist2DataGridViewList = new List<DataGridView>();
+            dist2DataGridViewList.Add(this.systemBasicDataGridView);
+            dist2SignalDataItemHashTable = new List<Hashtable>();
+            for (int i = 0; i < BPLibApi.SYSTEM_SIGNAL_TABLE_NUM; i++)
+            {
+                dist2SignalDataItemHashTable.Add(new Hashtable());
+            }
             loadReadOnlyDataGridView("sys_signal_language_resource.csv", this.systemLangDataGridView, 1);
             loadReadOnlyDataGridView("sys_unit_language_resource.csv", this.systemUnitDataGridView, 1);
             loadReadOnlyDataGridView("sys_enum_language_resource.csv", this.systemEnumDataGridView, 2);
             loadReadOnlyDataGridView("sys_sig_info_basic.csv", this.systemBasicDataGridView, 2);
-            progressBar1.Value = 0;
-            simulator = new Simulator();
         }
 
         private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, int offsetLine)
@@ -129,6 +137,7 @@ namespace BcTool
 
         private void button2_Click(object sender, EventArgs e)
         {
+            /*
             netMng.setAddress("127.0.0.1");
             netMng.setPort(NetMng.BC_SERVER_PORT);
             netMng.connect();
@@ -141,13 +150,6 @@ namespace BcTool
             IntPtr bufPassword = Marshal.AllocHGlobal(128);
             BPLibApi.BP_Init2Default(ref bPContext);
             BPLibApi.BP_InitPackBuf(ref packBuf, bufPtr, 64);
-            /*
-            packBuf.Buf = buf;
-            packBuf.RmnLen = 0;
-            packBuf.PackStart = packBuf.Buf;
-            packBuf.MsgSize = 0;
-            packBuf.BufSize = 64;
-            */
             int s = Marshal.SizeOf(packBuf);
             IntPtr tmp = Marshal.AllocHGlobal(s);
             Marshal.StructureToPtr(packBuf, tmp, true);
@@ -171,16 +173,17 @@ namespace BcTool
             byte[] sendBytes = new byte[packBufSend.MsgSize];
             Marshal.Copy(packBufSend.PackStart, sendBytes, 0, sendBytes.Length);
             netMng.write(sendBytes);
-        }
+            */
 
-        private void buttonStopSim_Click(object sender, EventArgs e)
-        {
-            if(simulator.IsDisposed)
+            if (null == simulator || simulator.IsDisposed)
             {
                 simulator = new Simulator();
             }
-            Random rd = new Random();
+
             Hashtable hashtable = new Hashtable();
+
+            /*
+            Random rd = new Random();
             int signalId = rd.Next(1, 0xFFFF);
             SignalDataItem tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
             hashtable.Add(1, tmp);
@@ -190,11 +193,70 @@ namespace BcTool
             signalId = rd.Next(1, 0xFFFF);
             tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
             hashtable.Add(3, tmp);
+            */
+
             simulator.setSignalDataItemTable(hashtable);
             simulator.Show();
             simulator.reloadSignalTable();
+            simulator.startSim();
+        }
 
+        private void buttonStopSim_Click(object sender, EventArgs e)
+        {
+            /*
+            if(simulator.IsDisposed)
+            {
+                simulator = new Simulator();
+            }
             
+            Hashtable hashtable = new Hashtable();
+            
+            Random rd = new Random();
+            int signalId = rd.Next(1, 0xFFFF);
+            SignalDataItem tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
+            hashtable.Add(1, tmp);
+            signalId = rd.Next(1, 0xFFFF);
+            tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
+            hashtable.Add(2, tmp);
+            signalId = rd.Next(1, 0xFFFF);
+            tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
+            hashtable.Add(3, tmp);
+            
+            simulator.setSignalDataItemTable(hashtable);
+            simulator.Show();
+            simulator.reloadSignalTable();
+            */
+
+            if (null != simulator && !simulator.IsDisposed)
+            {
+                simulator.stopSim();
+            }
+        }
+
+        private Boolean makeSimTable(ref Hashtable hashtable)
+        {
+            Boolean ret = false;
+            try
+            {
+                foreach (DataGridView dataGridView in dist2DataGridViewList)
+                {
+                    for(int i = 0; i < dataGridView.Rows.Count; i++)
+                    {
+                        if(dataGridView.Rows[i].Cells["Enabled"].Value.ToString().Equals("YES"))
+                        {
+
+                        }
+                    }
+                    
+                }
+                
+                ret = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return ret;
         }
     }
 }
