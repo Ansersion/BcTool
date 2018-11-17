@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BPLibApi.cs" />
     <Compile Include="DataGridViewChecker.cs" />
+    <Compile Include="LanguageResourceItem.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

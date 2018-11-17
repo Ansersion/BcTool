@@ -20,16 +20,16 @@ namespace BcTool
 
         private int CURRENT_LOG_LEVEL = LOG_LEVEL_DEBUG;
 
-        private Hashtable signalDataItemTable;
+        private List<SignalDataItem> signalDataItems;
 
         public Simulator()
         {
             InitializeComponent();
         }
 
-        public void setSignalDataItemTable(Hashtable hashtable)
+        public void setSignalDataItemList(List<SignalDataItem> list)
         {
-            signalDataItemTable = hashtable;
+            signalDataItems = list;
         }
 
         public void reloadSignalTable()
@@ -38,9 +38,9 @@ namespace BcTool
 
                 dataGridViewSignalTable.Rows.Clear();
        
-            if(signalDataItemTable != null)
+            if(signalDataItems != null)
             {
-                foreach (SignalDataItem value in signalDataItemTable.Values)
+                foreach (SignalDataItem value in signalDataItems)
                 {
                     dataGridViewSignalTable.Rows.Add();
                     dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_SIGNAL_ID].Value = value.getSignalIdString();

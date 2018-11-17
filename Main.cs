@@ -180,7 +180,8 @@ namespace BcTool
                 simulator = new Simulator();
             }
 
-            Hashtable hashtable = new Hashtable();
+            // Hashtable hashtable = new Hashtable();
+            List<SignalDataItem> signalDataItemList = new List<SignalDataItem>();
 
             /*
             Random rd = new Random();
@@ -195,10 +196,18 @@ namespace BcTool
             hashtable.Add(3, tmp);
             */
 
-            simulator.setSignalDataItemTable(hashtable);
-            simulator.Show();
-            simulator.reloadSignalTable();
-            simulator.startSim();
+            Boolean ret = makeSimTable(ref signalDataItemList);
+            if (true == ret)
+            {
+                simulator.setSignalDataItemList(signalDataItemList);
+                simulator.Show();
+                simulator.reloadSignalTable();
+                simulator.startSim();
+            }
+            else
+            {
+                MessageBox.Show("TODO: something wrong");
+            }
         }
 
         private void buttonStopSim_Click(object sender, EventArgs e)
@@ -233,19 +242,29 @@ namespace BcTool
             }
         }
 
-        private Boolean makeSimTable(ref Hashtable hashtable)
+        private Boolean makeSimTable(ref List<SignalDataItem> signalDataItemList)
         {
             Boolean ret = false;
+            string err = "";
             try
             {
                 foreach (DataGridView dataGridView in dist2DataGridViewList)
                 {
                     for(int i = 0; i < dataGridView.Rows.Count; i++)
                     {
-                        if(dataGridView.Rows[i].Cells["Enabled"].Value.ToString().Equals("YES"))
+                        err = "";
+                        SignalDataItem tmp = SignalDataItem.parseSignalDataItem(dataGridView.Rows[i].Cells, true, ref err);
+                        if(tmp != null)
                         {
-
+                            err = "line " + i + ", ";
+                            signalDataItemList.Add(tmp);
                         }
+                        else if(!string.IsNullOrWhiteSpace(err))
+                        {
+                            err = "line " + i + ", ";
+                            Console.WriteLine(err);
+                        }
+                        
                     }
                     
                 }
