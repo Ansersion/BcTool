@@ -21,6 +21,8 @@ namespace BcTool
         private int CURRENT_LOG_LEVEL = LOG_LEVEL_DEBUG;
 
         private List<SignalDataItem> signalDataItems;
+        private Dictionary<UInt16, LanguageResourceItem> signalNameLangTable;
+        private UInt16 languageKey;
 
         public Simulator()
         {
@@ -30,6 +32,16 @@ namespace BcTool
         public void setSignalDataItemList(List<SignalDataItem> list)
         {
             signalDataItems = list;
+        }
+
+        public void setSignalNameLangTable(Dictionary<UInt16, LanguageResourceItem> table)
+        {
+            signalNameLangTable = table;
+        }
+
+        public void setLanguageKey(UInt16 key)
+        {
+            languageKey = key;
         }
 
         public void reloadSignalTable()
@@ -42,10 +54,26 @@ namespace BcTool
             {
                 foreach (SignalDataItem value in signalDataItems)
                 {
-                    dataGridViewSignalTable.Rows.Add();
-                    dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_SIGNAL_ID].Value = value.getSignalIdString();
-                    dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_TYPE].Value = value.getValueTypeString();
-                    dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_VALUE].Value = value.getDefaultString();
+                    UInt16 signalID = (UInt16)value.SignalId;
+                    DataGridViewCellStyle dataGridViewCellStyleTmp;
+                    DataGridViewCell dataGridViewCellTmp;
+                    if (signalNameLangTable.ContainsKey(signalID))
+                    {
+                        dataGridViewSignalTable.Rows.Add();
+                        dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_SIGNAL_ID].Value = signalNameLangTable[signalID].LanguageMap[languageKey];
+                        dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_TYPE].Value = value.getValueTypeString();
+                        dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_VALUE].Value = value.getDefaultString();
+                        if(!value.Alarm)
+                        {
+                            dataGridViewCellTmp = dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_ALARM];
+                            dataGridViewCellTmp.ReadOnly = true;
+                            dataGridViewCellStyleTmp = dataGridViewCellTmp.Style;
+                            dataGridViewCellStyleTmp.BackColor = SystemColors.Control;
+                            
+                         
+                        }
+
+                    }
                 }
             }
             
@@ -124,6 +152,42 @@ namespace BcTool
         {
             string msgTmp = msg + "\r\n";
             Log(level, msgTmp);
+        }
+
+        private void 中文ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageKey = LanguageResourceItem.CHINESE_KEY;
+            reloadSignalTable();
+        }
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageKey = LanguageResourceItem.ENGLISH_KEY;
+            reloadSignalTable();
+        }
+
+        private void françaisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageKey = LanguageResourceItem.FRENCH_KEY;
+            reloadSignalTable();
+        }
+
+        private void русскийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageKey = LanguageResourceItem.RUSSIAN_KEY;
+            reloadSignalTable();
+        }
+
+        private void العربيةToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageKey = LanguageResourceItem.ARABIC_KEY;
+            reloadSignalTable();
+        }
+
+        private void españolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageKey = LanguageResourceItem.SPANISH_KEY;
+            reloadSignalTable();
         }
     }
 }

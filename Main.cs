@@ -182,6 +182,7 @@ namespace BcTool
 
             // Hashtable hashtable = new Hashtable();
             List<SignalDataItem> signalDataItemList = new List<SignalDataItem>();
+            Dictionary<UInt16, LanguageResourceItem> signalNameLanguageResourceTable = new Dictionary<ushort, LanguageResourceItem>();
 
             /*
             Random rd = new Random();
@@ -196,10 +197,12 @@ namespace BcTool
             hashtable.Add(3, tmp);
             */
 
-            Boolean ret = makeSimTable(ref signalDataItemList);
+            Boolean ret = makeSimTable(ref signalDataItemList, ref signalNameLanguageResourceTable);
             if (true == ret)
             {
                 simulator.setSignalDataItemList(signalDataItemList);
+                simulator.setSignalNameLangTable(signalNameLanguageResourceTable);
+                simulator.setLanguageKey(LanguageResourceItem.ENGLISH_KEY);
                 simulator.Show();
                 simulator.reloadSignalTable();
                 simulator.startSim();
@@ -242,7 +245,7 @@ namespace BcTool
             }
         }
 
-        private Boolean makeSimTable(ref List<SignalDataItem> signalDataItemList)
+        private Boolean makeSimTable(ref List<SignalDataItem> signalDataItemList, ref Dictionary<UInt16, LanguageResourceItem> signalNameLangTable)
         {
             Boolean ret = false;
             string err = "";
@@ -268,7 +271,24 @@ namespace BcTool
                     }
                     
                 }
-                
+
+                for (int i = 0; i < systemLangDataGridView.Rows.Count; i++)
+                {
+                    err = "";
+                    LanguageResourceItem tmp = LanguageResourceItem.parseLanguageResourceItem(systemLangDataGridView.Rows[i].Cells, ref err);
+                    if (tmp != null)
+                    {
+                        err = "line " + i + ", ";
+                        signalNameLangTable.Add((UInt16)tmp.IndexId, tmp);
+                    }
+                    else if (!string.IsNullOrWhiteSpace(err))
+                    {
+                        err = "line " + i + ", ";
+                        Console.WriteLine(err);
+                    }
+
+                }
+
                 ret = true;
             }
             catch (Exception e)
