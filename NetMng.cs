@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BcTool
@@ -12,6 +13,9 @@ namespace BcTool
     {
         public static int BC_SERVER_PORT = 8025;
         public static UInt16 DEFAULT_RECV_BUFFER_SIZE = 2048;
+        private static ManualResetEvent receiveDone = new ManualResetEvent(false);
+        private static Queue<object> recvPackQueue = new Queue<object>();
+        private static readonly object recvPackQueuelocker = new object();
 
         private Socket client;
         private string address;
@@ -34,6 +38,8 @@ namespace BcTool
             address = "127.0.0.1";
             port = BC_SERVER_PORT;
             initRecvBuffer(DEFAULT_RECV_BUFFER_SIZE);
+            
+            
         }
 
         public void initRecvBuffer(UInt16 size)
@@ -79,6 +85,21 @@ namespace BcTool
             {
                 Console.WriteLine(ex.Message);
                 ret = false;
+            }
+            return ret;
+        }
+
+        public int read(byte[] buffer, int offset, int size)
+        {
+            int ret = -1;
+            try
+            {
+                ret = client.Receive(buffer, offset, size, 0);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                ret = -1;
             }
             return ret;
         }
@@ -181,8 +202,42 @@ namespace BcTool
             {
                 Console.WriteLine(e.ToString());
             }
+
+            
+            */
+            /*
+            lock(recvPackQueuelocker)
+            {
+                recvPackQueue.Enqueue();
+            }
+            receiveDone.Set();
             */
         }
+
+        /*
+         *        static void Work()
+        {
+            while (true)
+            {
+                string work = null;
+                lock (_locker)
+                {
+                    if (_tasks.Count > 0)
+                    {
+                        work = _tasks.Dequeue(); // 有任务时，出列任务
+                        
+                        if (work == null)  // 退出机制：当遇见一个null任务时，代表任务结束
+                            return;
+                    }
+                }
+
+                if (work != null)
+                    SaveData(work);  // 任务不为null时，处理并保存数据
+                else
+                    _wh.WaitOne();   // 没有任务了，等待信号
+            }
+        }
+         */
 
     }
 }

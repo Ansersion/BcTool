@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,15 +19,28 @@ namespace BcTool
         private const int LOG_LEVEL_INFO = 2;
         private const int LOG_LEVEL_ERROR = 1;
 
+        public static Boolean endLoop;
+
         private int CURRENT_LOG_LEVEL = LOG_LEVEL_DEBUG;
 
         private List<SignalDataItem> signalDataItems;
         private Dictionary<UInt16, LanguageResourceItem> signalNameLangTable;
         private UInt16 languageKey;
+        private Thread msgRecvThread;
+
+
 
         public Simulator()
         {
             InitializeComponent();
+            init();
+        }
+
+        public void init()
+        {
+            endLoop = false;
+            msgRecvThread = new Thread(recvTask);
+            msgRecvThread.Start();
         }
 
         public void setSignalDataItemList(List<SignalDataItem> list)
@@ -69,8 +83,6 @@ namespace BcTool
                             dataGridViewCellTmp.ReadOnly = true;
                             dataGridViewCellStyleTmp = dataGridViewCellTmp.Style;
                             dataGridViewCellStyleTmp.BackColor = SystemColors.Control;
-                            
-                         
                         }
 
                     }
@@ -188,6 +200,16 @@ namespace BcTool
         {
             languageKey = LanguageResourceItem.SPANISH_KEY;
             reloadSignalTable();
+        }
+
+        static void recvTask()
+        {
+            do
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine("RecvTask");
+            } while (!endLoop);
+            Console.WriteLine("End loop");
         }
     }
 }
