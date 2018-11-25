@@ -9,10 +9,20 @@ using System.Threading.Tasks;
 
 namespace BcTool
 {
-    class NetMng
+    public class StateObject
+    {
+        public Socket workSocket = null;
+        public int offset;
+        public int len;
+        public byte[] buffer;
+        public AsyncCallback asyncCallback;
+    }
+
+    public class NetMng
     {
         public static int BC_SERVER_PORT = 8025;
         public static UInt16 DEFAULT_RECV_BUFFER_SIZE = 2048;
+     
         private static ManualResetEvent receiveDone = new ManualResetEvent(false);
         private static Queue<object> recvPackQueue = new Queue<object>();
         private static readonly object recvPackQueuelocker = new object();
@@ -32,14 +42,12 @@ namespace BcTool
 
         // public AsyncCallback ConnectCallBack { get => connectCallBack; set => connectCallBack = value; }
 
-        public NetMng()
+        public NetMng(string servAddr)
         {
             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            address = "127.0.0.1";
+            address = servAddr;
             port = BC_SERVER_PORT;
             initRecvBuffer(DEFAULT_RECV_BUFFER_SIZE);
-            
-            
         }
 
         public void initRecvBuffer(UInt16 size)
@@ -104,17 +112,17 @@ namespace BcTool
             return ret;
         }
 
-        public bool writeAync(byte[] msg)
+        public bool writeAync(byte[] msg, int offset, int len, AsyncCallback asyncCallback)
         {
             bool ret = false;
             if(null == msg || 0 == msg.Length)
             {
-                return false;
+                return ret;
             }
             try
             {
-                client.BeginSend(msg, 0, msg.Length, 0,
-                    SendAsyncCallBack, client);
+                client.BeginSend(msg, offset, len, 0,
+                    asyncCallback, client);
                 ret = true;
             }
             catch (Exception ex)
@@ -125,24 +133,25 @@ namespace BcTool
             return ret;
         }
 
-        public void recvAsync()
+        public Boolean recvAsync(StateObject state)
         {
-            /*
+            Boolean ret = false;
+            if(null == state)
+            {
+                return ret;
+            }
             try
             {
-                // Create the state object.  
-                StateObject state = new StateObject();
-                state.workSocket = client;
-
-                // Begin receiving the data from the remote device.  
-                client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                    new AsyncCallback(ReceiveCallback), state);
+                client.BeginReceive(state.buffer, state.offset, state.len, 0,
+                    new AsyncCallback(state.asyncCallback), state);
+                ret = true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                ret = false;
             }
-            */
+            return ret;
         }
 
         private static void SendCallback(IAsyncResult ar)
@@ -238,6 +247,19 @@ namespace BcTool
             }
         }
          */
+
+        public void destroy()
+        {
+            try
+            {
+                client.Close();
+                client.Dispose();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
 
     }
 }

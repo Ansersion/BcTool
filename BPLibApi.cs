@@ -7,10 +7,11 @@ using System.Runtime.InteropServices;
 
 namespace BcTool
 {
-    class BPLibApi
+    public class BPLibApi
     {
 
         public const int SYSTEM_SIGNAL_TABLE_NUM = 16;
+        public const int FIX_HEADER_SIZE = 3;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct PackBuf
@@ -18,8 +19,8 @@ namespace BcTool
             public IntPtr Buf;
             public UInt32 RmnLen;
             public IntPtr PackStart;
-            public UInt32 MsgSize;
-            public UInt32 BufSize;
+            public UInt64 MsgSize;
+            public UInt64 BufSize;
 
         }
 
@@ -59,7 +60,7 @@ namespace BcTool
         public static extern void BP_Init2Default(ref BPContext bp_context);
 
         [DllImport(@"bplib.dll", EntryPoint = "BP_InitPackBuf", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void BP_InitPackBuf(ref PackBuf pack_buf, IntPtr buf, UInt32 buf_size);
+        public static extern void BP_InitPackBuf(ref PackBuf pack_buf, IntPtr buf, ref UInt64 buf_size);
 
         [DllImport(@"bplib.dll", EntryPoint = "BP_PackConnect", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr BP_PackConnect(ref BPContext bp_context, IntPtr name, IntPtr password);

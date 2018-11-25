@@ -13,8 +13,7 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            endLoop = true;
-            msgRecvThread.Join();
+            destroy();
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -31,12 +30,6 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dataGridViewSignalTable = new System.Windows.Forms.DataGridView();
-            this.richTextBoxSim = new System.Windows.Forms.RichTextBox();
-            this.SignalID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Alarm = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.中文ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,12 +38,18 @@
             this.русскийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.العربيةToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.españolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.richTextBoxSim = new System.Windows.Forms.RichTextBox();
+            this.Alarm = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SignalID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewSignalTable = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSignalTable)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSignalTable)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -72,68 +71,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(800, 450);
             this.splitContainer1.SplitterDistance = 301;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // dataGridViewSignalTable
-            // 
-            this.dataGridViewSignalTable.AllowUserToAddRows = false;
-            this.dataGridViewSignalTable.AllowUserToDeleteRows = false;
-            this.dataGridViewSignalTable.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dataGridViewSignalTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewSignalTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SignalID,
-            this.Type,
-            this.Value,
-            this.Alarm});
-            this.dataGridViewSignalTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewSignalTable.Location = new System.Drawing.Point(0, 32);
-            this.dataGridViewSignalTable.Name = "dataGridViewSignalTable";
-            this.dataGridViewSignalTable.RowHeadersVisible = false;
-            this.dataGridViewSignalTable.RowTemplate.Height = 30;
-            this.dataGridViewSignalTable.Size = new System.Drawing.Size(800, 269);
-            this.dataGridViewSignalTable.TabIndex = 0;
-            this.dataGridViewSignalTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSignalTable_CellEndEdit);
-            this.dataGridViewSignalTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSignalTable_CellValueChanged);
-            this.dataGridViewSignalTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridViewSignalTable_CurrentCellDirtyStateChanged);
-            // 
-            // richTextBoxSim
-            // 
-            this.richTextBoxSim.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxSim.Location = new System.Drawing.Point(0, 0);
-            this.richTextBoxSim.Name = "richTextBoxSim";
-            this.richTextBoxSim.ReadOnly = true;
-            this.richTextBoxSim.Size = new System.Drawing.Size(800, 145);
-            this.richTextBoxSim.TabIndex = 0;
-            this.richTextBoxSim.Text = "";
-            this.richTextBoxSim.WordWrap = false;
-            // 
-            // SignalID
-            // 
-            this.SignalID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.SignalID.HeaderText = "SignalName";
-            this.SignalID.Name = "SignalID";
-            this.SignalID.ReadOnly = true;
-            this.SignalID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Type
-            // 
-            this.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Type.HeaderText = "Type";
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
-            this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Value
-            // 
-            this.Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Value.HeaderText = "Value";
-            this.Value.Name = "Value";
-            this.Value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Alarm
-            // 
-            this.Alarm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Alarm.HeaderText = "Alarm";
-            this.Alarm.Name = "Alarm";
             // 
             // menuStrip1
             // 
@@ -162,44 +99,106 @@
             // 中文ToolStripMenuItem
             // 
             this.中文ToolStripMenuItem.Name = "中文ToolStripMenuItem";
-            this.中文ToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.中文ToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.中文ToolStripMenuItem.Text = "中文";
             this.中文ToolStripMenuItem.Click += new System.EventHandler(this.中文ToolStripMenuItem_Click);
             // 
             // englishToolStripMenuItem
             // 
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.englishToolStripMenuItem.Text = "English";
             this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
             // françaisToolStripMenuItem
             // 
             this.françaisToolStripMenuItem.Name = "françaisToolStripMenuItem";
-            this.françaisToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.françaisToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.françaisToolStripMenuItem.Text = "Français";
             this.françaisToolStripMenuItem.Click += new System.EventHandler(this.françaisToolStripMenuItem_Click);
             // 
             // русскийToolStripMenuItem
             // 
             this.русскийToolStripMenuItem.Name = "русскийToolStripMenuItem";
-            this.русскийToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.русскийToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.русскийToolStripMenuItem.Text = "русский";
             this.русскийToolStripMenuItem.Click += new System.EventHandler(this.русскийToolStripMenuItem_Click);
             // 
             // العربيةToolStripMenuItem
             // 
             this.العربيةToolStripMenuItem.Name = "العربيةToolStripMenuItem";
-            this.العربيةToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.العربيةToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.العربيةToolStripMenuItem.Text = "العربية";
             this.العربيةToolStripMenuItem.Click += new System.EventHandler(this.العربيةToolStripMenuItem_Click);
             // 
             // españolToolStripMenuItem
             // 
             this.españolToolStripMenuItem.Name = "españolToolStripMenuItem";
-            this.españolToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.españolToolStripMenuItem.Size = new System.Drawing.Size(164, 30);
             this.españolToolStripMenuItem.Text = "Español";
             this.españolToolStripMenuItem.Click += new System.EventHandler(this.españolToolStripMenuItem_Click);
+            // 
+            // richTextBoxSim
+            // 
+            this.richTextBoxSim.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxSim.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxSim.Name = "richTextBoxSim";
+            this.richTextBoxSim.ReadOnly = true;
+            this.richTextBoxSim.Size = new System.Drawing.Size(800, 145);
+            this.richTextBoxSim.TabIndex = 0;
+            this.richTextBoxSim.Text = "";
+            this.richTextBoxSim.WordWrap = false;
+            // 
+            // Alarm
+            // 
+            this.Alarm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Alarm.HeaderText = "Alarm";
+            this.Alarm.Name = "Alarm";
+            // 
+            // Value
+            // 
+            this.Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Value.HeaderText = "Value";
+            this.Value.Name = "Value";
+            this.Value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Type
+            // 
+            this.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // SignalID
+            // 
+            this.SignalID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.SignalID.HeaderText = "SignalName";
+            this.SignalID.Name = "SignalID";
+            this.SignalID.ReadOnly = true;
+            this.SignalID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dataGridViewSignalTable
+            // 
+            this.dataGridViewSignalTable.AllowUserToAddRows = false;
+            this.dataGridViewSignalTable.AllowUserToDeleteRows = false;
+            this.dataGridViewSignalTable.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dataGridViewSignalTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewSignalTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SignalID,
+            this.Type,
+            this.Value,
+            this.Alarm});
+            this.dataGridViewSignalTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewSignalTable.Location = new System.Drawing.Point(0, 32);
+            this.dataGridViewSignalTable.Name = "dataGridViewSignalTable";
+            this.dataGridViewSignalTable.RowHeadersVisible = false;
+            this.dataGridViewSignalTable.RowTemplate.Height = 30;
+            this.dataGridViewSignalTable.Size = new System.Drawing.Size(800, 269);
+            this.dataGridViewSignalTable.TabIndex = 0;
+            this.dataGridViewSignalTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSignalTable_CellEndEdit);
+            this.dataGridViewSignalTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSignalTable_CellValueChanged);
+            this.dataGridViewSignalTable.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridViewSignalTable_CurrentCellDirtyStateChanged);
             // 
             // Simulator
             // 
@@ -215,9 +214,9 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSignalTable)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSignalTable)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -225,12 +224,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView dataGridViewSignalTable;
         private System.Windows.Forms.RichTextBox richTextBoxSim;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SignalID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Alarm;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 中文ToolStripMenuItem;
@@ -239,5 +233,10 @@
         private System.Windows.Forms.ToolStripMenuItem русскийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem العربيةToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem españolToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dataGridViewSignalTable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SignalID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Alarm;
     }
 }

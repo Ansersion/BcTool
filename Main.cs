@@ -18,7 +18,7 @@ namespace BcTool
     {
         private int[] systemLanguageTabIndex = { 4, 5, 6 };
 
-        private NetMng netMng = new NetMng();
+        private NetMng netMng = new NetMng("127.0.0.1");
         private Simulator simulator;
         private List<DataGridView> dist2DataGridViewList;
         private List<Hashtable> dist2SignalDataItemHashTable;
@@ -197,20 +197,26 @@ namespace BcTool
             hashtable.Add(3, tmp);
             */
 
-            Boolean ret = makeSimTable(ref signalDataItemList, ref signalNameLanguageResourceTable);
-            if (true == ret)
+            if(!simulator.Simulating)
             {
-                simulator.setSignalDataItemList(signalDataItemList);
-                simulator.setSignalNameLangTable(signalNameLanguageResourceTable);
-                simulator.setLanguageKey(LanguageResourceItem.ENGLISH_KEY);
-                simulator.Show();
-                simulator.reloadSignalTable();
-                simulator.startSim();
+                Boolean ret = makeSimTable(ref signalDataItemList, ref signalNameLanguageResourceTable);
+                if (true == ret)
+                {
+                    simulator.setSignalDataItemList(signalDataItemList);
+                    simulator.setSignalNameLangTable(signalNameLanguageResourceTable);
+                    simulator.setLanguageKey(LanguageResourceItem.ENGLISH_KEY);
+                    simulator.Show();
+                    simulator.reloadSignalTable();
+                    simulator.Sn = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX3";
+                    simulator.Password = "3333333333333333333333333333333333333333333333333333333333333333";
+                    simulator.startSim();
+                }
+                else
+                {
+                    MessageBox.Show("TODO: something wrong");
+                }
             }
-            else
-            {
-                MessageBox.Show("TODO: something wrong");
-            }
+
         }
 
         private void buttonStopSim_Click(object sender, EventArgs e)
