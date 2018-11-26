@@ -60,7 +60,8 @@ namespace BcTool
         // private MSG_RECV_STATE msgRecvState = MSG_RECV_STATE.WAIT_HEADER;
         private Boolean msgRecvWaiting = false;
         private System.Timers.Timer timer;
-        private List<string> packSendList = new List<string>();
+        private readonly object packSendListLocker = new object();
+        private List<byte[]> packSendList = new List<byte[]>();
         private List<string> packRecvList = new List<string>();
         private string sn;
         private string password;
@@ -72,7 +73,7 @@ namespace BcTool
 
         public BPLibApi.BPContext bPContext;
         // public BPLibApi.PackBuf packBuf;
-        public List<string> PackSendList { get => packSendList; set => packSendList = value; }
+        // public List<byte[]> PackSendList { get => packSendList; set => packSendList = value; }
         public List<string> PackRecvList { get => packRecvList; set => packRecvList = value; }
         public string Sn { get => sn; set => sn = value; }
         public string Password { get => password; set => password = value; }
@@ -179,7 +180,7 @@ namespace BcTool
             {
                 int column = e.ColumnIndex;
                 int row = e.RowIndex;
-                packSendList.Add("(" + row + "," + column + ")=" + dataGridViewSignalTable.Rows[row].Cells[column].Value.ToString());
+                packSendList.Add(new byte[1]);
                 triggerSignal(EVENT_NET_MSSAGE_SEND);
             }
 
@@ -347,12 +348,18 @@ namespace BcTool
                 if ((eventFlagsTmp & EVENT_NET_MSSAGE_SEND) != 0)
                 {
                     Console.WriteLine("event net message send");
-                    foreach(string tmp in currentSim.PackSendList)
+
+                    byte[] pack = null;
+                    do
                     {
-                        Console.WriteLine(tmp);
-                    }
-                    currentSim.PackSendList.Clear();
-                    clearSignal(EVENT_NET_MSSAGE_SEND);
+                        pack = currentSim.popSendPack();
+                        if(pack != null)
+                        {
+                            netMng.write(pack);
+                        }
+                    } while (pack != null);
+
+                clearSignal(EVENT_NET_MSSAGE_SEND);
                 }
 
             } while (!endLoop);
@@ -510,12 +517,13 @@ namespace BcTool
         {
             try
             {
+                bpDisconn();
                 endLoop = true;
                 simThread.Join();
                 timer.Stop();
                 timer.Close();
-                endMsgRecv = true;
                 netMng.destroy();
+                endMsgRecv = true;
                 netRecvMsgThread.Join();
             }
             catch (Exception e)
@@ -539,6 +547,50 @@ namespace BcTool
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        private Boolean bpDisconn()
+        {
+            Boolean ret = false;
+            try
+            {
+                IntPtr intPtrPack = BPLibApi.BP_PackDisconn(ref bPContext);
+                BPLibApi.PackBuf packBufSend = (BPLibApi.PackBuf)Marshal.PtrToStructure(intPtrPack, typeof(BPLibApi.PackBuf));
+                byte[] sendBytes = new byte[packBufSend.MsgSize];
+                Marshal.Copy(packBufSend.PackStart, sendBytes, 0, sendBytes.Length);
+
+                pushSendPack(sendBytes);
+                ret = true;
+            } 
+            catch(Exception e)
+            {
+                Console.Write(e.Message);
+                ret = false;
+            }
+            return ret;
+        }
+
+        private byte[] popSendPack()
+        {
+            byte[] ret = null;
+            lock (packSendListLocker)
+            {
+                if(packSendList.Count > 0)
+                {
+                    ret = packSendList[0];
+                    packSendList.RemoveAt(0);
+                }
+            }
+            return ret;
+        }
+
+        private void pushSendPack(byte[] pack)
+        {
+            lock (packSendListLocker)
+            {
+                packSendList.Add(pack);
+                triggerSignal(EVENT_NET_MSSAGE_SEND);
             }
         }
 

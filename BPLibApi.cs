@@ -65,6 +65,9 @@ namespace BcTool
         [DllImport(@"bplib.dll", EntryPoint = "BP_PackConnect", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr BP_PackConnect(ref BPContext bp_context, IntPtr name, IntPtr password);
 
+        [DllImport(@"bplib.dll", EntryPoint = "BP_PackDisconn", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_PackDisconn(ref BPContext bp_context);
+
 
     }
 }
