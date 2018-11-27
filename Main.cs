@@ -137,65 +137,13 @@ namespace BcTool
 
         private void button2_Click(object sender, EventArgs e)
         {
-            /*
-            netMng.setAddress("127.0.0.1");
-            netMng.setPort(NetMng.BC_SERVER_PORT);
-            netMng.connect();
-
-            BPLibApi.BPContext bPContext = new BPLibApi.BPContext();
-            BPLibApi.PackBuf packBuf = new BPLibApi.PackBuf();
-            // byte[] buf = new byte[64];
-            IntPtr bufPtr = Marshal.AllocHGlobal(64);
-            IntPtr bufName = Marshal.AllocHGlobal(128);
-            IntPtr bufPassword = Marshal.AllocHGlobal(128);
-            BPLibApi.BP_Init2Default(ref bPContext);
-            BPLibApi.BP_InitPackBuf(ref packBuf, bufPtr, 64);
-            int s = Marshal.SizeOf(packBuf);
-            IntPtr tmp = Marshal.AllocHGlobal(s);
-            Marshal.StructureToPtr(packBuf, tmp, true);
-            bPContext.packBuf = tmp;
-            bPContext.name = bufName;
-            bPContext.password = bufPassword;
-            // BPLibApi.BP_InitEmbededContext();
-            string sn = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX3";
-            string password = "3333333333333333333333333333333333333333333333333333333333333333";
-
-            IntPtr snPtr = Marshal.AllocHGlobal(sn.Length + 1);
-            byte[] snBytes = Tools.addCStringEndFlag(System.Text.Encoding.ASCII.GetBytes(sn));
-            Marshal.Copy(snBytes, 0, snPtr, snBytes.Length);
-
-            IntPtr passwordPtr = Marshal.AllocHGlobal(password.Length + 1);
-            byte[] passwordBytes = Tools.addCStringEndFlag(System.Text.Encoding.ASCII.GetBytes(password));
-            Marshal.Copy(passwordBytes, 0, passwordPtr, passwordBytes.Length);
-
-            IntPtr intPtrPack = BPLibApi.BP_PackConnect(ref bPContext, snPtr, passwordPtr);
-            BPLibApi.PackBuf packBufSend = (BPLibApi.PackBuf)Marshal.PtrToStructure(intPtrPack, typeof(BPLibApi.PackBuf));
-            byte[] sendBytes = new byte[packBufSend.MsgSize];
-            Marshal.Copy(packBufSend.PackStart, sendBytes, 0, sendBytes.Length);
-            netMng.write(sendBytes);
-            */
-
             if (null == simulator || simulator.IsDisposed)
             {
                 simulator = new Simulator();
             }
 
-            // Hashtable hashtable = new Hashtable();
             List<SignalDataItem> signalDataItemList = new List<SignalDataItem>();
             Dictionary<UInt16, LanguageResourceItem> signalNameLanguageResourceTable = new Dictionary<ushort, LanguageResourceItem>();
-
-            /*
-            Random rd = new Random();
-            int signalId = rd.Next(1, 0xFFFF);
-            SignalDataItem tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
-            hashtable.Add(1, tmp);
-            signalId = rd.Next(1, 0xFFFF);
-            tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
-            hashtable.Add(2, tmp);
-            signalId = rd.Next(1, 0xFFFF);
-            tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
-            hashtable.Add(3, tmp);
-            */
 
             if(!simulator.Simulating)
             {
@@ -221,29 +169,6 @@ namespace BcTool
 
         private void buttonStopSim_Click(object sender, EventArgs e)
         {
-            /*
-            if(simulator.IsDisposed)
-            {
-                simulator = new Simulator();
-            }
-            
-            Hashtable hashtable = new Hashtable();
-            
-            Random rd = new Random();
-            int signalId = rd.Next(1, 0xFFFF);
-            SignalDataItem tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
-            hashtable.Add(1, tmp);
-            signalId = rd.Next(1, 0xFFFF);
-            tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
-            hashtable.Add(2, tmp);
-            signalId = rd.Next(1, 0xFFFF);
-            tmp = new SignalDataItem(signalId, true, "ABC", false, SignalDataItem.ValueType.STRING, 1, SignalDataItem.BcPermission.RO, true, 0, 1, 1, 1, 1, null, true, 0x7F, 5, 5);
-            hashtable.Add(3, tmp);
-            
-            simulator.setSignalDataItemTable(hashtable);
-            simulator.Show();
-            simulator.reloadSignalTable();
-            */
 
             if (null != simulator && !simulator.IsDisposed)
             {
@@ -292,7 +217,6 @@ namespace BcTool
                         err = "line " + i + ", ";
                         Console.WriteLine(err);
                     }
-
                 }
 
                 ret = true;

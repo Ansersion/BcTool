@@ -23,6 +23,7 @@ namespace BcTool
 
         public static LanguageResourceItem parseLanguageResourceItem(System.Windows.Forms.DataGridViewCellCollection row, ref string err)
         {
+            String prefix = "systemLang";
             LanguageResourceItem languageResourceItemRet = null;
             if (null == row)
             {
@@ -33,7 +34,7 @@ namespace BcTool
             {
                 String tmp;
 
-                tmp = row["LanguageID"].Value.ToString().Trim();
+                tmp = row[prefix + "LanguageID"].Value.ToString().Trim();
                 int languageId = -1;
                 try
                 {
@@ -54,17 +55,17 @@ namespace BcTool
 
                 Dictionary<UInt16, string> languageMap = new Dictionary<ushort, string>();
 
-                tmp = row["Chinese"].Value.ToString().Trim();
+                tmp = row[prefix + "Chinese"].Value.ToString().Trim();
                 languageMap.Add(CHINESE_KEY, tmp);
-                tmp = row["English"].Value.ToString().Trim();
+                tmp = row[prefix + "English"].Value.ToString().Trim();
                 languageMap.Add(ENGLISH_KEY, tmp);
-                tmp = row["French"].Value.ToString().Trim();
+                tmp = row[prefix + "French"].Value.ToString().Trim();
                 languageMap.Add(FRENCH_KEY, tmp);
-                tmp = row["Russian"].Value.ToString().Trim();
+                tmp = row[prefix + "Russian"].Value.ToString().Trim();
                 languageMap.Add(RUSSIAN_KEY, tmp);
-                tmp = row["Arabic"].Value.ToString().Trim();
+                tmp = row[prefix + "Arabic"].Value.ToString().Trim();
                 languageMap.Add(ARABIC_KEY, tmp);
-                tmp = row["Spanish"].Value.ToString().Trim();
+                tmp = row[prefix + "Spanish"].Value.ToString().Trim();
                 languageMap.Add(SPANISH_KEY, tmp);
 
                 languageResourceItemRet = new LanguageResourceItem(languageId, languageMap);
