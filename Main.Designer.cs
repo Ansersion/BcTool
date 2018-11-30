@@ -29,21 +29,6 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BcTool));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -51,6 +36,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -58,6 +45,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -65,6 +53,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -72,6 +61,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -79,6 +70,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -86,6 +78,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -93,6 +86,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -100,17 +94,58 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle73 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle72 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle74 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle78 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BcTool));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.customSignalLangTabPage = new System.Windows.Forms.TabPage();
             this.customLangDataGridView = new System.Windows.Forms.DataGridView();
+            this.customLangLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customEnumTabPage = new System.Windows.Forms.TabPage();
             this.customEnumDataGridView = new System.Windows.Forms.DataGridView();
+            this.customEnumLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customEnumChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customEnumEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customEnumFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customEnumRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customEnumArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customEnumSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customUnitTabPage = new System.Windows.Forms.TabPage();
             this.customUnitDataGridView = new System.Windows.Forms.DataGridView();
+            this.customUnitLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customUnitChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customUnitEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customUnitFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customUnitRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customUnitArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customUnitSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customGroupTabPage = new System.Windows.Forms.TabPage();
             this.customGroupDataGridView = new System.Windows.Forms.DataGridView();
+            this.customGroupLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customGroupChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customGroupEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customGroupFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customGroupRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customGroupArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customGroupSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customTabPage = new System.Windows.Forms.TabPage();
             this.customDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn50 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -133,34 +168,80 @@
             this.Column29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.systemLangTabPage = new System.Windows.Forms.TabPage();
             this.systemLangDataGridView = new System.Windows.Forms.DataGridView();
+            this.systemLangLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemLangChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemLangEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemLangFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemLangRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemLangArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemLangSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.systemEnumTabPage = new System.Windows.Forms.TabPage();
             this.systemEnumDataGridView = new System.Windows.Forms.DataGridView();
+            this.systemEnumLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemEnumChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemEnumEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemEnumFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemEnumRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemEnumArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemEnumSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.systemUnitTabPage = new System.Windows.Forms.TabPage();
             this.systemUnitDataGridView = new System.Windows.Forms.DataGridView();
+            this.systemUnitLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemUnitChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemUnitEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemUnitFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemUnitRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemUnitArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemUnitSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.systemGroupTabPage = new System.Windows.Forms.TabPage();
             this.systemGroupDataGridView = new System.Windows.Forms.DataGridView();
+            this.systemGroupLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemGroupChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemGroupEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemGroupFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemGroupRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemGroupArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.systemGroupSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.basicTabPage = new System.Windows.Forms.TabPage();
             this.systemBasicDataGridView = new System.Windows.Forms.DataGridView();
-            this.SignalID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Enabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Macro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsAlarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ValueType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UnitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Permission = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsDisplay = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Accuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Min = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Max = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Default = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GroupID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnumID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnableStatistics = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AlarmClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DBA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DAA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage11 = new System.Windows.Forms.TabPage();
-            this.dataGridView11 = new System.Windows.Forms.DataGridView();
+            this.basicSignalID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicMacro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicIsAlarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicValueType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicUnitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicPermission = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicIsDisplay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicAccuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicMin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicDefault = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicGroupID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicEnumID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicEnableStatistics = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicAlarmClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicDBA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.basicDAA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumTabPage = new System.Windows.Forms.TabPage();
+            this.systemTempHumDataGridView = new System.Windows.Forms.DataGridView();
+            this.tempHumSignalID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumMacro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumIsAlarm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumValueType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumUnitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumPermission = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumIsDisplay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumAccuracy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumMin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumDefault = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumGroupID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumEnumID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumEnableStatistics = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumAlarmClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumDBA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempHumDAA = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage12 = new System.Windows.Forms.TabPage();
             this.dataGridView12 = new System.Windows.Forms.DataGridView();
             this.tabPage13 = new System.Windows.Forms.TabPage();
@@ -196,62 +277,6 @@
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.buttonImport = new System.Windows.Forms.Button();
             this.buttonExport = new System.Windows.Forms.Button();
-            this.customLangLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customEnumLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customEnumChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customEnumEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customEnumFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customEnumRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customEnumArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customEnumSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customUnitLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customUnitChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customUnitEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customUnitFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customUnitRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customUnitArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customUnitSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customGroupLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customGroupChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customGroupEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customGroupFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customGroupRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customGroupArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customGroupSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemLangLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemLangChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemLangEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemLangFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemLangRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemLangArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemLangSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemEnumLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemEnumChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemEnumEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemEnumFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemEnumRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemEnumArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemEnumSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemUnitLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemUnitChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemUnitEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemUnitFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemUnitRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemUnitArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemUnitSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemGroupLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemGroupChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemGroupEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemGroupFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemGroupRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemGroupArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.systemGroupSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -278,8 +303,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.systemGroupDataGridView)).BeginInit();
             this.basicTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.systemBasicDataGridView)).BeginInit();
-            this.tabPage11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView11)).BeginInit();
+            this.tempHumTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.systemTempHumDataGridView)).BeginInit();
             this.tabPage12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView12)).BeginInit();
             this.tabPage13.SuspendLayout();
@@ -320,7 +345,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.groupBoxUpdate);
             this.splitContainer1.Panel2.Controls.Add(this.groupBoxGenerate);
             this.splitContainer1.Size = new System.Drawing.Size(1924, 996);
-            this.splitContainer1.SplitterDistance = 1654;
+            this.splitContainer1.SplitterDistance = 1644;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -332,7 +357,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1654, 962);
+            this.panel1.Size = new System.Drawing.Size(1644, 962);
             this.panel1.TabIndex = 4;
             // 
             // tabControl
@@ -347,7 +372,7 @@
             this.tabControl.Controls.Add(this.systemUnitTabPage);
             this.tabControl.Controls.Add(this.systemGroupTabPage);
             this.tabControl.Controls.Add(this.basicTabPage);
-            this.tabControl.Controls.Add(this.tabPage11);
+            this.tabControl.Controls.Add(this.tempHumTabPage);
             this.tabControl.Controls.Add(this.tabPage12);
             this.tabControl.Controls.Add(this.tabPage13);
             this.tabControl.Controls.Add(this.tabPage14);
@@ -360,7 +385,7 @@
             this.tabControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1654, 795);
+            this.tabControl.Size = new System.Drawing.Size(1644, 795);
             this.tabControl.TabIndex = 2;
             this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
             // 
@@ -371,7 +396,7 @@
             this.customSignalLangTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customSignalLangTabPage.Name = "customSignalLangTabPage";
             this.customSignalLangTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customSignalLangTabPage.Size = new System.Drawing.Size(1646, 763);
+            this.customSignalLangTabPage.Size = new System.Drawing.Size(1636, 763);
             this.customSignalLangTabPage.TabIndex = 0;
             this.customSignalLangTabPage.Text = "customLang";
             this.customSignalLangTabPage.UseVisualStyleBackColor = true;
@@ -404,8 +429,73 @@
             this.customLangDataGridView.Name = "customLangDataGridView";
             this.customLangDataGridView.RowHeadersVisible = false;
             this.customLangDataGridView.RowTemplate.Height = 23;
-            this.customLangDataGridView.Size = new System.Drawing.Size(1638, 755);
+            this.customLangDataGridView.Size = new System.Drawing.Size(1628, 755);
             this.customLangDataGridView.TabIndex = 0;
+            // 
+            // customLangLanguageID
+            // 
+            this.customLangLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangLanguageID.DefaultCellStyle = dataGridViewCellStyle2;
+            this.customLangLanguageID.HeaderText = "SignalID";
+            this.customLangLanguageID.Name = "customLangLanguageID";
+            this.customLangLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangChinese
+            // 
+            this.customLangChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangChinese.DefaultCellStyle = dataGridViewCellStyle3;
+            this.customLangChinese.HeaderText = "中文";
+            this.customLangChinese.Name = "customLangChinese";
+            this.customLangChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangEnglish
+            // 
+            this.customLangEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangEnglish.DefaultCellStyle = dataGridViewCellStyle4;
+            this.customLangEnglish.HeaderText = "English";
+            this.customLangEnglish.Name = "customLangEnglish";
+            this.customLangEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangFrench
+            // 
+            this.customLangFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangFrench.DefaultCellStyle = dataGridViewCellStyle5;
+            this.customLangFrench.HeaderText = "Français";
+            this.customLangFrench.Name = "customLangFrench";
+            this.customLangFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangRussian
+            // 
+            this.customLangRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangRussian.DefaultCellStyle = dataGridViewCellStyle6;
+            this.customLangRussian.HeaderText = "русский";
+            this.customLangRussian.Name = "customLangRussian";
+            this.customLangRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangArabic
+            // 
+            this.customLangArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangArabic.DefaultCellStyle = dataGridViewCellStyle7;
+            this.customLangArabic.HeaderText = "العربية";
+            this.customLangArabic.Name = "customLangArabic";
+            this.customLangArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangSpanish
+            // 
+            this.customLangSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangSpanish.DefaultCellStyle = dataGridViewCellStyle8;
+            this.customLangSpanish.HeaderText = "Español";
+            this.customLangSpanish.Name = "customLangSpanish";
+            this.customLangSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // customEnumTabPage
             // 
@@ -414,7 +504,7 @@
             this.customEnumTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customEnumTabPage.Name = "customEnumTabPage";
             this.customEnumTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customEnumTabPage.Size = new System.Drawing.Size(1646, 763);
+            this.customEnumTabPage.Size = new System.Drawing.Size(1638, 763);
             this.customEnumTabPage.TabIndex = 1;
             this.customEnumTabPage.Text = "customEnum";
             this.customEnumTabPage.UseVisualStyleBackColor = true;
@@ -453,8 +543,72 @@
             this.customEnumDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle17;
             this.customEnumDataGridView.RowHeadersVisible = false;
             this.customEnumDataGridView.RowTemplate.Height = 23;
-            this.customEnumDataGridView.Size = new System.Drawing.Size(1638, 755);
+            this.customEnumDataGridView.Size = new System.Drawing.Size(1630, 755);
             this.customEnumDataGridView.TabIndex = 0;
+            // 
+            // customEnumLanguageID
+            // 
+            this.customEnumLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customEnumLanguageID.DefaultCellStyle = dataGridViewCellStyle10;
+            this.customEnumLanguageID.HeaderText = "EnumID";
+            this.customEnumLanguageID.Name = "customEnumLanguageID";
+            this.customEnumLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customEnumChinese
+            // 
+            this.customEnumChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customEnumChinese.DefaultCellStyle = dataGridViewCellStyle11;
+            this.customEnumChinese.HeaderText = "中文";
+            this.customEnumChinese.Name = "customEnumChinese";
+            this.customEnumChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customEnumEnglish
+            // 
+            this.customEnumEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customEnumEnglish.DefaultCellStyle = dataGridViewCellStyle12;
+            this.customEnumEnglish.HeaderText = "English";
+            this.customEnumEnglish.Name = "customEnumEnglish";
+            this.customEnumEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customEnumFrench
+            // 
+            this.customEnumFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customEnumFrench.DefaultCellStyle = dataGridViewCellStyle13;
+            this.customEnumFrench.HeaderText = "Français";
+            this.customEnumFrench.Name = "customEnumFrench";
+            this.customEnumFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customEnumRussian
+            // 
+            this.customEnumRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customEnumRussian.DefaultCellStyle = dataGridViewCellStyle14;
+            this.customEnumRussian.HeaderText = "русский";
+            this.customEnumRussian.Name = "customEnumRussian";
+            this.customEnumRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customEnumArabic
+            // 
+            this.customEnumArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customEnumArabic.DefaultCellStyle = dataGridViewCellStyle15;
+            this.customEnumArabic.HeaderText = "العربية";
+            this.customEnumArabic.Name = "customEnumArabic";
+            this.customEnumArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customEnumSpanish
+            // 
+            this.customEnumSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customEnumSpanish.DefaultCellStyle = dataGridViewCellStyle16;
+            this.customEnumSpanish.HeaderText = "Español";
+            this.customEnumSpanish.Name = "customEnumSpanish";
+            this.customEnumSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // customUnitTabPage
             // 
@@ -463,7 +617,7 @@
             this.customUnitTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customUnitTabPage.Name = "customUnitTabPage";
             this.customUnitTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customUnitTabPage.Size = new System.Drawing.Size(1646, 763);
+            this.customUnitTabPage.Size = new System.Drawing.Size(1638, 763);
             this.customUnitTabPage.TabIndex = 2;
             this.customUnitTabPage.Text = "customUnit";
             this.customUnitTabPage.UseVisualStyleBackColor = true;
@@ -494,8 +648,72 @@
             this.customUnitDataGridView.Name = "customUnitDataGridView";
             this.customUnitDataGridView.RowHeadersVisible = false;
             this.customUnitDataGridView.RowTemplate.Height = 23;
-            this.customUnitDataGridView.Size = new System.Drawing.Size(1638, 755);
+            this.customUnitDataGridView.Size = new System.Drawing.Size(1630, 755);
             this.customUnitDataGridView.TabIndex = 0;
+            // 
+            // customUnitLanguageID
+            // 
+            this.customUnitLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customUnitLanguageID.DefaultCellStyle = dataGridViewCellStyle19;
+            this.customUnitLanguageID.HeaderText = "UnitID";
+            this.customUnitLanguageID.Name = "customUnitLanguageID";
+            this.customUnitLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customUnitChinese
+            // 
+            this.customUnitChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customUnitChinese.DefaultCellStyle = dataGridViewCellStyle20;
+            this.customUnitChinese.HeaderText = "中文";
+            this.customUnitChinese.Name = "customUnitChinese";
+            this.customUnitChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customUnitEnglish
+            // 
+            this.customUnitEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customUnitEnglish.DefaultCellStyle = dataGridViewCellStyle21;
+            this.customUnitEnglish.HeaderText = "English";
+            this.customUnitEnglish.Name = "customUnitEnglish";
+            this.customUnitEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customUnitFrench
+            // 
+            this.customUnitFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customUnitFrench.DefaultCellStyle = dataGridViewCellStyle22;
+            this.customUnitFrench.HeaderText = "Français";
+            this.customUnitFrench.Name = "customUnitFrench";
+            this.customUnitFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customUnitRussian
+            // 
+            this.customUnitRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customUnitRussian.DefaultCellStyle = dataGridViewCellStyle23;
+            this.customUnitRussian.HeaderText = "русский";
+            this.customUnitRussian.Name = "customUnitRussian";
+            this.customUnitRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customUnitArabic
+            // 
+            this.customUnitArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customUnitArabic.DefaultCellStyle = dataGridViewCellStyle24;
+            this.customUnitArabic.HeaderText = "العربية";
+            this.customUnitArabic.Name = "customUnitArabic";
+            this.customUnitArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customUnitSpanish
+            // 
+            this.customUnitSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customUnitSpanish.DefaultCellStyle = dataGridViewCellStyle25;
+            this.customUnitSpanish.HeaderText = "Español";
+            this.customUnitSpanish.Name = "customUnitSpanish";
+            this.customUnitSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // customGroupTabPage
             // 
@@ -504,7 +722,7 @@
             this.customGroupTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customGroupTabPage.Name = "customGroupTabPage";
             this.customGroupTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customGroupTabPage.Size = new System.Drawing.Size(1646, 763);
+            this.customGroupTabPage.Size = new System.Drawing.Size(1638, 763);
             this.customGroupTabPage.TabIndex = 8;
             this.customGroupTabPage.Text = "customGroup";
             this.customGroupTabPage.UseVisualStyleBackColor = true;
@@ -535,8 +753,72 @@
             this.customGroupDataGridView.Name = "customGroupDataGridView";
             this.customGroupDataGridView.RowHeadersVisible = false;
             this.customGroupDataGridView.RowTemplate.Height = 23;
-            this.customGroupDataGridView.Size = new System.Drawing.Size(1638, 755);
+            this.customGroupDataGridView.Size = new System.Drawing.Size(1630, 755);
             this.customGroupDataGridView.TabIndex = 0;
+            // 
+            // customGroupLanguageID
+            // 
+            this.customGroupLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customGroupLanguageID.DefaultCellStyle = dataGridViewCellStyle27;
+            this.customGroupLanguageID.HeaderText = "GroupID";
+            this.customGroupLanguageID.Name = "customGroupLanguageID";
+            this.customGroupLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customGroupChinese
+            // 
+            this.customGroupChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customGroupChinese.DefaultCellStyle = dataGridViewCellStyle28;
+            this.customGroupChinese.HeaderText = "中文";
+            this.customGroupChinese.Name = "customGroupChinese";
+            this.customGroupChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customGroupEnglish
+            // 
+            this.customGroupEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customGroupEnglish.DefaultCellStyle = dataGridViewCellStyle29;
+            this.customGroupEnglish.HeaderText = "English";
+            this.customGroupEnglish.Name = "customGroupEnglish";
+            this.customGroupEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customGroupFrench
+            // 
+            this.customGroupFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customGroupFrench.DefaultCellStyle = dataGridViewCellStyle30;
+            this.customGroupFrench.HeaderText = "Français";
+            this.customGroupFrench.Name = "customGroupFrench";
+            this.customGroupFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customGroupRussian
+            // 
+            this.customGroupRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customGroupRussian.DefaultCellStyle = dataGridViewCellStyle31;
+            this.customGroupRussian.HeaderText = "русский";
+            this.customGroupRussian.Name = "customGroupRussian";
+            this.customGroupRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customGroupArabic
+            // 
+            this.customGroupArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customGroupArabic.DefaultCellStyle = dataGridViewCellStyle32;
+            this.customGroupArabic.HeaderText = "العربية";
+            this.customGroupArabic.Name = "customGroupArabic";
+            this.customGroupArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customGroupSpanish
+            // 
+            this.customGroupSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customGroupSpanish.DefaultCellStyle = dataGridViewCellStyle33;
+            this.customGroupSpanish.HeaderText = "Español";
+            this.customGroupSpanish.Name = "customGroupSpanish";
+            this.customGroupSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // customTabPage
             // 
@@ -545,7 +827,7 @@
             this.customTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customTabPage.Name = "customTabPage";
             this.customTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customTabPage.Size = new System.Drawing.Size(1646, 763);
+            this.customTabPage.Size = new System.Drawing.Size(1638, 763);
             this.customTabPage.TabIndex = 3;
             this.customTabPage.Text = "custom";
             this.customTabPage.UseVisualStyleBackColor = true;
@@ -579,7 +861,7 @@
             this.customDataGridView.Name = "customDataGridView";
             this.customDataGridView.RowHeadersVisible = false;
             this.customDataGridView.RowTemplate.Height = 23;
-            this.customDataGridView.Size = new System.Drawing.Size(1638, 755);
+            this.customDataGridView.Size = new System.Drawing.Size(1630, 755);
             this.customDataGridView.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn50
@@ -719,7 +1001,7 @@
             this.systemLangTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.systemLangTabPage.Name = "systemLangTabPage";
             this.systemLangTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.systemLangTabPage.Size = new System.Drawing.Size(1646, 763);
+            this.systemLangTabPage.Size = new System.Drawing.Size(1638, 763);
             this.systemLangTabPage.TabIndex = 4;
             this.systemLangTabPage.Text = "systemLang";
             // 
@@ -751,1012 +1033,8 @@
             this.systemLangDataGridView.Name = "systemLangDataGridView";
             this.systemLangDataGridView.RowHeadersVisible = false;
             this.systemLangDataGridView.RowTemplate.Height = 23;
-            this.systemLangDataGridView.Size = new System.Drawing.Size(1638, 755);
+            this.systemLangDataGridView.Size = new System.Drawing.Size(1630, 755);
             this.systemLangDataGridView.TabIndex = 0;
-            // 
-            // systemEnumTabPage
-            // 
-            this.systemEnumTabPage.Controls.Add(this.systemEnumDataGridView);
-            this.systemEnumTabPage.Location = new System.Drawing.Point(4, 28);
-            this.systemEnumTabPage.Margin = new System.Windows.Forms.Padding(4);
-            this.systemEnumTabPage.Name = "systemEnumTabPage";
-            this.systemEnumTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.systemEnumTabPage.Size = new System.Drawing.Size(1646, 763);
-            this.systemEnumTabPage.TabIndex = 5;
-            this.systemEnumTabPage.Text = "systemEnum";
-            this.systemEnumTabPage.UseVisualStyleBackColor = true;
-            // 
-            // systemEnumDataGridView
-            // 
-            this.systemEnumDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle43.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle43.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.systemEnumDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
-            this.systemEnumDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.systemEnumDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.systemEnumLanguageID,
-            this.systemEnumChinese,
-            this.systemEnumEnglish,
-            this.systemEnumFrench,
-            this.systemEnumRussian,
-            this.systemEnumArabic,
-            this.systemEnumSpanish});
-            this.systemEnumDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.systemEnumDataGridView.Location = new System.Drawing.Point(4, 4);
-            this.systemEnumDataGridView.Margin = new System.Windows.Forms.Padding(4);
-            this.systemEnumDataGridView.Name = "systemEnumDataGridView";
-            this.systemEnumDataGridView.RowHeadersVisible = false;
-            this.systemEnumDataGridView.RowTemplate.Height = 23;
-            this.systemEnumDataGridView.Size = new System.Drawing.Size(1638, 755);
-            this.systemEnumDataGridView.TabIndex = 0;
-            // 
-            // systemUnitTabPage
-            // 
-            this.systemUnitTabPage.Controls.Add(this.systemUnitDataGridView);
-            this.systemUnitTabPage.Location = new System.Drawing.Point(4, 28);
-            this.systemUnitTabPage.Margin = new System.Windows.Forms.Padding(4);
-            this.systemUnitTabPage.Name = "systemUnitTabPage";
-            this.systemUnitTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.systemUnitTabPage.Size = new System.Drawing.Size(1646, 763);
-            this.systemUnitTabPage.TabIndex = 6;
-            this.systemUnitTabPage.Text = "systemUnit";
-            this.systemUnitTabPage.UseVisualStyleBackColor = true;
-            // 
-            // systemUnitDataGridView
-            // 
-            this.systemUnitDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle51.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle51.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle51.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle51.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle51.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle51.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.systemUnitDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle51;
-            this.systemUnitDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.systemUnitDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.systemUnitLanguageID,
-            this.systemUnitChinese,
-            this.systemUnitEnglish,
-            this.systemUnitFrench,
-            this.systemUnitRussian,
-            this.systemUnitArabic,
-            this.systemUnitSpanish});
-            this.systemUnitDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.systemUnitDataGridView.Location = new System.Drawing.Point(4, 4);
-            this.systemUnitDataGridView.Margin = new System.Windows.Forms.Padding(4);
-            this.systemUnitDataGridView.Name = "systemUnitDataGridView";
-            this.systemUnitDataGridView.RowHeadersVisible = false;
-            this.systemUnitDataGridView.RowTemplate.Height = 23;
-            this.systemUnitDataGridView.Size = new System.Drawing.Size(1638, 755);
-            this.systemUnitDataGridView.TabIndex = 0;
-            // 
-            // systemGroupTabPage
-            // 
-            this.systemGroupTabPage.Controls.Add(this.systemGroupDataGridView);
-            this.systemGroupTabPage.Location = new System.Drawing.Point(4, 28);
-            this.systemGroupTabPage.Margin = new System.Windows.Forms.Padding(4);
-            this.systemGroupTabPage.Name = "systemGroupTabPage";
-            this.systemGroupTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.systemGroupTabPage.Size = new System.Drawing.Size(1646, 763);
-            this.systemGroupTabPage.TabIndex = 9;
-            this.systemGroupTabPage.Text = "systemGroup";
-            this.systemGroupTabPage.UseVisualStyleBackColor = true;
-            // 
-            // systemGroupDataGridView
-            // 
-            this.systemGroupDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle59.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle59.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle59.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle59.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle59.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle59.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.systemGroupDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle59;
-            this.systemGroupDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.systemGroupDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.systemGroupLanguageID,
-            this.systemGroupChinese,
-            this.systemGroupEnglish,
-            this.systemGroupFrench,
-            this.systemGroupRussian,
-            this.systemGroupArabic,
-            this.systemGroupSpanish});
-            this.systemGroupDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.systemGroupDataGridView.Location = new System.Drawing.Point(4, 4);
-            this.systemGroupDataGridView.Margin = new System.Windows.Forms.Padding(4);
-            this.systemGroupDataGridView.Name = "systemGroupDataGridView";
-            this.systemGroupDataGridView.RowHeadersVisible = false;
-            this.systemGroupDataGridView.RowTemplate.Height = 23;
-            this.systemGroupDataGridView.Size = new System.Drawing.Size(1638, 755);
-            this.systemGroupDataGridView.TabIndex = 0;
-            // 
-            // basicTabPage
-            // 
-            this.basicTabPage.Controls.Add(this.systemBasicDataGridView);
-            this.basicTabPage.Location = new System.Drawing.Point(4, 28);
-            this.basicTabPage.Margin = new System.Windows.Forms.Padding(4);
-            this.basicTabPage.Name = "basicTabPage";
-            this.basicTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.basicTabPage.Size = new System.Drawing.Size(1646, 763);
-            this.basicTabPage.TabIndex = 7;
-            this.basicTabPage.Text = "basic";
-            this.basicTabPage.UseVisualStyleBackColor = true;
-            // 
-            // systemBasicDataGridView
-            // 
-            this.systemBasicDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.systemBasicDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.systemBasicDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SignalID,
-            this.Enabled,
-            this.Macro,
-            this.IsAlarm,
-            this.ValueType,
-            this.UnitID,
-            this.Permission,
-            this.IsDisplay,
-            this.Accuracy,
-            this.Min,
-            this.Max,
-            this.Default,
-            this.GroupID,
-            this.EnumID,
-            this.EnableStatistics,
-            this.AlarmClass,
-            this.DBA,
-            this.DAA});
-            this.systemBasicDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.systemBasicDataGridView.Location = new System.Drawing.Point(4, 4);
-            this.systemBasicDataGridView.Margin = new System.Windows.Forms.Padding(4);
-            this.systemBasicDataGridView.Name = "systemBasicDataGridView";
-            this.systemBasicDataGridView.RowHeadersVisible = false;
-            this.systemBasicDataGridView.RowTemplate.Height = 23;
-            this.systemBasicDataGridView.Size = new System.Drawing.Size(1638, 755);
-            this.systemBasicDataGridView.TabIndex = 0;
-            // 
-            // SignalID
-            // 
-            this.SignalID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle67.BackColor = System.Drawing.SystemColors.Control;
-            this.SignalID.DefaultCellStyle = dataGridViewCellStyle67;
-            this.SignalID.HeaderText = "SignalID";
-            this.SignalID.Name = "SignalID";
-            this.SignalID.ReadOnly = true;
-            this.SignalID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Enabled
-            // 
-            this.Enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Enabled.HeaderText = "Enabled";
-            this.Enabled.Name = "Enabled";
-            this.Enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Macro
-            // 
-            this.Macro.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle68.BackColor = System.Drawing.SystemColors.Control;
-            this.Macro.DefaultCellStyle = dataGridViewCellStyle68;
-            this.Macro.HeaderText = "Macro";
-            this.Macro.Name = "Macro";
-            this.Macro.ReadOnly = true;
-            this.Macro.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // IsAlarm
-            // 
-            this.IsAlarm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle69.BackColor = System.Drawing.Color.White;
-            this.IsAlarm.DefaultCellStyle = dataGridViewCellStyle69;
-            this.IsAlarm.HeaderText = "IsAlarm";
-            this.IsAlarm.Name = "IsAlarm";
-            this.IsAlarm.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ValueType
-            // 
-            this.ValueType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle70.BackColor = System.Drawing.SystemColors.Control;
-            this.ValueType.DefaultCellStyle = dataGridViewCellStyle70;
-            this.ValueType.HeaderText = "ValueType";
-            this.ValueType.Name = "ValueType";
-            this.ValueType.ReadOnly = true;
-            this.ValueType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // UnitID
-            // 
-            this.UnitID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle71.BackColor = System.Drawing.Color.White;
-            this.UnitID.DefaultCellStyle = dataGridViewCellStyle71;
-            this.UnitID.HeaderText = "UnitID";
-            this.UnitID.Name = "UnitID";
-            this.UnitID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Permission
-            // 
-            this.Permission.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Permission.HeaderText = "Permission";
-            this.Permission.Name = "Permission";
-            this.Permission.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // IsDisplay
-            // 
-            this.IsDisplay.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.IsDisplay.HeaderText = "IsDisplay";
-            this.IsDisplay.Name = "IsDisplay";
-            this.IsDisplay.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Accuracy
-            // 
-            this.Accuracy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Accuracy.HeaderText = "Accruracy";
-            this.Accuracy.Name = "Accuracy";
-            this.Accuracy.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Min
-            // 
-            this.Min.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Min.HeaderText = "Min";
-            this.Min.Name = "Min";
-            this.Min.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Max
-            // 
-            this.Max.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Max.HeaderText = "Max";
-            this.Max.Name = "Max";
-            this.Max.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Default
-            // 
-            this.Default.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Default.HeaderText = "Default";
-            this.Default.Name = "Default";
-            this.Default.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // GroupID
-            // 
-            this.GroupID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.GroupID.HeaderText = "GroupID";
-            this.GroupID.Name = "GroupID";
-            this.GroupID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // EnumID
-            // 
-            this.EnumID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EnumID.HeaderText = "EnumID";
-            this.EnumID.Name = "EnumID";
-            this.EnumID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // EnableStatistics
-            // 
-            this.EnableStatistics.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EnableStatistics.HeaderText = "EnableStatistics";
-            this.EnableStatistics.Name = "EnableStatistics";
-            this.EnableStatistics.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // AlarmClass
-            // 
-            this.AlarmClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.AlarmClass.HeaderText = "AlarmClass";
-            this.AlarmClass.Name = "AlarmClass";
-            this.AlarmClass.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // DBA
-            // 
-            this.DBA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.DBA.HeaderText = "DBA";
-            this.DBA.Name = "DBA";
-            this.DBA.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // DAA
-            // 
-            this.DAA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.DAA.HeaderText = "DAA";
-            this.DAA.Name = "DAA";
-            this.DAA.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // tabPage11
-            // 
-            this.tabPage11.Controls.Add(this.dataGridView11);
-            this.tabPage11.Location = new System.Drawing.Point(4, 28);
-            this.tabPage11.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage11.Size = new System.Drawing.Size(1648, 763);
-            this.tabPage11.TabIndex = 10;
-            this.tabPage11.Text = "reserved";
-            this.tabPage11.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView11
-            // 
-            this.dataGridView11.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridView11.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView11.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView11.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView11.Name = "dataGridView11";
-            this.dataGridView11.RowTemplate.Height = 23;
-            this.dataGridView11.Size = new System.Drawing.Size(1640, 755);
-            this.dataGridView11.TabIndex = 0;
-            // 
-            // tabPage12
-            // 
-            this.tabPage12.Controls.Add(this.dataGridView12);
-            this.tabPage12.Location = new System.Drawing.Point(4, 28);
-            this.tabPage12.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage12.Size = new System.Drawing.Size(1648, 763);
-            this.tabPage12.TabIndex = 11;
-            this.tabPage12.Text = "reserved";
-            this.tabPage12.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView12
-            // 
-            this.dataGridView12.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridView12.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView12.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView12.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView12.Name = "dataGridView12";
-            this.dataGridView12.RowTemplate.Height = 23;
-            this.dataGridView12.Size = new System.Drawing.Size(1640, 755);
-            this.dataGridView12.TabIndex = 0;
-            // 
-            // tabPage13
-            // 
-            this.tabPage13.Controls.Add(this.dataGridView13);
-            this.tabPage13.Location = new System.Drawing.Point(4, 28);
-            this.tabPage13.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage13.Size = new System.Drawing.Size(1648, 763);
-            this.tabPage13.TabIndex = 12;
-            this.tabPage13.Text = "reserved";
-            this.tabPage13.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView13
-            // 
-            this.dataGridView13.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridView13.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView13.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView13.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView13.Name = "dataGridView13";
-            this.dataGridView13.RowTemplate.Height = 23;
-            this.dataGridView13.Size = new System.Drawing.Size(1640, 755);
-            this.dataGridView13.TabIndex = 0;
-            // 
-            // tabPage14
-            // 
-            this.tabPage14.Controls.Add(this.dataGridView14);
-            this.tabPage14.Location = new System.Drawing.Point(4, 28);
-            this.tabPage14.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage14.Name = "tabPage14";
-            this.tabPage14.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage14.Size = new System.Drawing.Size(1648, 763);
-            this.tabPage14.TabIndex = 13;
-            this.tabPage14.Text = "reserved";
-            this.tabPage14.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView14
-            // 
-            this.dataGridView14.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridView14.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView14.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView14.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView14.Name = "dataGridView14";
-            this.dataGridView14.RowTemplate.Height = 23;
-            this.dataGridView14.Size = new System.Drawing.Size(1640, 755);
-            this.dataGridView14.TabIndex = 0;
-            // 
-            // tabPage15
-            // 
-            this.tabPage15.Controls.Add(this.dataGridView15);
-            this.tabPage15.Location = new System.Drawing.Point(4, 28);
-            this.tabPage15.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage15.Name = "tabPage15";
-            this.tabPage15.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage15.Size = new System.Drawing.Size(1648, 763);
-            this.tabPage15.TabIndex = 14;
-            this.tabPage15.Text = "reserved";
-            this.tabPage15.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView15
-            // 
-            this.dataGridView15.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridView15.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView15.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView15.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView15.Name = "dataGridView15";
-            this.dataGridView15.RowTemplate.Height = 23;
-            this.dataGridView15.Size = new System.Drawing.Size(1640, 755);
-            this.dataGridView15.TabIndex = 0;
-            // 
-            // tabPage16
-            // 
-            this.tabPage16.Controls.Add(this.dataGridView16);
-            this.tabPage16.Location = new System.Drawing.Point(4, 28);
-            this.tabPage16.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage16.Name = "tabPage16";
-            this.tabPage16.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage16.Size = new System.Drawing.Size(1648, 763);
-            this.tabPage16.TabIndex = 15;
-            this.tabPage16.Text = "reserved";
-            this.tabPage16.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView16
-            // 
-            this.dataGridView16.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridView16.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView16.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView16.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView16.Name = "dataGridView16";
-            this.dataGridView16.RowTemplate.Height = 23;
-            this.dataGridView16.Size = new System.Drawing.Size(1640, 755);
-            this.dataGridView16.TabIndex = 0;
-            // 
-            // tabPage17
-            // 
-            this.tabPage17.Controls.Add(this.dataGridView17);
-            this.tabPage17.Location = new System.Drawing.Point(4, 28);
-            this.tabPage17.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage17.Name = "tabPage17";
-            this.tabPage17.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage17.Size = new System.Drawing.Size(1648, 763);
-            this.tabPage17.TabIndex = 16;
-            this.tabPage17.Text = "reserved";
-            this.tabPage17.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView17
-            // 
-            this.dataGridView17.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridView17.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView17.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView17.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView17.Name = "dataGridView17";
-            this.dataGridView17.RowTemplate.Height = 23;
-            this.dataGridView17.Size = new System.Drawing.Size(1640, 755);
-            this.dataGridView17.TabIndex = 0;
-            // 
-            // tabPage18
-            // 
-            this.tabPage18.Controls.Add(this.dataGridView18);
-            this.tabPage18.Location = new System.Drawing.Point(4, 28);
-            this.tabPage18.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage18.Name = "tabPage18";
-            this.tabPage18.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage18.Size = new System.Drawing.Size(1648, 763);
-            this.tabPage18.TabIndex = 17;
-            this.tabPage18.Text = "reserved";
-            this.tabPage18.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView18
-            // 
-            this.dataGridView18.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dataGridView18.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView18.Location = new System.Drawing.Point(4, 4);
-            this.dataGridView18.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView18.Name = "dataGridView18";
-            this.dataGridView18.RowTemplate.Height = 23;
-            this.dataGridView18.Size = new System.Drawing.Size(1640, 755);
-            this.dataGridView18.TabIndex = 0;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 795);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1654, 167);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 962);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1654, 34);
-            this.progressBar1.TabIndex = 3;
-            // 
-            // configureGroupBox
-            // 
-            this.configureGroupBox.Controls.Add(this.addLineButton);
-            this.configureGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configureGroupBox.Location = new System.Drawing.Point(0, 134);
-            this.configureGroupBox.Margin = new System.Windows.Forms.Padding(4);
-            this.configureGroupBox.Name = "configureGroupBox";
-            this.configureGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.configureGroupBox.Size = new System.Drawing.Size(264, 397);
-            this.configureGroupBox.TabIndex = 6;
-            this.configureGroupBox.TabStop = false;
-            this.configureGroupBox.Text = "Configure";
-            // 
-            // addLineButton
-            // 
-            this.addLineButton.Location = new System.Drawing.Point(9, 30);
-            this.addLineButton.Margin = new System.Windows.Forms.Padding(4);
-            this.addLineButton.Name = "addLineButton";
-            this.addLineButton.Size = new System.Drawing.Size(112, 34);
-            this.addLineButton.TabIndex = 0;
-            this.addLineButton.Text = "add line";
-            this.addLineButton.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.buttonStopSim);
-            this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 531);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(264, 273);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Simulator";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(22, 58);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(148, 18);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Server Address";
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.White;
-            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(26, 180);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(64, 64);
-            this.button2.TabIndex = 4;
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // buttonStopSim
-            // 
-            this.buttonStopSim.BackColor = System.Drawing.Color.White;
-            this.buttonStopSim.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonStopSim.BackgroundImage")));
-            this.buttonStopSim.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonStopSim.FlatAppearance.BorderSize = 0;
-            this.buttonStopSim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonStopSim.Location = new System.Drawing.Point(108, 180);
-            this.buttonStopSim.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonStopSim.Name = "buttonStopSim";
-            this.buttonStopSim.Size = new System.Drawing.Size(64, 64);
-            this.buttonStopSim.TabIndex = 5;
-            this.buttonStopSim.UseVisualStyleBackColor = false;
-            this.buttonStopSim.Click += new System.EventHandler(this.buttonStopSim_Click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(204, 104);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(97, 22);
-            this.checkBox1.TabIndex = 3;
-            this.checkBox1.Text = "default";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(26, 100);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(148, 28);
-            this.textBox3.TabIndex = 2;
-            this.textBox3.Text = "default server";
-            // 
-            // groupBoxUpdate
-            // 
-            this.groupBoxUpdate.Controls.Add(this.label4);
-            this.groupBoxUpdate.Controls.Add(this.label3);
-            this.groupBoxUpdate.Controls.Add(this.label2);
-            this.groupBoxUpdate.Controls.Add(this.button4);
-            this.groupBoxUpdate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxUpdate.Location = new System.Drawing.Point(0, 0);
-            this.groupBoxUpdate.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxUpdate.Name = "groupBoxUpdate";
-            this.groupBoxUpdate.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxUpdate.Size = new System.Drawing.Size(264, 134);
-            this.groupBoxUpdate.TabIndex = 4;
-            this.groupBoxUpdate.TabStop = false;
-            this.groupBoxUpdate.Text = "Update";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.ForeColor = System.Drawing.Color.LimeGreen;
-            this.label4.Location = new System.Drawing.Point(134, 80);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(218, 18);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "New Version Available";
-            this.label4.Visible = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(138, 32);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 18);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "0.1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 32);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 18);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Version:";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(9, 72);
-            this.button4.Margin = new System.Windows.Forms.Padding(4);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(112, 34);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "check";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxGenerate
-            // 
-            this.groupBoxGenerate.Controls.Add(this.button1);
-            this.groupBoxGenerate.Controls.Add(this.textBox2);
-            this.groupBoxGenerate.Controls.Add(this.buttonGenerate);
-            this.groupBoxGenerate.Controls.Add(this.buttonImport);
-            this.groupBoxGenerate.Controls.Add(this.buttonExport);
-            this.groupBoxGenerate.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBoxGenerate.Location = new System.Drawing.Point(0, 804);
-            this.groupBoxGenerate.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBoxGenerate.Name = "groupBoxGenerate";
-            this.groupBoxGenerate.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxGenerate.Size = new System.Drawing.Size(264, 192);
-            this.groupBoxGenerate.TabIndex = 2;
-            this.groupBoxGenerate.TabStop = false;
-            this.groupBoxGenerate.Text = "Generator";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(196, 142);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(106, 34);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "browse...";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(26, 142);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(148, 28);
-            this.textBox2.TabIndex = 3;
-            // 
-            // buttonGenerate
-            // 
-            this.buttonGenerate.Location = new System.Drawing.Point(196, 30);
-            this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(106, 98);
-            this.buttonGenerate.TabIndex = 2;
-            this.buttonGenerate.Text = "generate";
-            this.buttonGenerate.UseVisualStyleBackColor = true;
-            // 
-            // buttonImport
-            // 
-            this.buttonImport.Location = new System.Drawing.Point(26, 30);
-            this.buttonImport.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(112, 34);
-            this.buttonImport.TabIndex = 0;
-            this.buttonImport.Text = "import...";
-            this.buttonImport.UseVisualStyleBackColor = true;
-            this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
-            // 
-            // buttonExport
-            // 
-            this.buttonExport.Location = new System.Drawing.Point(26, 92);
-            this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(112, 34);
-            this.buttonExport.TabIndex = 1;
-            this.buttonExport.Text = "export...";
-            this.buttonExport.UseVisualStyleBackColor = true;
-            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
-            // 
-            // customLangLanguageID
-            // 
-            this.customLangLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangLanguageID.DefaultCellStyle = dataGridViewCellStyle2;
-            this.customLangLanguageID.HeaderText = "SignalID";
-            this.customLangLanguageID.Name = "customLangLanguageID";
-            this.customLangLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangChinese
-            // 
-            this.customLangChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangChinese.DefaultCellStyle = dataGridViewCellStyle3;
-            this.customLangChinese.HeaderText = "中文";
-            this.customLangChinese.Name = "customLangChinese";
-            this.customLangChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangEnglish
-            // 
-            this.customLangEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangEnglish.DefaultCellStyle = dataGridViewCellStyle4;
-            this.customLangEnglish.HeaderText = "English";
-            this.customLangEnglish.Name = "customLangEnglish";
-            this.customLangEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangFrench
-            // 
-            this.customLangFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangFrench.DefaultCellStyle = dataGridViewCellStyle5;
-            this.customLangFrench.HeaderText = "Français";
-            this.customLangFrench.Name = "customLangFrench";
-            this.customLangFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangRussian
-            // 
-            this.customLangRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangRussian.DefaultCellStyle = dataGridViewCellStyle6;
-            this.customLangRussian.HeaderText = "русский";
-            this.customLangRussian.Name = "customLangRussian";
-            this.customLangRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangArabic
-            // 
-            this.customLangArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangArabic.DefaultCellStyle = dataGridViewCellStyle7;
-            this.customLangArabic.HeaderText = "العربية";
-            this.customLangArabic.Name = "customLangArabic";
-            this.customLangArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangSpanish
-            // 
-            this.customLangSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangSpanish.DefaultCellStyle = dataGridViewCellStyle8;
-            this.customLangSpanish.HeaderText = "Español";
-            this.customLangSpanish.Name = "customLangSpanish";
-            this.customLangSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customEnumLanguageID
-            // 
-            this.customEnumLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customEnumLanguageID.DefaultCellStyle = dataGridViewCellStyle10;
-            this.customEnumLanguageID.HeaderText = "EnumID";
-            this.customEnumLanguageID.Name = "customEnumLanguageID";
-            this.customEnumLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customEnumChinese
-            // 
-            this.customEnumChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customEnumChinese.DefaultCellStyle = dataGridViewCellStyle11;
-            this.customEnumChinese.HeaderText = "中文";
-            this.customEnumChinese.Name = "customEnumChinese";
-            this.customEnumChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customEnumEnglish
-            // 
-            this.customEnumEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customEnumEnglish.DefaultCellStyle = dataGridViewCellStyle12;
-            this.customEnumEnglish.HeaderText = "English";
-            this.customEnumEnglish.Name = "customEnumEnglish";
-            this.customEnumEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customEnumFrench
-            // 
-            this.customEnumFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customEnumFrench.DefaultCellStyle = dataGridViewCellStyle13;
-            this.customEnumFrench.HeaderText = "Français";
-            this.customEnumFrench.Name = "customEnumFrench";
-            this.customEnumFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customEnumRussian
-            // 
-            this.customEnumRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customEnumRussian.DefaultCellStyle = dataGridViewCellStyle14;
-            this.customEnumRussian.HeaderText = "русский";
-            this.customEnumRussian.Name = "customEnumRussian";
-            this.customEnumRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customEnumArabic
-            // 
-            this.customEnumArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customEnumArabic.DefaultCellStyle = dataGridViewCellStyle15;
-            this.customEnumArabic.HeaderText = "العربية";
-            this.customEnumArabic.Name = "customEnumArabic";
-            this.customEnumArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customEnumSpanish
-            // 
-            this.customEnumSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customEnumSpanish.DefaultCellStyle = dataGridViewCellStyle16;
-            this.customEnumSpanish.HeaderText = "Español";
-            this.customEnumSpanish.Name = "customEnumSpanish";
-            this.customEnumSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customUnitLanguageID
-            // 
-            this.customUnitLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customUnitLanguageID.DefaultCellStyle = dataGridViewCellStyle19;
-            this.customUnitLanguageID.HeaderText = "UnitID";
-            this.customUnitLanguageID.Name = "customUnitLanguageID";
-            this.customUnitLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customUnitChinese
-            // 
-            this.customUnitChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customUnitChinese.DefaultCellStyle = dataGridViewCellStyle20;
-            this.customUnitChinese.HeaderText = "中文";
-            this.customUnitChinese.Name = "customUnitChinese";
-            this.customUnitChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customUnitEnglish
-            // 
-            this.customUnitEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customUnitEnglish.DefaultCellStyle = dataGridViewCellStyle21;
-            this.customUnitEnglish.HeaderText = "English";
-            this.customUnitEnglish.Name = "customUnitEnglish";
-            this.customUnitEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customUnitFrench
-            // 
-            this.customUnitFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customUnitFrench.DefaultCellStyle = dataGridViewCellStyle22;
-            this.customUnitFrench.HeaderText = "Français";
-            this.customUnitFrench.Name = "customUnitFrench";
-            this.customUnitFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customUnitRussian
-            // 
-            this.customUnitRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customUnitRussian.DefaultCellStyle = dataGridViewCellStyle23;
-            this.customUnitRussian.HeaderText = "русский";
-            this.customUnitRussian.Name = "customUnitRussian";
-            this.customUnitRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customUnitArabic
-            // 
-            this.customUnitArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customUnitArabic.DefaultCellStyle = dataGridViewCellStyle24;
-            this.customUnitArabic.HeaderText = "العربية";
-            this.customUnitArabic.Name = "customUnitArabic";
-            this.customUnitArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customUnitSpanish
-            // 
-            this.customUnitSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customUnitSpanish.DefaultCellStyle = dataGridViewCellStyle25;
-            this.customUnitSpanish.HeaderText = "Español";
-            this.customUnitSpanish.Name = "customUnitSpanish";
-            this.customUnitSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customGroupLanguageID
-            // 
-            this.customGroupLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customGroupLanguageID.DefaultCellStyle = dataGridViewCellStyle27;
-            this.customGroupLanguageID.HeaderText = "GroupID";
-            this.customGroupLanguageID.Name = "customGroupLanguageID";
-            this.customGroupLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customGroupChinese
-            // 
-            this.customGroupChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customGroupChinese.DefaultCellStyle = dataGridViewCellStyle28;
-            this.customGroupChinese.HeaderText = "中文";
-            this.customGroupChinese.Name = "customGroupChinese";
-            this.customGroupChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customGroupEnglish
-            // 
-            this.customGroupEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customGroupEnglish.DefaultCellStyle = dataGridViewCellStyle29;
-            this.customGroupEnglish.HeaderText = "English";
-            this.customGroupEnglish.Name = "customGroupEnglish";
-            this.customGroupEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customGroupFrench
-            // 
-            this.customGroupFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customGroupFrench.DefaultCellStyle = dataGridViewCellStyle30;
-            this.customGroupFrench.HeaderText = "Français";
-            this.customGroupFrench.Name = "customGroupFrench";
-            this.customGroupFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customGroupRussian
-            // 
-            this.customGroupRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customGroupRussian.DefaultCellStyle = dataGridViewCellStyle31;
-            this.customGroupRussian.HeaderText = "русский";
-            this.customGroupRussian.Name = "customGroupRussian";
-            this.customGroupRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customGroupArabic
-            // 
-            this.customGroupArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customGroupArabic.DefaultCellStyle = dataGridViewCellStyle32;
-            this.customGroupArabic.HeaderText = "العربية";
-            this.customGroupArabic.Name = "customGroupArabic";
-            this.customGroupArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customGroupSpanish
-            // 
-            this.customGroupSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customGroupSpanish.DefaultCellStyle = dataGridViewCellStyle33;
-            this.customGroupSpanish.HeaderText = "Español";
-            this.customGroupSpanish.Name = "customGroupSpanish";
-            this.customGroupSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // systemLangLanguageID
             // 
@@ -1837,6 +1115,47 @@
             this.systemLangSpanish.ReadOnly = true;
             this.systemLangSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // systemEnumTabPage
+            // 
+            this.systemEnumTabPage.Controls.Add(this.systemEnumDataGridView);
+            this.systemEnumTabPage.Location = new System.Drawing.Point(4, 28);
+            this.systemEnumTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.systemEnumTabPage.Name = "systemEnumTabPage";
+            this.systemEnumTabPage.Padding = new System.Windows.Forms.Padding(4);
+            this.systemEnumTabPage.Size = new System.Drawing.Size(1638, 763);
+            this.systemEnumTabPage.TabIndex = 5;
+            this.systemEnumTabPage.Text = "systemEnum";
+            this.systemEnumTabPage.UseVisualStyleBackColor = true;
+            // 
+            // systemEnumDataGridView
+            // 
+            this.systemEnumDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle43.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle43.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.systemEnumDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
+            this.systemEnumDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.systemEnumDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.systemEnumLanguageID,
+            this.systemEnumChinese,
+            this.systemEnumEnglish,
+            this.systemEnumFrench,
+            this.systemEnumRussian,
+            this.systemEnumArabic,
+            this.systemEnumSpanish});
+            this.systemEnumDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.systemEnumDataGridView.Location = new System.Drawing.Point(4, 4);
+            this.systemEnumDataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.systemEnumDataGridView.Name = "systemEnumDataGridView";
+            this.systemEnumDataGridView.RowHeadersVisible = false;
+            this.systemEnumDataGridView.RowTemplate.Height = 23;
+            this.systemEnumDataGridView.Size = new System.Drawing.Size(1630, 755);
+            this.systemEnumDataGridView.TabIndex = 0;
+            // 
             // systemEnumLanguageID
             // 
             this.systemEnumLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -1907,6 +1226,47 @@
             this.systemEnumSpanish.Name = "systemEnumSpanish";
             this.systemEnumSpanish.ReadOnly = true;
             this.systemEnumSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // systemUnitTabPage
+            // 
+            this.systemUnitTabPage.Controls.Add(this.systemUnitDataGridView);
+            this.systemUnitTabPage.Location = new System.Drawing.Point(4, 28);
+            this.systemUnitTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.systemUnitTabPage.Name = "systemUnitTabPage";
+            this.systemUnitTabPage.Padding = new System.Windows.Forms.Padding(4);
+            this.systemUnitTabPage.Size = new System.Drawing.Size(1638, 763);
+            this.systemUnitTabPage.TabIndex = 6;
+            this.systemUnitTabPage.Text = "systemUnit";
+            this.systemUnitTabPage.UseVisualStyleBackColor = true;
+            // 
+            // systemUnitDataGridView
+            // 
+            this.systemUnitDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle51.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle51.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle51.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle51.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle51.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle51.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.systemUnitDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle51;
+            this.systemUnitDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.systemUnitDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.systemUnitLanguageID,
+            this.systemUnitChinese,
+            this.systemUnitEnglish,
+            this.systemUnitFrench,
+            this.systemUnitRussian,
+            this.systemUnitArabic,
+            this.systemUnitSpanish});
+            this.systemUnitDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.systemUnitDataGridView.Location = new System.Drawing.Point(4, 4);
+            this.systemUnitDataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.systemUnitDataGridView.Name = "systemUnitDataGridView";
+            this.systemUnitDataGridView.RowHeadersVisible = false;
+            this.systemUnitDataGridView.RowTemplate.Height = 23;
+            this.systemUnitDataGridView.Size = new System.Drawing.Size(1630, 755);
+            this.systemUnitDataGridView.TabIndex = 0;
             // 
             // systemUnitLanguageID
             // 
@@ -1979,6 +1339,47 @@
             this.systemUnitSpanish.ReadOnly = true;
             this.systemUnitSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // systemGroupTabPage
+            // 
+            this.systemGroupTabPage.Controls.Add(this.systemGroupDataGridView);
+            this.systemGroupTabPage.Location = new System.Drawing.Point(4, 28);
+            this.systemGroupTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.systemGroupTabPage.Name = "systemGroupTabPage";
+            this.systemGroupTabPage.Padding = new System.Windows.Forms.Padding(4);
+            this.systemGroupTabPage.Size = new System.Drawing.Size(1638, 763);
+            this.systemGroupTabPage.TabIndex = 9;
+            this.systemGroupTabPage.Text = "systemGroup";
+            this.systemGroupTabPage.UseVisualStyleBackColor = true;
+            // 
+            // systemGroupDataGridView
+            // 
+            this.systemGroupDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle59.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle59.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle59.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle59.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle59.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle59.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.systemGroupDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle59;
+            this.systemGroupDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.systemGroupDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.systemGroupLanguageID,
+            this.systemGroupChinese,
+            this.systemGroupEnglish,
+            this.systemGroupFrench,
+            this.systemGroupRussian,
+            this.systemGroupArabic,
+            this.systemGroupSpanish});
+            this.systemGroupDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.systemGroupDataGridView.Location = new System.Drawing.Point(4, 4);
+            this.systemGroupDataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.systemGroupDataGridView.Name = "systemGroupDataGridView";
+            this.systemGroupDataGridView.RowHeadersVisible = false;
+            this.systemGroupDataGridView.RowTemplate.Height = 23;
+            this.systemGroupDataGridView.Size = new System.Drawing.Size(1630, 755);
+            this.systemGroupDataGridView.TabIndex = 0;
+            // 
             // systemGroupLanguageID
             // 
             this.systemGroupLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -2050,6 +1451,817 @@
             this.systemGroupSpanish.ReadOnly = true;
             this.systemGroupSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // basicTabPage
+            // 
+            this.basicTabPage.Controls.Add(this.systemBasicDataGridView);
+            this.basicTabPage.Location = new System.Drawing.Point(4, 28);
+            this.basicTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.basicTabPage.Name = "basicTabPage";
+            this.basicTabPage.Padding = new System.Windows.Forms.Padding(4);
+            this.basicTabPage.Size = new System.Drawing.Size(1638, 763);
+            this.basicTabPage.TabIndex = 7;
+            this.basicTabPage.Text = "basic";
+            this.basicTabPage.UseVisualStyleBackColor = true;
+            // 
+            // systemBasicDataGridView
+            // 
+            this.systemBasicDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle67.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle67.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle67.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle67.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle67.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle67.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.systemBasicDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle67;
+            this.systemBasicDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.systemBasicDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.basicSignalID,
+            this.basicEnabled,
+            this.basicMacro,
+            this.basicIsAlarm,
+            this.basicValueType,
+            this.basicUnitID,
+            this.basicPermission,
+            this.basicIsDisplay,
+            this.basicAccuracy,
+            this.basicMin,
+            this.basicMax,
+            this.basicDefault,
+            this.basicGroupID,
+            this.basicEnumID,
+            this.basicEnableStatistics,
+            this.basicAlarmClass,
+            this.basicDBA,
+            this.basicDAA});
+            this.systemBasicDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.systemBasicDataGridView.Location = new System.Drawing.Point(4, 4);
+            this.systemBasicDataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.systemBasicDataGridView.Name = "systemBasicDataGridView";
+            dataGridViewCellStyle73.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle73.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle73.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle73.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle73.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle73.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle73.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.systemBasicDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle73;
+            this.systemBasicDataGridView.RowHeadersVisible = false;
+            this.systemBasicDataGridView.RowTemplate.Height = 23;
+            this.systemBasicDataGridView.Size = new System.Drawing.Size(1630, 755);
+            this.systemBasicDataGridView.TabIndex = 0;
+            // 
+            // basicSignalID
+            // 
+            this.basicSignalID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle68.BackColor = System.Drawing.SystemColors.Control;
+            this.basicSignalID.DefaultCellStyle = dataGridViewCellStyle68;
+            this.basicSignalID.HeaderText = "SignalID";
+            this.basicSignalID.Name = "basicSignalID";
+            this.basicSignalID.ReadOnly = true;
+            this.basicSignalID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicEnabled
+            // 
+            this.basicEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicEnabled.HeaderText = "Enabled";
+            this.basicEnabled.Name = "basicEnabled";
+            this.basicEnabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicMacro
+            // 
+            this.basicMacro.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle69.BackColor = System.Drawing.SystemColors.Control;
+            this.basicMacro.DefaultCellStyle = dataGridViewCellStyle69;
+            this.basicMacro.HeaderText = "Macro";
+            this.basicMacro.Name = "basicMacro";
+            this.basicMacro.ReadOnly = true;
+            this.basicMacro.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicIsAlarm
+            // 
+            this.basicIsAlarm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle70.BackColor = System.Drawing.Color.White;
+            this.basicIsAlarm.DefaultCellStyle = dataGridViewCellStyle70;
+            this.basicIsAlarm.HeaderText = "IsAlarm";
+            this.basicIsAlarm.Name = "basicIsAlarm";
+            this.basicIsAlarm.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicValueType
+            // 
+            this.basicValueType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle71.BackColor = System.Drawing.SystemColors.Control;
+            this.basicValueType.DefaultCellStyle = dataGridViewCellStyle71;
+            this.basicValueType.HeaderText = "ValueType";
+            this.basicValueType.Name = "basicValueType";
+            this.basicValueType.ReadOnly = true;
+            this.basicValueType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicUnitID
+            // 
+            this.basicUnitID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle72.BackColor = System.Drawing.Color.White;
+            this.basicUnitID.DefaultCellStyle = dataGridViewCellStyle72;
+            this.basicUnitID.HeaderText = "UnitID";
+            this.basicUnitID.Name = "basicUnitID";
+            this.basicUnitID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicPermission
+            // 
+            this.basicPermission.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicPermission.HeaderText = "Permission";
+            this.basicPermission.Name = "basicPermission";
+            this.basicPermission.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicIsDisplay
+            // 
+            this.basicIsDisplay.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicIsDisplay.HeaderText = "IsDisplay";
+            this.basicIsDisplay.Name = "basicIsDisplay";
+            this.basicIsDisplay.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicAccuracy
+            // 
+            this.basicAccuracy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicAccuracy.HeaderText = "Accruracy";
+            this.basicAccuracy.Name = "basicAccuracy";
+            this.basicAccuracy.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicMin
+            // 
+            this.basicMin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicMin.HeaderText = "Min";
+            this.basicMin.Name = "basicMin";
+            this.basicMin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicMax
+            // 
+            this.basicMax.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicMax.HeaderText = "Max";
+            this.basicMax.Name = "basicMax";
+            this.basicMax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicDefault
+            // 
+            this.basicDefault.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicDefault.HeaderText = "Default";
+            this.basicDefault.Name = "basicDefault";
+            this.basicDefault.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicGroupID
+            // 
+            this.basicGroupID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicGroupID.HeaderText = "GroupID";
+            this.basicGroupID.Name = "basicGroupID";
+            this.basicGroupID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicEnumID
+            // 
+            this.basicEnumID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicEnumID.HeaderText = "EnumID";
+            this.basicEnumID.Name = "basicEnumID";
+            this.basicEnumID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicEnableStatistics
+            // 
+            this.basicEnableStatistics.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicEnableStatistics.HeaderText = "EnableStatistics";
+            this.basicEnableStatistics.Name = "basicEnableStatistics";
+            this.basicEnableStatistics.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicAlarmClass
+            // 
+            this.basicAlarmClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicAlarmClass.HeaderText = "AlarmClass";
+            this.basicAlarmClass.Name = "basicAlarmClass";
+            this.basicAlarmClass.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicDBA
+            // 
+            this.basicDBA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicDBA.HeaderText = "DBA";
+            this.basicDBA.Name = "basicDBA";
+            this.basicDBA.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // basicDAA
+            // 
+            this.basicDAA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.basicDAA.HeaderText = "DAA";
+            this.basicDAA.Name = "basicDAA";
+            this.basicDAA.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumTabPage
+            // 
+            this.tempHumTabPage.Controls.Add(this.systemTempHumDataGridView);
+            this.tempHumTabPage.Location = new System.Drawing.Point(4, 28);
+            this.tempHumTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.tempHumTabPage.Name = "tempHumTabPage";
+            this.tempHumTabPage.Padding = new System.Windows.Forms.Padding(4);
+            this.tempHumTabPage.Size = new System.Drawing.Size(1636, 763);
+            this.tempHumTabPage.TabIndex = 10;
+            this.tempHumTabPage.Text = "temp&hum";
+            this.tempHumTabPage.UseVisualStyleBackColor = true;
+            // 
+            // systemTempHumDataGridView
+            // 
+            this.systemTempHumDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle74.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle74.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle74.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle74.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle74.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle74.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle74.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.systemTempHumDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle74;
+            this.systemTempHumDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.systemTempHumDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tempHumSignalID,
+            this.tempHumEnabled,
+            this.tempHumMacro,
+            this.tempHumIsAlarm,
+            this.tempHumValueType,
+            this.tempHumUnitID,
+            this.tempHumPermission,
+            this.tempHumIsDisplay,
+            this.tempHumAccuracy,
+            this.tempHumMin,
+            this.tempHumMax,
+            this.tempHumDefault,
+            this.tempHumGroupID,
+            this.tempHumEnumID,
+            this.tempHumEnableStatistics,
+            this.tempHumAlarmClass,
+            this.tempHumDBA,
+            this.tempHumDAA});
+            this.systemTempHumDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.systemTempHumDataGridView.Location = new System.Drawing.Point(4, 4);
+            this.systemTempHumDataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.systemTempHumDataGridView.Name = "systemTempHumDataGridView";
+            dataGridViewCellStyle78.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle78.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle78.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle78.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle78.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle78.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle78.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.systemTempHumDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle78;
+            this.systemTempHumDataGridView.RowHeadersVisible = false;
+            this.systemTempHumDataGridView.RowTemplate.Height = 23;
+            this.systemTempHumDataGridView.Size = new System.Drawing.Size(1628, 755);
+            this.systemTempHumDataGridView.TabIndex = 0;
+            // 
+            // tempHumSignalID
+            // 
+            this.tempHumSignalID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle75.BackColor = System.Drawing.SystemColors.Control;
+            this.tempHumSignalID.DefaultCellStyle = dataGridViewCellStyle75;
+            this.tempHumSignalID.HeaderText = "SignalID";
+            this.tempHumSignalID.Name = "tempHumSignalID";
+            this.tempHumSignalID.ReadOnly = true;
+            this.tempHumSignalID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumEnabled
+            // 
+            this.tempHumEnabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumEnabled.HeaderText = "Enabled";
+            this.tempHumEnabled.Name = "tempHumEnabled";
+            this.tempHumEnabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumMacro
+            // 
+            this.tempHumMacro.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle76.BackColor = System.Drawing.SystemColors.Control;
+            this.tempHumMacro.DefaultCellStyle = dataGridViewCellStyle76;
+            this.tempHumMacro.HeaderText = "Macro";
+            this.tempHumMacro.Name = "tempHumMacro";
+            this.tempHumMacro.ReadOnly = true;
+            this.tempHumMacro.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumIsAlarm
+            // 
+            this.tempHumIsAlarm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumIsAlarm.HeaderText = "IsAlarm";
+            this.tempHumIsAlarm.Name = "tempHumIsAlarm";
+            this.tempHumIsAlarm.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumValueType
+            // 
+            this.tempHumValueType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle77.BackColor = System.Drawing.SystemColors.Control;
+            this.tempHumValueType.DefaultCellStyle = dataGridViewCellStyle77;
+            this.tempHumValueType.HeaderText = "ValueType";
+            this.tempHumValueType.Name = "tempHumValueType";
+            this.tempHumValueType.ReadOnly = true;
+            this.tempHumValueType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumUnitID
+            // 
+            this.tempHumUnitID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumUnitID.HeaderText = "UnitID";
+            this.tempHumUnitID.Name = "tempHumUnitID";
+            this.tempHumUnitID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumPermission
+            // 
+            this.tempHumPermission.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumPermission.HeaderText = "Permission";
+            this.tempHumPermission.Name = "tempHumPermission";
+            this.tempHumPermission.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumIsDisplay
+            // 
+            this.tempHumIsDisplay.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumIsDisplay.HeaderText = "IsDisplay";
+            this.tempHumIsDisplay.Name = "tempHumIsDisplay";
+            this.tempHumIsDisplay.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumAccuracy
+            // 
+            this.tempHumAccuracy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumAccuracy.HeaderText = "Accuracy";
+            this.tempHumAccuracy.Name = "tempHumAccuracy";
+            this.tempHumAccuracy.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumMin
+            // 
+            this.tempHumMin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumMin.HeaderText = "Min";
+            this.tempHumMin.Name = "tempHumMin";
+            this.tempHumMin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumMax
+            // 
+            this.tempHumMax.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumMax.HeaderText = "Max";
+            this.tempHumMax.Name = "tempHumMax";
+            this.tempHumMax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumDefault
+            // 
+            this.tempHumDefault.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumDefault.HeaderText = "Default";
+            this.tempHumDefault.Name = "tempHumDefault";
+            this.tempHumDefault.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumGroupID
+            // 
+            this.tempHumGroupID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumGroupID.HeaderText = "GroupID";
+            this.tempHumGroupID.Name = "tempHumGroupID";
+            this.tempHumGroupID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumEnumID
+            // 
+            this.tempHumEnumID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumEnumID.HeaderText = "EnumID";
+            this.tempHumEnumID.Name = "tempHumEnumID";
+            this.tempHumEnumID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumEnableStatistics
+            // 
+            this.tempHumEnableStatistics.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumEnableStatistics.HeaderText = "EnableStatistics";
+            this.tempHumEnableStatistics.Name = "tempHumEnableStatistics";
+            this.tempHumEnableStatistics.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumAlarmClass
+            // 
+            this.tempHumAlarmClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumAlarmClass.HeaderText = "AlarmClass";
+            this.tempHumAlarmClass.Name = "tempHumAlarmClass";
+            this.tempHumAlarmClass.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumDBA
+            // 
+            this.tempHumDBA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumDBA.HeaderText = "DBA";
+            this.tempHumDBA.Name = "tempHumDBA";
+            this.tempHumDBA.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tempHumDAA
+            // 
+            this.tempHumDAA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.tempHumDAA.HeaderText = "DAA";
+            this.tempHumDAA.Name = "tempHumDAA";
+            this.tempHumDAA.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // tabPage12
+            // 
+            this.tabPage12.Controls.Add(this.dataGridView12);
+            this.tabPage12.Location = new System.Drawing.Point(4, 28);
+            this.tabPage12.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage12.Name = "tabPage12";
+            this.tabPage12.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage12.Size = new System.Drawing.Size(1638, 763);
+            this.tabPage12.TabIndex = 11;
+            this.tabPage12.Text = "reserved";
+            this.tabPage12.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView12
+            // 
+            this.dataGridView12.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridView12.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView12.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView12.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView12.Name = "dataGridView12";
+            this.dataGridView12.RowTemplate.Height = 23;
+            this.dataGridView12.Size = new System.Drawing.Size(1630, 755);
+            this.dataGridView12.TabIndex = 0;
+            // 
+            // tabPage13
+            // 
+            this.tabPage13.Controls.Add(this.dataGridView13);
+            this.tabPage13.Location = new System.Drawing.Point(4, 28);
+            this.tabPage13.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage13.Name = "tabPage13";
+            this.tabPage13.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage13.Size = new System.Drawing.Size(1638, 763);
+            this.tabPage13.TabIndex = 12;
+            this.tabPage13.Text = "reserved";
+            this.tabPage13.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView13
+            // 
+            this.dataGridView13.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridView13.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView13.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView13.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView13.Name = "dataGridView13";
+            this.dataGridView13.RowTemplate.Height = 23;
+            this.dataGridView13.Size = new System.Drawing.Size(1630, 755);
+            this.dataGridView13.TabIndex = 0;
+            // 
+            // tabPage14
+            // 
+            this.tabPage14.Controls.Add(this.dataGridView14);
+            this.tabPage14.Location = new System.Drawing.Point(4, 28);
+            this.tabPage14.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage14.Name = "tabPage14";
+            this.tabPage14.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage14.Size = new System.Drawing.Size(1638, 763);
+            this.tabPage14.TabIndex = 13;
+            this.tabPage14.Text = "reserved";
+            this.tabPage14.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView14
+            // 
+            this.dataGridView14.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridView14.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView14.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView14.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView14.Name = "dataGridView14";
+            this.dataGridView14.RowTemplate.Height = 23;
+            this.dataGridView14.Size = new System.Drawing.Size(1630, 755);
+            this.dataGridView14.TabIndex = 0;
+            // 
+            // tabPage15
+            // 
+            this.tabPage15.Controls.Add(this.dataGridView15);
+            this.tabPage15.Location = new System.Drawing.Point(4, 28);
+            this.tabPage15.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage15.Name = "tabPage15";
+            this.tabPage15.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage15.Size = new System.Drawing.Size(1638, 763);
+            this.tabPage15.TabIndex = 14;
+            this.tabPage15.Text = "reserved";
+            this.tabPage15.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView15
+            // 
+            this.dataGridView15.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridView15.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView15.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView15.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView15.Name = "dataGridView15";
+            this.dataGridView15.RowTemplate.Height = 23;
+            this.dataGridView15.Size = new System.Drawing.Size(1630, 755);
+            this.dataGridView15.TabIndex = 0;
+            // 
+            // tabPage16
+            // 
+            this.tabPage16.Controls.Add(this.dataGridView16);
+            this.tabPage16.Location = new System.Drawing.Point(4, 28);
+            this.tabPage16.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage16.Name = "tabPage16";
+            this.tabPage16.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage16.Size = new System.Drawing.Size(1638, 763);
+            this.tabPage16.TabIndex = 15;
+            this.tabPage16.Text = "reserved";
+            this.tabPage16.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView16
+            // 
+            this.dataGridView16.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridView16.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView16.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView16.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView16.Name = "dataGridView16";
+            this.dataGridView16.RowTemplate.Height = 23;
+            this.dataGridView16.Size = new System.Drawing.Size(1630, 755);
+            this.dataGridView16.TabIndex = 0;
+            // 
+            // tabPage17
+            // 
+            this.tabPage17.Controls.Add(this.dataGridView17);
+            this.tabPage17.Location = new System.Drawing.Point(4, 28);
+            this.tabPage17.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage17.Name = "tabPage17";
+            this.tabPage17.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage17.Size = new System.Drawing.Size(1638, 763);
+            this.tabPage17.TabIndex = 16;
+            this.tabPage17.Text = "reserved";
+            this.tabPage17.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView17
+            // 
+            this.dataGridView17.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridView17.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView17.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView17.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView17.Name = "dataGridView17";
+            this.dataGridView17.RowTemplate.Height = 23;
+            this.dataGridView17.Size = new System.Drawing.Size(1630, 755);
+            this.dataGridView17.TabIndex = 0;
+            // 
+            // tabPage18
+            // 
+            this.tabPage18.Controls.Add(this.dataGridView18);
+            this.tabPage18.Location = new System.Drawing.Point(4, 28);
+            this.tabPage18.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage18.Name = "tabPage18";
+            this.tabPage18.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage18.Size = new System.Drawing.Size(1638, 763);
+            this.tabPage18.TabIndex = 17;
+            this.tabPage18.Text = "reserved";
+            this.tabPage18.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView18
+            // 
+            this.dataGridView18.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dataGridView18.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView18.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView18.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView18.Name = "dataGridView18";
+            this.dataGridView18.RowTemplate.Height = 23;
+            this.dataGridView18.Size = new System.Drawing.Size(1630, 755);
+            this.dataGridView18.TabIndex = 0;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 795);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(1644, 167);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressBar1.Location = new System.Drawing.Point(0, 962);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(1644, 34);
+            this.progressBar1.TabIndex = 3;
+            // 
+            // configureGroupBox
+            // 
+            this.configureGroupBox.Controls.Add(this.addLineButton);
+            this.configureGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.configureGroupBox.Location = new System.Drawing.Point(0, 134);
+            this.configureGroupBox.Margin = new System.Windows.Forms.Padding(4);
+            this.configureGroupBox.Name = "configureGroupBox";
+            this.configureGroupBox.Padding = new System.Windows.Forms.Padding(4);
+            this.configureGroupBox.Size = new System.Drawing.Size(274, 397);
+            this.configureGroupBox.TabIndex = 6;
+            this.configureGroupBox.TabStop = false;
+            this.configureGroupBox.Text = "Configure";
+            // 
+            // addLineButton
+            // 
+            this.addLineButton.Location = new System.Drawing.Point(9, 30);
+            this.addLineButton.Margin = new System.Windows.Forms.Padding(4);
+            this.addLineButton.Name = "addLineButton";
+            this.addLineButton.Size = new System.Drawing.Size(112, 34);
+            this.addLineButton.TabIndex = 0;
+            this.addLineButton.Text = "add line";
+            this.addLineButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.buttonStopSim);
+            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(0, 531);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(274, 273);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Simulator";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(22, 58);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(148, 18);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Server Address";
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.White;
+            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(26, 180);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(64, 64);
+            this.button2.TabIndex = 4;
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // buttonStopSim
+            // 
+            this.buttonStopSim.BackColor = System.Drawing.Color.White;
+            this.buttonStopSim.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonStopSim.BackgroundImage")));
+            this.buttonStopSim.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonStopSim.FlatAppearance.BorderSize = 0;
+            this.buttonStopSim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonStopSim.Location = new System.Drawing.Point(108, 180);
+            this.buttonStopSim.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonStopSim.Name = "buttonStopSim";
+            this.buttonStopSim.Size = new System.Drawing.Size(64, 64);
+            this.buttonStopSim.TabIndex = 5;
+            this.buttonStopSim.UseVisualStyleBackColor = false;
+            this.buttonStopSim.Click += new System.EventHandler(this.buttonStopSim_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(204, 104);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(97, 22);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "default";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(26, 100);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(148, 28);
+            this.textBox3.TabIndex = 2;
+            this.textBox3.Text = "default server";
+            // 
+            // groupBoxUpdate
+            // 
+            this.groupBoxUpdate.Controls.Add(this.label4);
+            this.groupBoxUpdate.Controls.Add(this.label3);
+            this.groupBoxUpdate.Controls.Add(this.label2);
+            this.groupBoxUpdate.Controls.Add(this.button4);
+            this.groupBoxUpdate.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxUpdate.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxUpdate.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxUpdate.Name = "groupBoxUpdate";
+            this.groupBoxUpdate.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxUpdate.Size = new System.Drawing.Size(274, 134);
+            this.groupBoxUpdate.TabIndex = 4;
+            this.groupBoxUpdate.TabStop = false;
+            this.groupBoxUpdate.Text = "Update";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.ForeColor = System.Drawing.Color.LimeGreen;
+            this.label4.Location = new System.Drawing.Point(134, 80);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(218, 18);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "New Version Available";
+            this.label4.Visible = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(138, 32);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 18);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "0.1";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(22, 32);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(80, 18);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Version:";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(9, 72);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(112, 34);
+            this.button4.TabIndex = 0;
+            this.button4.Text = "check";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxGenerate
+            // 
+            this.groupBoxGenerate.Controls.Add(this.button1);
+            this.groupBoxGenerate.Controls.Add(this.textBox2);
+            this.groupBoxGenerate.Controls.Add(this.buttonGenerate);
+            this.groupBoxGenerate.Controls.Add(this.buttonImport);
+            this.groupBoxGenerate.Controls.Add(this.buttonExport);
+            this.groupBoxGenerate.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBoxGenerate.Location = new System.Drawing.Point(0, 804);
+            this.groupBoxGenerate.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxGenerate.Name = "groupBoxGenerate";
+            this.groupBoxGenerate.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxGenerate.Size = new System.Drawing.Size(274, 192);
+            this.groupBoxGenerate.TabIndex = 2;
+            this.groupBoxGenerate.TabStop = false;
+            this.groupBoxGenerate.Text = "Generator";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(196, 142);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(106, 34);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "browse...";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(26, 142);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(148, 28);
+            this.textBox2.TabIndex = 3;
+            // 
+            // buttonGenerate
+            // 
+            this.buttonGenerate.Location = new System.Drawing.Point(196, 30);
+            this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonGenerate.Name = "buttonGenerate";
+            this.buttonGenerate.Size = new System.Drawing.Size(106, 98);
+            this.buttonGenerate.TabIndex = 2;
+            this.buttonGenerate.Text = "generate";
+            this.buttonGenerate.UseVisualStyleBackColor = true;
+            // 
+            // buttonImport
+            // 
+            this.buttonImport.Location = new System.Drawing.Point(26, 30);
+            this.buttonImport.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonImport.Name = "buttonImport";
+            this.buttonImport.Size = new System.Drawing.Size(112, 34);
+            this.buttonImport.TabIndex = 0;
+            this.buttonImport.Text = "import...";
+            this.buttonImport.UseVisualStyleBackColor = true;
+            this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
+            // 
+            // buttonExport
+            // 
+            this.buttonExport.Location = new System.Drawing.Point(26, 92);
+            this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(112, 34);
+            this.buttonExport.TabIndex = 1;
+            this.buttonExport.Text = "export...";
+            this.buttonExport.UseVisualStyleBackColor = true;
+            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
+            // 
             // BcTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -2085,8 +2297,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.systemGroupDataGridView)).EndInit();
             this.basicTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.systemBasicDataGridView)).EndInit();
-            this.tabPage11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView11)).EndInit();
+            this.tempHumTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.systemTempHumDataGridView)).EndInit();
             this.tabPage12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView12)).EndInit();
             this.tabPage13.ResumeLayout(false);
@@ -2138,7 +2350,7 @@
         private System.Windows.Forms.TabPage basicTabPage;
         private System.Windows.Forms.TabPage customGroupTabPage;
         private System.Windows.Forms.TabPage systemGroupTabPage;
-        private System.Windows.Forms.TabPage tabPage11;
+        private System.Windows.Forms.TabPage tempHumTabPage;
         private System.Windows.Forms.TabPage tabPage12;
         private System.Windows.Forms.TabPage tabPage13;
         private System.Windows.Forms.TabPage tabPage14;
@@ -2161,7 +2373,7 @@
         private System.Windows.Forms.DataGridView systemBasicDataGridView;
         private System.Windows.Forms.DataGridView customGroupDataGridView;
         private System.Windows.Forms.DataGridView systemGroupDataGridView;
-        private System.Windows.Forms.DataGridView dataGridView11;
+        private System.Windows.Forms.DataGridView systemTempHumDataGridView;
         private System.Windows.Forms.DataGridView dataGridView12;
         private System.Windows.Forms.DataGridView dataGridView13;
         private System.Windows.Forms.DataGridView dataGridView14;
@@ -2191,24 +2403,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column27;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column28;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column29;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SignalID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Enabled;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Macro;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IsAlarm;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ValueType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UnitID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Permission;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IsDisplay;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Accuracy;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Min;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Max;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Default;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GroupID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EnumID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EnableStatistics;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AlarmClass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DBA;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DAA;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn customLangLanguageID;
         private System.Windows.Forms.DataGridViewTextBoxColumn customLangChinese;
@@ -2266,6 +2460,42 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn systemGroupRussian;
         private System.Windows.Forms.DataGridViewTextBoxColumn systemGroupArabic;
         private System.Windows.Forms.DataGridViewTextBoxColumn systemGroupSpanish;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicSignalID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicEnabled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicMacro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicIsAlarm;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicValueType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicUnitID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicPermission;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicIsDisplay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicAccuracy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicMin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicMax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicDefault;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicGroupID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicEnumID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicEnableStatistics;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicAlarmClass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicDBA;
+        private System.Windows.Forms.DataGridViewTextBoxColumn basicDAA;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumSignalID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumEnabled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumMacro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumIsAlarm;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumValueType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumUnitID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumPermission;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumIsDisplay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumAccuracy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumMin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumMax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumDefault;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumGroupID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumEnumID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumEnableStatistics;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumAlarmClass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumDBA;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tempHumDAA;
     }
 }
 

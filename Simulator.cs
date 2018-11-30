@@ -374,22 +374,9 @@ namespace BcTool
             int byteRead = 0;
             int remainLen = 0;
 
-            IntPtr snPtr = Marshal.AllocHGlobal(currentSim.Sn.Length + 1);
-            byte[] snBytes = Tools.addCStringEndFlag(System.Text.Encoding.ASCII.GetBytes(currentSim.Sn));
-            Marshal.Copy(snBytes, 0, snPtr, snBytes.Length);
-
-            IntPtr passwordPtr = Marshal.AllocHGlobal(currentSim.Password.Length + 1);
-            byte[] passwordBytes = Tools.addCStringEndFlag(System.Text.Encoding.ASCII.GetBytes(currentSim.Password));
-            Marshal.Copy(passwordBytes, 0, passwordPtr, passwordBytes.Length);
-
-            IntPtr intPtrPack = BPLibApi.BP_PackConnect(ref currentSim.bPContext, snPtr, passwordPtr);
-            BPLibApi.PackBuf packBufSend = (BPLibApi.PackBuf)Marshal.PtrToStructure(intPtrPack, typeof(BPLibApi.PackBuf));
-            byte[] sendBytes = new byte[packBufSend.MsgSize];
-            Marshal.Copy(packBufSend.PackStart, sendBytes, 0, sendBytes.Length);
-            
-
+            string err = "";
             netMng.connect();
-            netMng.write(sendBytes);
+            netMng.bpConnect(ref currentSim.bPContext, currentSim.Sn, currentSim.Password, ref err);
             do
             {
                 try
@@ -453,8 +440,6 @@ namespace BcTool
                 }
             } while (!endMsgRecv);
             Console.WriteLine("netMsgRecvTask: End");
-            Marshal.FreeHGlobal(snPtr);
-            Marshal.FreeHGlobal(passwordPtr);
         }
 
         public void doTimeout()

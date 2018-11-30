@@ -21,9 +21,8 @@ namespace BcTool
         public int IndexId { get => indexId; set => indexId = value; }
         public Dictionary<ushort, string> LanguageMap { get => languageMap; set => languageMap = value; }
 
-        public static LanguageResourceItem parseLanguageResourceItem(System.Windows.Forms.DataGridViewCellCollection row, ref string err)
+        public static LanguageResourceItem parseLanguageResourceItem(System.Windows.Forms.DataGridViewCellCollection row, string prefix, ref string err)
         {
-            String prefix = "systemLang";
             LanguageResourceItem languageResourceItemRet = null;
             if (null == row)
             {
@@ -35,6 +34,10 @@ namespace BcTool
                 String tmp;
 
                 tmp = row[prefix + "LanguageID"].Value.ToString().Trim();
+                if(String.IsNullOrWhiteSpace(tmp))
+                {
+                    return languageResourceItemRet;
+                }
                 int languageId = -1;
                 try
                 {

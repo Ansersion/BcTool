@@ -205,7 +205,7 @@ namespace BcTool
             return ret;
         }
 
-        public static SignalDataItem parseSignalDataItem(System.Windows.Forms.DataGridViewCellCollection row, Boolean enabledOnly, ref string err)
+        public static SignalDataItem parseSignalDataItem(System.Windows.Forms.DataGridViewCellCollection row, string prefix, Boolean enabledOnly, ref string err)
         {
             SignalDataItem signalDataItemRet = null;
             if (null == row)
@@ -217,7 +217,7 @@ namespace BcTool
             {
                 String tmp;
 
-                tmp = row["SignalID"].Value.ToString().Trim();
+                tmp = row[prefix + "SignalID"].Value.ToString().Trim();
                 int signalId = -1;
                 try
                 {
@@ -236,7 +236,7 @@ namespace BcTool
                     return signalDataItemRet;
                 }
 
-                tmp = row["Enabled"].Value.ToString().Trim();
+                tmp = row[prefix + "Enabled"].Value.ToString().Trim();
                 if (!yesOrNoTable.ContainsKey(tmp))
                 {
                     if (null != err)
@@ -255,7 +255,7 @@ namespace BcTool
                     }
                 }
 
-                string macro = row["Macro"].Value.ToString().Trim();
+                string macro = row[prefix + "Macro"].Value.ToString().Trim();
                 if(string.IsNullOrWhiteSpace(macro))
                 {
                     if (null != err)
@@ -266,7 +266,7 @@ namespace BcTool
                 }
 
 
-                tmp = row["IsAlarm"].Value.ToString().Trim();
+                tmp = row[prefix + "IsAlarm"].Value.ToString().Trim();
                 if (!yesOrNoTable.ContainsKey(tmp))
                 {
                     if (null != err)
@@ -277,7 +277,7 @@ namespace BcTool
                 }
                 Boolean isAlarm = yesOrNoTable[tmp];
 
-                tmp = row["ValueType"].Value.ToString().Trim();
+                tmp = row[prefix + "ValueType"].Value.ToString().Trim();
                 if (!valueTypeTable.ContainsKey(tmp))
                 {
                     if (null != err)
@@ -288,7 +288,7 @@ namespace BcTool
                 }
                 ValueType valueType = valueTypeTable[tmp];
 
-                tmp = row["UnitID"].Value.ToString().Trim();
+                tmp = row[prefix + "UnitID"].Value.ToString().Trim();
                 int unitId = -1;
                 try
                 {
@@ -326,7 +326,7 @@ namespace BcTool
                     return signalDataItemRet;
                 }
 
-                tmp = row["Permission"].Value.ToString().Trim();
+                tmp = row[prefix + "Permission"].Value.ToString().Trim();
                 if (!permissionTable.ContainsKey(tmp))
                 {
                     if (null != err)
@@ -337,7 +337,7 @@ namespace BcTool
                 }
                 BcPermission permission = permissionTable[tmp];
 
-                tmp = row["IsDisplay"].Value.ToString().Trim();
+                tmp = row[prefix + "IsDisplay"].Value.ToString().Trim();
                 if (!yesOrNoTable.ContainsKey(tmp))
                 {
                     if (null != err)
@@ -348,7 +348,7 @@ namespace BcTool
                 }
                 Boolean isDisplay = yesOrNoTable[tmp];
 
-                tmp = row["Accuracy"].Value.ToString().Trim();
+                tmp = row[prefix + "Accuracy"].Value.ToString().Trim();
                 int accuracy = -1;
                 try
                 {
@@ -368,7 +368,7 @@ namespace BcTool
                 }
 
 
-                tmp = row["Min"].Value.ToString().Trim();
+                tmp = row[prefix + "Min"].Value.ToString().Trim();
                 object minValue = parseValue(valueType, tmp);
 
                 if (null == minValue)
@@ -380,7 +380,7 @@ namespace BcTool
                     return signalDataItemRet;
                 }
 
-                tmp = row["Max"].Value.ToString().Trim();
+                tmp = row[prefix + "Max"].Value.ToString().Trim();
                 object maxValue = parseValue(valueType, tmp);
 
                 if (null == maxValue)
@@ -392,7 +392,7 @@ namespace BcTool
                     return signalDataItemRet;
                 }
 
-                tmp = row["Default"].Value.ToString().Trim();
+                tmp = row[prefix + "Default"].Value.ToString().Trim();
                 object defValue = parseValue(valueType, tmp);
 
                 if (null == defValue)
@@ -404,7 +404,7 @@ namespace BcTool
                     return signalDataItemRet;
                 }
 
-                tmp = row["GroupID"].Value.ToString().Trim();
+                tmp = row[prefix + "GroupID"].Value.ToString().Trim();
                 int groupId = -1;
                 try
                 {
@@ -442,7 +442,7 @@ namespace BcTool
                     return signalDataItemRet;
                 }
 
-                tmp = row["EnumID"].Value.ToString().Trim();
+                tmp = row[prefix + "EnumID"].Value.ToString().Trim();
                 Dictionary<UInt16, UInt32> enumMap = null;
                 if (!string.IsNullOrWhiteSpace(tmp))
                 {
@@ -483,7 +483,7 @@ namespace BcTool
                     }
                 }
 
-                tmp = row["EnableStatistics"].Value.ToString().Trim();
+                tmp = row[prefix + "EnableStatistics"].Value.ToString().Trim();
                 if (!yesOrNoTable.ContainsKey(tmp))
                 {
                     if (null != err)
@@ -495,7 +495,7 @@ namespace BcTool
                 Boolean enStatistics = yesOrNoTable[tmp];
 
 
-                tmp = row["AlarmClass"].Value.ToString().Trim();
+                tmp = row[prefix + "AlarmClass"].Value.ToString().Trim();
                 if (!alarmClassTable.ContainsKey(tmp))
                 {
                     if (null != err)
@@ -506,7 +506,7 @@ namespace BcTool
                 }
                 BcAlarmClass alarmClass = alarmClassTable[tmp];
 
-                tmp = row["DBA"].Value.ToString().Trim();
+                tmp = row[prefix + "DBA"].Value.ToString().Trim();
                 int dba = -1;
                 try
                 {
@@ -532,7 +532,7 @@ namespace BcTool
                     return signalDataItemRet;
                 }
 
-                tmp = row["DAA"].Value.ToString().Trim();
+                tmp = row[prefix + "DAA"].Value.ToString().Trim();
                 int daa = -1;
                 try
                 {

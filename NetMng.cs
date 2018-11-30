@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -172,6 +173,64 @@ namespace BcTool
             {
                 Console.WriteLine(e.ToString());
             }
+        }
+
+        public Boolean bpConnect(ref BPLibApi.BPContext bPContext, string sn, string passwd, ref string err)
+        {
+            Boolean ret = false;
+            if(String.IsNullOrWhiteSpace(sn))
+            {
+                err = "bpConnect: String.IsNullOrWhiteSpace(sn)";
+                return ret;
+            }
+            if (null == passwd)
+            {
+                err = "bpConnect: null == passwd";
+                return ret;
+            }
+            IntPtr snPtr = IntPtr.Zero;
+            IntPtr passwordPtr = IntPtr.Zero;
+            try
+            {
+                snPtr = Tools.mallocIntPtr(sn);
+                passwordPtr = Tools.mallocIntPtr(passwd);
+
+                IntPtr intPtrPack = BPLibApi.BP_PackConnect(ref bPContext, snPtr, passwordPtr);
+                BPLibApi.PackBuf packBufSend = (BPLibApi.PackBuf)Marshal.PtrToStructure(intPtrPack, typeof(BPLibApi.PackBuf));
+                byte[] sendBytes = Tools.packBuf2Bytes(ref packBufSend);
+
+                ret = write(sendBytes);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+                ret = false;
+            }
+            finally
+            {
+                Tools.freeIntPtr(snPtr);
+                Tools.freeIntPtr(passwordPtr);
+            }
+            return ret;
+        }
+
+        private Boolean bpDisconn(ref BPLibApi.BPContext bPContext)
+        {
+            Boolean ret = false;
+            try
+            {
+                IntPtr intPtrPack = BPLibApi.BP_PackDisconn(ref bPContext);
+                BPLibApi.PackBuf packBufSend = (BPLibApi.PackBuf)Marshal.PtrToStructure(intPtrPack, typeof(BPLibApi.PackBuf));
+                byte[] sendBytes = Tools.packBuf2Bytes(ref packBufSend);
+
+                ret = write(sendBytes);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+                ret = false;
+            }
+            return ret;
         }
 
         private static void ReceiveCallback(IAsyncResult ar)
