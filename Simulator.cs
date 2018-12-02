@@ -46,6 +46,7 @@ namespace BcTool
         private static MSG_RECV_STATE msgRecvState;
         private static byte[] msgBuffer;
         private static NetMng netMng;
+        private static BPCmd bpCmd;
         private static string address;
         
 
@@ -70,6 +71,8 @@ namespace BcTool
         private IntPtr bufName;
         private IntPtr bufPassword;
         private Boolean simulating;
+        private UInt16 bpTimeout;
+        private UInt16 bpAlivePeriod;
 
         public BPLibApi.BPContext bPContext;
         // public BPLibApi.PackBuf packBuf;
@@ -81,6 +84,8 @@ namespace BcTool
         public IntPtr BufName { get => bufName; set => bufName = value; }
         public IntPtr BufPassword { get => bufPassword; set => bufPassword = value; }
         public bool Simulating { get => simulating; set => simulating = value; }
+        public ushort BpTimeout { get => bpTimeout; set => bpTimeout = value; }
+        public ushort BpAlivePeriod { get => bpAlivePeriod; set => bpAlivePeriod = value; }
 
         public Simulator()
         {
@@ -99,7 +104,10 @@ namespace BcTool
             currentSim = this;
             address = "127.0.0.1";
             netMng = new NetMng(address);
+            bpCmd = new BPCmd();
 
+            BpTimeout = 5;
+            BpAlivePeriod = 60;
             bPContext = new BPLibApi.BPContext();
             BPLibApi.PackBuf packBuf = new BPLibApi.PackBuf();
             bufPtr = Marshal.AllocHGlobal(2048);
@@ -121,7 +129,7 @@ namespace BcTool
             
         }
 
-        static void timeout(object sender, System.Timers.ElapsedEventArgs e)
+        static void doTimeout(object sender, System.Timers.ElapsedEventArgs e)
         {
             triggerSignal(EVENT_TIMEOUT);
         }
@@ -213,9 +221,12 @@ namespace BcTool
         public void startSim()
         {
             LogLn(LOG_LEVEL_INFO, "start simulate");
+            
+            bPContext.BPAlivePeroid = BpAlivePeriod;
+            bPContext.BPTimeout = BpTimeout;
             simulating = true;
             timer = new System.Timers.Timer(TIMER_INTERVAL);
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(timeout);
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(doTimeout);
             timer.Start();
             simThread = new Thread(simTask);
             simThread.Start();
@@ -330,6 +341,7 @@ namespace BcTool
         static void simTask()
         {
             long eventFlagsTmp;
+            int pingcount = 1;
             do
             {
                 simSignal.WaitOne();
@@ -338,6 +350,11 @@ namespace BcTool
                 if ((eventFlagsTmp & EVENT_TIMEOUT) != 0)
                 {
                     Console.WriteLine("event timeout");
+                    if ((pingcount++ % 10) == 0)
+                    {
+                        Console.WriteLine("BPPing");
+                        currentSim.bpPing();
+                    }
                     clearSignal(EVENT_TIMEOUT);
                 }
                 if ((eventFlagsTmp & EVENT_NET_MSSAGE_RECV) != 0)
@@ -375,8 +392,10 @@ namespace BcTool
             int remainLen = 0;
 
             string err = "";
+            byte[] bpCmdBytes;
             netMng.connect();
-            netMng.bpConnect(ref currentSim.bPContext, currentSim.Sn, currentSim.Password, ref err);
+            bpCmdBytes = bpCmd.bpConnect(ref currentSim.bPContext, currentSim.Sn, currentSim.Password, ref err);
+            netMng.write(bpCmdBytes);
             do
             {
                 try
@@ -413,6 +432,7 @@ namespace BcTool
                                 if (remainLen + BPLibApi.FIX_HEADER_SIZE == byteRead)
                                 {
                                     msgRecvState = MSG_RECV_STATE.WAIT_HEADER;
+                                    byteRead = 0;
                                     /* send signal */
 
                                 }
@@ -426,8 +446,10 @@ namespace BcTool
                                 Console.WriteLine("net error...");
                                 netMng.destroy();
                                 netMng = new NetMng(address);
-                                netMng.connect();
+                                currentSim.bpConnect();
                                 Thread.Sleep(NET_ERROR_RESTORE_WAIT_PERIOD);
+                                byteRead = 0;
+                                errOccur = false;
                                 break;
                             }
                     }
@@ -508,6 +530,7 @@ namespace BcTool
                 timer.Stop();
                 timer.Close();
                 netMng.destroy();
+                bpCmd.destroy();
                 endMsgRecv = true;
                 netRecvMsgThread.Join();
             }
@@ -535,17 +558,60 @@ namespace BcTool
             }
         }
 
+        private Boolean bpConnect()
+        {
+            Boolean ret = false;
+            string err = "";
+            try
+            {
+                if(!netMng.connect())
+                {
+                    return ret;
+                }
+                
+                byte[] bpCmdBytes = bpCmd.bpConnect(ref currentSim.bPContext, currentSim.Sn, currentSim.Password, ref err);
+                if(null == bpCmdBytes)
+                {
+                    return ret;
+                }
+                pushSendPack(bpCmdBytes);
+                ret = true;
+            } 
+            catch(Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            return ret;
+        }
+
+        private Boolean bpPing()
+        {
+            Boolean ret = false;
+            string err = "";
+            try
+            {
+                byte[] bpCmdBytes = bpCmd.bpPing(ref currentSim.bPContext, ref err);
+                if (null == bpCmdBytes)
+                {
+                    return ret;
+                }
+                pushSendPack(bpCmdBytes);
+                ret = true;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            return ret;
+        }
+
         private Boolean bpDisconn()
         {
             Boolean ret = false;
             try
             {
-                IntPtr intPtrPack = BPLibApi.BP_PackDisconn(ref bPContext);
-                BPLibApi.PackBuf packBufSend = (BPLibApi.PackBuf)Marshal.PtrToStructure(intPtrPack, typeof(BPLibApi.PackBuf));
-                byte[] sendBytes = new byte[packBufSend.MsgSize];
-                Marshal.Copy(packBufSend.PackStart, sendBytes, 0, sendBytes.Length);
-
-                pushSendPack(sendBytes);
+                byte[] bpCmdBytes = bpCmd.bpDisconn(ref bPContext);
+                pushSendPack(bpCmdBytes);
                 ret = true;
             } 
             catch(Exception e)

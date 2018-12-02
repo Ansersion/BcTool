@@ -35,6 +35,10 @@ namespace BcTool
         private Dictionary<String, DataGridView> prefix2LangDataGridView;
         private Dictionary<string, Dictionary<UInt16, LanguageResourceItem>> prefix2LangDictionary;
 
+        private BPLibApi.BP_SigId2Val[] sysSigId2Val;
+        private UInt64 sysSigId2ValSize;
+        private BPLibApi.BP_SigTable[] sysSigTable;
+
         public BcTool()
         {
             InitializeComponent();
@@ -43,7 +47,18 @@ namespace BcTool
 
         private void myInit()
         {
+            this.WindowState = FormWindowState.Maximized;
             progressBar1.Value = 0;
+            
+            comboBoxCrcType.SelectedIndex = 0;
+            comboBoxCrcType.Enabled = false;
+            comboBoxEncryption.SelectedIndex = 0;
+            comboBoxEncryption.Enabled = false;
+            comboBoxPerformance.SelectedIndex = 0;
+            comboBoxPerformance.Enabled = false;
+
+
+
             dist2DataGridViewList = new List<DataGridView>();
             dist2DataGridViewList.Add(this.systemBasicDataGridView);
             dist2SignalDataItemHashTable = new List<Hashtable>();
@@ -197,19 +212,68 @@ namespace BcTool
                 Boolean ret = makeSimTable(ref signalDataItemList, ref prefix2LangDictionary);
                 if (true == ret)
                 {
-                    simulator.setSignalDataItemList(signalDataItemList);
-                    simulator.setSignalNameLangTable(prefix2LangDictionary[PREFIX_LANG_SYSTEM_SIGNAL]);
-                    simulator.setLanguageKey(LanguageResourceItem.ENGLISH_KEY);
-                    simulator.Show();
-                    simulator.reloadSignalTable();
-                    simulator.Sn = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX3";
-                    simulator.Password = "3333333333333333333333333333333333333333333333333333333333333333";
-                    simulator.startSim();
+                    try
+                    {
+                        int bpAlivePeriod = Convert.ToInt32(textBoxAliveTime.Text);
+                        if (bpAlivePeriod > UInt16.MaxValue)
+                        {
+                            MessageBox.Show("Error: AliveTime too large(Max:" + UInt16.MaxValue + ")");
+                            return;
+                        }
+                        int bpTimeout = Convert.ToInt32(textBoxTimeout.Text);
+                        if (bpTimeout > 255)
+                        {
+                            MessageBox.Show("Error: Timeout too large(Max:" +255 + ")");
+                            return;
+                        }
+
+                        /* TODO: set signal table */
+                        sysSigId2Val = new BPLibApi.BP_SigId2Val[2];
+                        sysSigId2Val[0].SigId = 0x5a5a;
+                        sysSigId2Val[0].SigVal.t_u32 = 0x5a5a5a5a;
+                        sysSigId2Val[1].SigId = 0xa5a5;
+                        sysSigId2Val[1].SigVal.t_u32 = 0xa5a5a5a5;
+                        Tools.mallocIntPtr(sysSigId2Val);
+                        sysSigId2ValSize = 2;
+                        /* BP_SetSysSigId2ValTable */
+
+                        sysSigTable = new BPLibApi.BP_SigTable[2];
+                        sysSigTable[0].SigId = 0x5a5a;
+                        sysSigTable[0].SigType = 3;
+                        sysSigTable[0].IsDisplay = 1;
+                        sysSigTable[1].SigId = 0xa5a5;
+                        sysSigTable[1].SigType = 5;
+                        sysSigTable[1].IsDisplay = 0;
+                        Tools.mallocIntPtr(sysSigTable);
+
+                        simulator.setSignalDataItemList(signalDataItemList);
+                        simulator.setSignalNameLangTable(prefix2LangDictionary[PREFIX_LANG_SYSTEM_SIGNAL]);
+                        simulator.setLanguageKey(LanguageResourceItem.ENGLISH_KEY);
+                        simulator.Show();
+                        simulator.reloadSignalTable();
+                        simulator.Sn = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX3";
+                        simulator.Password = "3333333333333333333333333333333333333333333333333333333333333333";
+                        simulator.BpAlivePeriod = (ushort)bpAlivePeriod;
+                        simulator.BpTimeout = (ushort)bpTimeout;
+                        simulator.startSim();
+                    }
+                    catch (System.OverflowException ex)
+                    {
+                        MessageBox.Show("Error: Invalid AliveTime/Timeout");
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("TODO: something wrong");
+                    }
                 }
                 else
                 {
                     MessageBox.Show("TODO: something wrong");
                 }
+            }
+            else
+            {
+                MessageBox.Show("Running now");
             }
 
         }
@@ -219,7 +283,7 @@ namespace BcTool
 
             if (null != simulator && !simulator.IsDisposed)
             {
-                simulator.stopSim();
+                simulator.Dispose();
             }
         }
 
@@ -285,6 +349,95 @@ namespace BcTool
                 Console.WriteLine(e.Message);
             }
             return ret;
+        }
+
+        private void textBoxAliveTime_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox t = (TextBox)sender;
+            if ((e.KeyChar != '\b' && !Char.IsDigit(e.KeyChar)) || (String.IsNullOrWhiteSpace(t.Text.Trim()) && e.KeyChar == '0'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxAliveTime_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxAliveTime_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if(cb.Checked)
+            {
+                textBoxAliveTime.Text = "3600";
+                textBoxAliveTime.ReadOnly = true;
+            }
+            else
+            {
+                textBoxAliveTime.ReadOnly = false;
+            }
+        }
+
+        private void checkBoxTimeout_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.Checked)
+            {
+                textBoxTimeout.Text = "10";
+                textBoxTimeout.ReadOnly = true;
+            }
+            else
+            {
+                textBoxTimeout.ReadOnly = false;
+            }
+        }
+
+        private void checkBoxPerformance_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.Checked)
+            {
+                comboBoxPerformance.SelectedIndex = 0;
+                comboBoxPerformance.Enabled = false;
+            }
+            else
+            {
+                comboBoxPerformance.Enabled = true;
+            }
+        }
+
+        private void checkBoxEncryption_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.Checked)
+            {
+                comboBoxEncryption.SelectedIndex = 0;
+                comboBoxEncryption.Enabled = false;
+            }
+            else
+            {
+                comboBoxEncryption.Enabled = true;
+            }
+        }
+
+        private void checkBoxCrcType_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.Checked)
+            {
+                comboBoxCrcType.SelectedIndex = 0;
+                comboBoxCrcType.Enabled = false;
+            }
+            else
+            {
+                comboBoxCrcType.Enabled = true;
+            }
         }
     }
 }

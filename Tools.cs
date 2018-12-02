@@ -40,10 +40,90 @@ namespace BcTool
             }
             catch(Exception e)
             {
+                freeIntPtr(ret);
                 Console.Write(e.Message);
             }
 
+            return ret;
+        }
 
+        
+        public static IntPtr mallocIntPtr(BPLibApi.BP_SigId2Val[] array)
+        {
+            IntPtr ret = IntPtr.Zero;
+            if(null == array || 0 == array.Length)
+            {
+                return ret;
+            }
+            try
+            {
+                int size = Marshal.SizeOf(array[0]);
+                size *= array.Length;
+                ret = Marshal.AllocHGlobal(size);
+
+                long LongPtr = ret.ToInt64(); // Must work both on x86 and x64
+                unsafe
+                {
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        BPLibApi.BP_SigId2Val* tmp = (BPLibApi.BP_SigId2Val*)LongPtr;
+                        tmp->SigId = array[i].SigId;
+                        tmp->SigVal = array[i].SigVal;
+                        LongPtr += Marshal.SizeOf(array[0]);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                freeIntPtr(ret);
+                Console.Write(e.Message);
+            }
+            return ret;
+        }
+
+        public static IntPtr mallocIntPtr(BPLibApi.BP_SigTable[] array)
+        {
+            IntPtr ret = IntPtr.Zero;
+            if (null == array || 0 == array.Length)
+            {
+                return ret;
+            }
+            try
+            {
+                int size = Marshal.SizeOf(array[0]);
+                size *= array.Length;
+                ret = Marshal.AllocHGlobal(size);
+
+                long LongPtr = ret.ToInt64(); // Must work both on x86 and x64
+                unsafe
+                {
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        BPLibApi.BP_SigTable* tmp = (BPLibApi.BP_SigTable*)LongPtr;
+                        tmp->SigId = array[i].SigId;
+                        tmp->SigType = array[i].SigType;
+                        tmp->EnStatics = array[i].EnStatics;
+                        tmp->IsDisplay = array[i].IsDisplay;
+                        tmp->Accuracy = array[i].Accuracy;
+                        tmp->EnAlarm = array[i].EnAlarm;
+                        tmp->Perm = array[i].Perm;
+                        tmp->AlmClass = array[i].AlmClass;
+                        tmp->HasCustomInfo = array[i].HasCustomInfo;
+                        tmp->Reserved = array[i].Reserved;
+                        tmp->MinVal = array[i].MinVal;
+                        tmp->MaxVal = array[i].MaxVal;
+                        tmp->DefVal = array[i].DefVal;
+                        tmp->DelayBeforeAlm = array[i].DelayBeforeAlm;
+                        tmp->DelayAfterAlm = array[i].DelayAfterAlm;
+                        LongPtr += Marshal.SizeOf(array[0]);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                freeIntPtr(ret);
+                Console.Write(e.Message);
+            }
             return ret;
         }
 
