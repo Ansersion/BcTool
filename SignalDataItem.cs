@@ -125,6 +125,8 @@ namespace BcTool
         private int alarmBefDelay;
         private int alarmAftDelay;
 
+        private Boolean hasCustomInfo;
+
         private static Regex enumIDRegex = new Regex(ENUM_ID_REGEX_PATTERN);
         private static Regex unitIDRegex = new Regex(UNIT_ID_REGEX_PATTERN);
         private static Regex groupIDRegex = new Regex(GROUP_ID_REGEX_PATTERN);
@@ -147,6 +149,7 @@ namespace BcTool
         internal BcAlarmClass AlarmClass { get => alarmClass; set => alarmClass = value; }
         public int AlarmBefDelay { get => alarmBefDelay; set => alarmBefDelay = value; }
         public int AlarmAftDelay { get => alarmAftDelay; set => alarmAftDelay = value; }
+        public bool HasCustomInfo { get => hasCustomInfo; set => hasCustomInfo = value; }
 
         public static object parseValue(ValueType valueType, string str)
         {

@@ -7,6 +7,44 @@ using System.Runtime.InteropServices;
 
 namespace BcTool
 {
+    public struct BP_WORD
+    {
+        // A struct's fields should not be exposed
+        private UInt64 value;
+
+        // As we are using implicit conversions we can keep the constructor private
+        private BP_WORD(UInt64 value)
+        {
+            this.value = value;
+        }
+
+        /// <summary>
+        /// Implicitly converts a <see cref="System.Int32"/> to a Record.
+        /// </summary>
+        /// <param name="value">The <see cref="System.Int32"/> to convert.</param>
+        /// <returns>A new Record with the specified value.</returns>
+        public static implicit operator BP_WORD(UInt64 value)
+        {
+            return new BP_WORD(value);
+        }
+
+        public static implicit operator BP_WORD(int value)
+        {
+            return new BP_WORD((ulong)value);
+        }
+        /// <summary>
+        /// Implicitly converts a Record to a <see cref="System.Int32"/>.
+        /// </summary>
+        /// <param name="record">The Record to convert.</param>
+        /// <returns>
+        /// A <see cref="System.Int32"/> that is the specified Record's value.
+        /// </returns>
+        public static implicit operator UInt64(BP_WORD word)
+        {
+            return word.value;
+        }
+    }
+
     [global::System.AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     sealed class BitfieldLengthAttribute : Attribute
     {
@@ -55,6 +93,44 @@ namespace BcTool
 
         public const int SYSTEM_SIGNAL_TABLE_NUM = 16;
         public const int FIX_HEADER_SIZE = 3;
+        public const UInt16 SIG_TYPE_MAX_INDEX = 7;
+        public const UInt16 MAX_ACCURACY = 7;
+        public const UInt16 MAX_ALARM_CLASS_INDEX = 4;
+        public const UInt16 INVALID_ALARM_CLASS = 255;
+        public const UInt16 MAX_ALARM_DELAY = 255;
+
+        public const UInt16 BP_VALUE_TYPE_U32 = 0;
+        public const UInt16 BP_VALUE_TYPE_U16 = 1;
+        public const UInt16 BP_VALUE_TYPE_I32 = 2;
+        public const UInt16 BP_VALUE_TYPE_I16 = 3;
+        public const UInt16 BP_VALUE_TYPE_ENUM = 4;
+        public const UInt16 BP_VALUE_TYPE_FLT = 5;
+        public const UInt16 BP_VALUE_TYPE_STR = 6;
+        public const UInt16 BP_VALUE_TYPE_BOOL = 7;
+
+        public const UInt16 BP_DIS_STATISTICS = 0;
+        public const UInt16 BP_EN_STATISTICS = 1;
+        public const UInt16 BP_NOT_DISPLAY = 0;
+        public const UInt16 BP_DISPLAY = 1;
+        public const UInt16 BP_DIS_ALARM = 0;
+        public const UInt16 BP_EN_ALARM = 1;
+        public const UInt16 BP_SIGNAL_PERMISSION_RO = 0;
+        public const UInt16 BP_SIGNAL_PERMISSION_RW = 1;
+        public const UInt16 BP_SIGNAL_ALARM_CLASS_EMERGENCY = 0;
+        public const UInt16 BP_SIGNAL_ALARM_CLASS_SERIOUS = 1;
+        public const UInt16 BP_SIGNAL_ALARM_CLASS_WARNING = 2;
+        public const UInt16 BP_SIGNAL_ALARM_CLASS_NOTICE = 3;
+        public const UInt16 BP_SIGNAL_ALARM_CLASS_INFO = 4;
+        public const UInt16 BP_SYS_SIGNAL_NONE_CUSTOM = 0;
+        public const UInt16 BP_SYS_SIGNAL_CUSTOM = 1;
+
+        public const char BP_DEFAULT_ALARM_DELAY = (char)5;
+
+        public const UInt16 SYSTEM_START_SIGNAL_ID = 0xE000;
+        public const UInt16 SYSTEM_END_SIGNAL_ID = 0xEFFF;
+        public const UInt16 SYSTEM_SIGNAL_STEP = 0x200;
+        public const UInt16 SYSTEM_SIGNAL_DIST_NUM = 16;
+
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct PackBuf
@@ -111,7 +187,7 @@ namespace BcTool
             public char t_bool;
         }
 
-        [StructLayout(LayoutKind.Auto, CharSet = CharSet.Ansi)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct BP_SigId2Val
         {
             public UInt16 SigId;
@@ -147,6 +223,13 @@ namespace BcTool
             public IntPtr DefVal;
             public char DelayBeforeAlm;
             public char DelayAfterAlm;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct BP_CusLangMap
+        {
+            public UInt16 SigId;
+            public UInt16 LangId;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
@@ -190,15 +273,45 @@ namespace BcTool
         public static extern IntPtr BP_PackDisconn(ref BPContext bp_context);
 
         [DllImport(@"bplib.dll", EntryPoint = "BP_SetSysSigId2ValTable", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr BP_SetSysSigId2ValTable(IntPtr cus_sig_id_2_val, ref UInt64 cus_sig_num);
+        public static extern IntPtr BP_SetSysSigId2ValTable(IntPtr sys_sig_id_2_val, ref UInt64 cus_sig_num);
 
         [DllImport(@"bplib.dll", EntryPoint = "BP_SetSysSigTable", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr BP_SetSysSigTable(IntPtr cus_sig_table);
+        public static extern IntPtr BP_SetSysSigTable(IntPtr sys_sig_table);
 
         [DllImport(@"bplib.dll", EntryPoint = "BP_SetSysCustomUnitTable", CallingConvention = CallingConvention.Cdecl)]
         unsafe public static extern IntPtr BP_SetSysCustomUnitTable(IntPtr sys_custom_unit_table, ref UInt64 sys_custom_unit_table_num);
 
         [DllImport(@"bplib.dll", EntryPoint = "BP_SetSysSigMap", CallingConvention = CallingConvention.Cdecl)]
         unsafe public static extern IntPtr BP_SetSysSigMap(IntPtr sys_sig_map, ref UInt64 sys_sig_map_size);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigId2ValTable", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigId2ValTable(IntPtr cus_sig_id_2_val, ref UInt64 cus_sig_num);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigTable", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigTable(IntPtr cus_sig_table);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigNameLang", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigNameLang(IntPtr cus_sig_name_lang, BP_WORD cus_sig_name_lang_size);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigUnitLang", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigUnitLang(IntPtr cus_sig_unit_lang, BP_WORD cus_sig_unit_lang_size);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigGroupLang", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigGroupLang(IntPtr cus_sig_group_lang, BP_WORD cus_sig_group_lang_size);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigEnumLang", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigEnumLang(IntPtr cus_sig_enum_lang, BP_WORD cus_sig_enum_lang_size);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigNameLangMap", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigNameLangMap(IntPtr cus_sig_name_lang_map, ref UInt64 cus_sig_name_lang_map_num);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigUnitLangMap", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigUnitLangMap(IntPtr cus_sig_unit_lang_map, ref UInt64 cus_sig_unit_lang_map_num);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigGroupLangMap", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigGroupLangMap(IntPtr cus_sig_group_lang_map, ref UInt64 cus_sig_group_lang_map_num);
+
+        [DllImport(@"bplib.dll", EntryPoint = "BP_SetCusSigEnumLangMap", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr BP_SetCusSigEnumLangMap(IntPtr cus_sig_enum_lang_map, ref UInt64 cus_sig_enum_lang_map_num);
     }
 }
