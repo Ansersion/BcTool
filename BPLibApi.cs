@@ -129,7 +129,10 @@ namespace BcTool
         public const UInt16 SYSTEM_START_SIGNAL_ID = 0xE000;
         public const UInt16 SYSTEM_END_SIGNAL_ID = 0xEFFF;
         public const UInt16 SYSTEM_SIGNAL_STEP = 0x200;
-        public const UInt16 SYSTEM_SIGNAL_DIST_NUM = 16;
+        public const UInt16 SYSTEM_SIGNAL_CLASS_START = 1;
+        public const UInt16 SYSTEM_SIGNAL_CLASS_END = 6;
+        public const UInt16 SYSTEM_SIGNAL_DIST_OFFSET = 4;
+        public const UInt16 SYSTEM_SIGNAL_CLASS_OFFSET = 1;
 
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]

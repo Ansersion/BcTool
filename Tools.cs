@@ -192,6 +192,84 @@ namespace BcTool
             return ret;
         }
 
+        public static IntPtr mallocIntPtr(byte[] mem, int offset, int size)
+        {
+            IntPtr ret = IntPtr.Zero;
+            if (null == mem)
+            {
+                return ret;
+            }
+            if(offset < 0 || size <= 0)
+            {
+                return ret;
+            }
+            if(offset + size > mem.Length)
+            {
+                return ret;
+            }
+            
+            try
+            {
+                ret = Marshal.AllocHGlobal(size);
+
+                long LongPtr = ret.ToInt64(); // Must work both on x86 and x64
+                unsafe
+                {
+                    int end = offset + size;
+                    for (int i = offset; i < end; i++)
+                    {
+                        byte* tmp = (byte*)LongPtr;
+                        *tmp = mem[i];
+                        LongPtr += Marshal.SizeOf(typeof(byte));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                freeIntPtr(ret);
+                Console.Write(e.Message);
+            }
+            return ret;
+        }
+
+        public static IntPtr mallocIntPtr(List<BPLibApi.BP_SysSigMap> bpSysSigMapList)
+        {
+            IntPtr ret = IntPtr.Zero;
+            if (null == bpSysSigMapList)
+            {
+                return ret;
+            }
+            if (bpSysSigMapList.Count <= 0)
+            {
+                return ret;
+            }
+
+            try
+            {
+                int size = Marshal.SizeOf(typeof(BPLibApi.BP_SysSigMap));
+                size *= bpSysSigMapList.Count;
+                ret = Marshal.AllocHGlobal(size);
+
+                long LongPtr = ret.ToInt64(); // Must work both on x86 and x64
+                unsafe
+                {
+                    for (int i = 0; i < bpSysSigMapList.Count; i++)
+                    {
+                        BPLibApi.BP_SysSigMap* tmp = (BPLibApi.BP_SysSigMap *)LongPtr;
+                        tmp->Dist = bpSysSigMapList[i].Dist;
+                        tmp->SigMapSize = bpSysSigMapList[i].SigMapSize;
+                        tmp->SigMap = bpSysSigMapList[i].SigMap;
+                        LongPtr += Marshal.SizeOf(typeof(BPLibApi.BP_SysSigMap));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                freeIntPtr(ret);
+                Console.Write(e.Message);
+            }
+            return ret;
+        }
 
         public static void freeIntPtr(IntPtr ptr)
         {

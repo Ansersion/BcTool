@@ -41,9 +41,15 @@ namespace BcTool
         private BPLibApi.BP_SigTable[] sysSigTable;
         private IntPtr sysSigTableIntPtr;
         private List<Byte[]> systemSignalEnableBits;
+        private List<BPLibApi.BP_SysSigMap> bpSysSigMaps;
+        private IntPtr bpSysSigMapsIntPtr;
+        private BP_WORD bpSysSigMapSize;
 
         private BPLibApi.BP_SigId2Val[] cusSigId2Val;
         private IntPtr cusSigId2ValIntPtr;
+        private BP_WORD cusSigId2ValSize;
+        private BPLibApi.BP_SigTable[] cusSigTable;
+        private IntPtr cusSigTableIntPtr;
         private string[] cusSigNameLang;
         private IntPtr cusSigNameLangIntPtr;
         private BP_WORD cusSigNameLangSize;
@@ -133,10 +139,12 @@ namespace BcTool
             cusSigEnumLangMapIntPtr = IntPtr.Zero;
 
             systemSignalEnableBits = new List<byte[]>();
-            for(int i = 0; i < BPLibApi.SYSTEM_SIGNAL_DIST_NUM; i++)
+            for(int i = 0; i < BPLibApi.SYSTEM_SIGNAL_TABLE_NUM; i++)
             {
                 systemSignalEnableBits.Add(new byte[64]);
             }
+
+            bpSysSigMaps = new List<BPLibApi.BP_SysSigMap>();
 
     }
 
@@ -406,7 +414,7 @@ namespace BcTool
             Tools.freeIntPtr(cusSigGroupLangMapIntPtr);
             Tools.freeIntPtr(cusSigEnumLangMapIntPtr);
 
-            /* set new value */
+            /* system signal set new value */
             int sysSignlaSize = sysSignalDataItemList.Count;
             sysSigId2Val = new BPLibApi.BP_SigId2Val[sysSignlaSize];
             sysSigTable = new BPLibApi.BP_SigTable[sysSignlaSize];
@@ -421,8 +429,66 @@ namespace BcTool
             sysSigId2ValIntPtr = Tools.mallocIntPtr(sysSigId2Val);
             sysSigId2ValSize = sysSignlaSize;
 
+            bpSysSigMaps.Clear();
+            for (int i = 0; i < BPLibApi.SYSTEM_SIGNAL_TABLE_NUM; i++)
+            {
+                Boolean signalEnabled = false;
+                int sysSignalClass = 0;
+                byte[] bits = systemSignalEnableBits[i];
+                for (int j = BPLibApi.SYSTEM_SIGNAL_CLASS_END; j >= BPLibApi.SYSTEM_SIGNAL_CLASS_START; j--)
+                {
+                    int k1 = 1 << j;
+                    int k0 = k1 / 2;
+                    for(int k = k0; k < k1; k++)
+                    {
+                        if(bits[k] != 0)
+                        {
+                            signalEnabled = true;
+                            sysSignalClass = j;
+                            break;
+                        }
+                    }
+                    if(signalEnabled)
+                    {
+                        break;
+                    }
+
+                }
+
+                if(signalEnabled)
+                {
+                    BPLibApi.BP_SysSigMap bpSysSigMap = new BPLibApi.BP_SysSigMap();
+                    bpSysSigMap.Dist = (char)0;
+                    bpSysSigMap.Dist |= (char)(i << BPLibApi.SYSTEM_SIGNAL_CLASS_OFFSET);
+                    bpSysSigMap.Dist |= (char)(sysSignalClass << BPLibApi.SYSTEM_SIGNAL_CLASS_OFFSET);
+                    bpSysSigMap.SigMapSize = (char)(1 << sysSignalClass);
+                    bpSysSigMap.SigMap = Tools.mallocIntPtr(bits, 0, bpSysSigMap.SigMapSize);
+                    bpSysSigMaps.Add(bpSysSigMap);
+                }
+            }
+
+            bpSysSigMapsIntPtr = Tools.mallocIntPtr(bpSysSigMaps);
+            bpSysSigMapSize = bpSysSigMaps.Count;
+
             /* TODO: system signal custom info */
             /* BP_SetSysSigId2ValTable */
+
+            /* custom signal set new value */
+            int cusSignlaSize = cusSignalDataItemList.Count;
+            cusSigId2Val = new BPLibApi.BP_SigId2Val[cusSignlaSize];
+            cusSigTable = new BPLibApi.BP_SigTable[cusSignlaSize];
+            for (int i = 0; i < sysSignlaSize; i++)
+            {
+                SignalDataItem sdiTmp = sysSignalDataItemList[i];
+                Tools.setDefaultValue(ref sysSigId2Val[i], sdiTmp);
+                Tools.setSigTable(ref sysSigTable[i], sdiTmp);
+                Tools.setSysSignalEnableBits(ref systemSignalEnableBits, (UInt16)(sdiTmp.SignalId & 0xFFFF));
+            }
+
+            sysSigId2ValIntPtr = Tools.mallocIntPtr(sysSigId2Val);
+            sysSigId2ValSize = sysSignlaSize;
+
+
 
             sysSigTable = new BPLibApi.BP_SigTable[2];
             sysSigTable[0].SigId = 0x5a5a;
