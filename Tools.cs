@@ -159,6 +159,30 @@ namespace BcTool
             return ret;
         }
 
+        public static IntPtr mallocIntPtr(BPLibApi.BP_EnumSignalMap enumSignalMap)
+        {
+            IntPtr ret = IntPtr.Zero;
+            try
+            {
+                int size = Marshal.SizeOf(enumSignalMap);
+                ret = Marshal.AllocHGlobal(size);
+
+                long LongPtr = ret.ToInt64(); // Must work both on x86 and x64
+                unsafe
+                {
+                    BPLibApi.BP_EnumSignalMap* tmp = (BPLibApi.BP_EnumSignalMap*)LongPtr;
+                    tmp->Key = enumSignalMap.Key;
+                    tmp->Val = enumSignalMap.Val;
+                }
+            }
+            catch (Exception e)
+            {
+                freeIntPtr(ret);
+                Console.Write(e.Message);
+            }
+            return ret;
+        }
+
         public static IntPtr mallocIntPtr(BPLibApi.BP_CusLangMap[] langMap)
         {
             IntPtr ret = IntPtr.Zero;

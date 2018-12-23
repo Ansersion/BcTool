@@ -135,6 +135,19 @@ namespace BcTool
         public const UInt16 SYSTEM_SIGNAL_CLASS_OFFSET = 1;
 
 
+        public const char SYS_SIG_CUSTOM_TYPE_ALM_DLY_AFTER = (char)10;
+        public const char SYS_SIG_CUSTOM_TYPE_ALM_DLY_BEFORE = (char)9;
+        public const char SYS_SIG_CUSTOM_TYPE_ALM_CLASS = (char)8;
+        public const char SYS_SIG_CUSTOM_TYPE_IS_ALARM = (char)7;
+        public const char SYS_SIG_CUSTOM_TYPE_DEF_VAL = (char)6;
+        public const char SYS_SIG_CUSTOM_TYPE_MAX_VAL = (char)5;
+        public const char SYS_SIG_CUSTOM_TYPE_MIN_VAL = (char)4;
+        public const char SYS_SIG_CUSTOM_TYPE_ACCURACY = (char)3;
+        public const char SYS_SIG_CUSTOM_TYPE_GROUP_LANG = (char)2;
+        public const char SYS_SIG_CUSTOM_TYPE_ENUM_LANG = (char)1;
+        public const char SYS_SIG_CUSTOM_TYPE_EN_STATISTICS = (char)0;
+
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct PackBuf
         {
@@ -233,6 +246,21 @@ namespace BcTool
         {
             public UInt16 SigId;
             public UInt16 LangId;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct BP_EnumSignalMap
+        {
+            public UInt16 Key;
+            public Int32 Val;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct BP_SigId2EnumSignalMap
+        {
+            public UInt16 SigId;
+            public IntPtr EnumSignalMap; // BP_EnumSignalMap * EnumSignalMap;
+            public UInt64 EnumSignalMapNum;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]

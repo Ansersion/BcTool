@@ -45,6 +45,10 @@ namespace BcTool
         private IntPtr bpSysSigMapsIntPtr;
         private BP_WORD bpSysSigMapSize;
 
+        private BPLibApi.BP_SysCustomUnit[] bpSysCusUnitTable;
+        private BP_WORD bpSysCusUnitTableNum;
+        private IntPtr bpSysCusUnitTableIntPtr;
+
         private BPLibApi.BP_SigId2Val[] cusSigId2Val;
         private IntPtr cusSigId2ValIntPtr;
         private BP_WORD cusSigId2ValSize;
@@ -68,7 +72,7 @@ namespace BcTool
         private BPLibApi.BP_CusLangMap[] cusSigGroupLangMap;
         private IntPtr cusSigGroupLangMapIntPtr;
         private BP_WORD cusSigGroupLangMapSize;
-        private BPLibApi.BP_CusLangMap[] cusSigEnumLangMap;
+        private BPLibApi.BP_SigId2EnumSignalMap[] cusSigEnumLangMap;
         private IntPtr cusSigEnumLangMapIntPtr;
         private BP_WORD cusSigEnumLangMapSize;
 
@@ -470,11 +474,18 @@ namespace BcTool
             bpSysSigMapsIntPtr = Tools.mallocIntPtr(bpSysSigMaps);
             bpSysSigMapSize = bpSysSigMaps.Count;
 
-            /* TODO: system signal custom info */
-            /* BP_SetSysSigId2ValTable */
+            /* system signal custom info */
+            // private BPLibApi.BP_SysCustomUnit bpSysCusUnitTable;
+            // private BP_WORD bpSysCusUnitTableNum;
+            // private IntPtr bpSysCusUnitTableIntPtr;
+            bpSysCusUnitTable = new BPLibApi.BP_SysCustomUnit[1];
+            bpSysCusUnitTable[0].SidId = 0xE000;
+            bpSysCusUnitTable[0].CustomType = BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL;
+            bpSysCusUnitTable[0].CustomValue = Tools.mallocIntPtr("abc"); ; // IntPtr
+            bpSysCusUnitTableNum = bpSysCusUnitTable.Count<BPLibApi.BP_SysCustomUnit>();
 
-            /* custom signal set new value */
-            int cusSignlaSize = cusSignalDataItemList.Count;
+        /* custom signal set new value */
+        int cusSignlaSize = cusSignalDataItemList.Count;
             cusSigId2Val = new BPLibApi.BP_SigId2Val[cusSignlaSize];
             cusSigTable = new BPLibApi.BP_SigTable[cusSignlaSize];
             for (int i = 0; i < sysSignlaSize; i++)
@@ -517,6 +528,25 @@ namespace BcTool
             cusSigNameLangMap[1].SigId = 0x0001;
             cusSigNameLangMap[1].LangId = 2;
             cusSigNameLangMapIntPtr = Tools.mallocIntPtr(cusSigNameLangMap);
+
+            // private BPLibApi.BP_CusLangMap[] cusSigEnumLangMap;
+            // private IntPtr cusSigEnumLangMapIntPtr;
+            // private BP_WORD cusSigEnumLangMapSize;
+            cusSigEnumLangMap = new BPLibApi.BP_SigId2EnumSignalMap[2];
+            cusSigEnumLangMap[0].SigId = 0x0001;
+            BPLibApi.BP_EnumSignalMap tmp = new BPLibApi.BP_EnumSignalMap();
+            tmp.Key = 0;tmp.Val = 1;
+            tmp.Key = 1; tmp.Val = 2;
+            cusSigEnumLangMap[0].EnumSignalMap = Tools.mallocIntPtr(tmp);
+            cusSigEnumLangMap[0].EnumSignalMapNum = 2;
+            cusSigEnumLangMap[1].SigId = 0x0002;
+            tmp = new BPLibApi.BP_EnumSignalMap();
+            tmp.Key = 0; tmp.Val = 2;
+            tmp.Key = 1; tmp.Val = 3;
+            cusSigEnumLangMap[1].EnumSignalMap = Tools.mallocIntPtr(tmp);
+            cusSigEnumLangMap[1].EnumSignalMapNum = 3;
+            cusSigEnumLangMapIntPtr = Tools.mallocIntPtr(cusSigNameLangMap);
+            cusSigEnumLangMapSize = cusSigEnumLangMap.Count<BPLibApi.BP_SigId2EnumSignalMap>();
         }
 
         private void textBoxAliveTime_KeyPress(object sender, KeyPressEventArgs e)
