@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BcTool
 {
     public class Tools
     {
+
+        public struct SignalTableMetaData
+        {
+            public string version;
+            public int recordNum;
+        }
+
         private static byte[] cStringEndFlag = new byte[1] { 0 };
 
         public static byte[] addCStringEndFlag(byte[] c_str)
@@ -24,6 +32,65 @@ namespace BcTool
                 ret = new byte[c_str.Length + cStringEndFlag.Length];
                 System.Buffer.BlockCopy(c_str, 0, ret, 0, c_str.Length);
                 System.Buffer.BlockCopy(cStringEndFlag, 0, ret, c_str.Length, cStringEndFlag.Length);
+            }
+
+            return ret;
+        }
+
+        public static IntPtr mallocIntPtr(BPLibApi.BP_SigId2EnumSignalMap[] sigId2EnumSignalMapArray)
+        {
+            IntPtr ret = IntPtr.Zero;
+            if (null == sigId2EnumSignalMapArray || 0 == sigId2EnumSignalMapArray.Length)
+            {
+                return ret;
+            }
+            try
+            {
+                int size = Marshal.SizeOf(sigId2EnumSignalMapArray[0]);
+                size *= sigId2EnumSignalMapArray.Length;
+                ret = Marshal.AllocHGlobal(size);
+
+                long LongPtr = ret.ToInt64(); // Must work both on x86 and x64
+                unsafe
+                {
+                    for (int i = 0; i < sigId2EnumSignalMapArray.Length; i++)
+                    {
+                        BPLibApi.BP_SigId2EnumSignalMap* tmp = (BPLibApi.BP_SigId2EnumSignalMap*)LongPtr;
+                        tmp->SigId = sigId2EnumSignalMapArray[i].SigId;
+                        tmp->EnumSignalMap = sigId2EnumSignalMapArray[i].EnumSignalMap;
+                        tmp->EnumSignalMapNum = sigId2EnumSignalMapArray[i].EnumSignalMapNum;
+                        LongPtr += Marshal.SizeOf(sigId2EnumSignalMapArray[0]);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                freeIntPtr(ret);
+                Console.Write(e.Message);
+            }
+            return ret;
+        }
+
+        public static IntPtr mallocIntPtr(UInt16 sigId, char customType, object customValue)
+        {
+            IntPtr ret = IntPtr.Zero;
+            try
+            {
+                switch(customType)
+                {
+                    case BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL:
+                        break;
+                }
+                /*
+                ret = Marshal.AllocHGlobal(data.Length + 1); // 1: for '\0'
+                byte[] bytes = Tools.addCStringEndFlag(System.Text.Encoding.UTF8.GetBytes(data));
+                Marshal.Copy(bytes, 0, ret, bytes.Length);
+                */
+            }
+            catch (Exception e)
+            {
+                freeIntPtr(ret);
+                Console.Write(e.Message);
             }
 
             return ret;
@@ -295,6 +362,25 @@ namespace BcTool
             return ret;
         }
 
+        public static void freeLangIntPtr(IntPtr ptr, BP_WORD size)
+        {
+            if (null == ptr || IntPtr.Zero == ptr)
+            {
+                return;
+            }
+            long LongPtr = ptr.ToInt64(); // Must work both on x86 and x64
+            unsafe
+            {
+                for (BP_WORD i = 0; i < size; i++)
+                {
+                    IntPtr* tmpIntPtr = (IntPtr*)LongPtr;
+                    Tools.freeIntPtr(*tmpIntPtr);
+                    LongPtr += Marshal.SizeOf(typeof(IntPtr));
+                }
+            }
+            Tools.freeIntPtr(ptr);
+        }
+
         public static void freeIntPtr(IntPtr ptr)
         {
             if(null != ptr && IntPtr.Zero != ptr)
@@ -320,9 +406,10 @@ namespace BcTool
             {
                 return;
             }
-            int dist = (signalID - BPLibApi.SYSTEM_START_SIGNAL_ID) / BPLibApi.SYSTEM_SIGNAL_STEP;
-            int byteOffset = (signalID - dist * BPLibApi.SYSTEM_SIGNAL_STEP) / 8;
-            int bitOffset = (signalID - dist * BPLibApi.SYSTEM_SIGNAL_STEP) % 8;
+            int signalIDOffset = signalID - BPLibApi.SYSTEM_START_SIGNAL_ID;
+            int dist = signalIDOffset / BPLibApi.SYSTEM_SIGNAL_STEP;
+            int byteOffset = (signalIDOffset - dist * BPLibApi.SYSTEM_SIGNAL_STEP) / 8;
+            int bitOffset = (signalIDOffset - dist * BPLibApi.SYSTEM_SIGNAL_STEP) % 8;
             enableBits[dist][byteOffset] |= (byte)((1 << bitOffset));
 
         }
@@ -530,6 +617,31 @@ namespace BcTool
             ret = true;
             return ret;
 
+        }
+
+        public static string signalTableInfoParser(string header, string signalTableFirstLine)
+        {
+            string ret = "";
+            try
+            {
+                string pattern = @"<" + header + @">" + @"(.+)" + @"</" + header + @">";
+                Regex tmp = new Regex(pattern);
+
+                Match mat = tmp.Match(signalTableFirstLine);
+                if (null == mat || mat.Groups.Count < 2)
+                {
+                    return ret;
+                }
+
+                ret = mat.Groups[1].Value;
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return ret;
         }
 
         public void destroy(BPLibApi.BP_SigTable bpSigTable)

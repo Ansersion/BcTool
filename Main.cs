@@ -32,37 +32,52 @@ namespace BcTool
         private List<DataGridView> dist2DataGridViewList;
         private List<Hashtable> dist2SignalDataItemHashTable;
         private Dictionary<String, DataGridView> prefix2SignalDataGridView;
+        private Dictionary<String, Tools.SignalTableMetaData> prefix2SystemTableMetaData;
         private Dictionary<String, DataGridView> prefix2LangDataGridView;
         private Dictionary<string, Dictionary<UInt16, LanguageResourceItem>> prefix2LangDictionary;
 
+        private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemConstList;
+
+        /* system signal info */
         private BPLibApi.BP_SigId2Val[] sysSigId2Val;
         private IntPtr sysSigId2ValIntPtr;
         private BP_WORD sysSigId2ValSize;
+
         private BPLibApi.BP_SigTable[] sysSigTable;
         private IntPtr sysSigTableIntPtr;
+
         private List<Byte[]> systemSignalEnableBits;
         private List<BPLibApi.BP_SysSigMap> bpSysSigMaps;
         private IntPtr bpSysSigMapsIntPtr;
         private BP_WORD bpSysSigMapSize;
 
+        /* custom system signal info */
         private BPLibApi.BP_SysCustomUnit[] bpSysCusUnitTable;
         private BP_WORD bpSysCusUnitTableNum;
         private IntPtr bpSysCusUnitTableIntPtr;
 
+        /* custom signal info */
         private BPLibApi.BP_SigId2Val[] cusSigId2Val;
         private IntPtr cusSigId2ValIntPtr;
         private BP_WORD cusSigId2ValSize;
+
         private BPLibApi.BP_SigTable[] cusSigTable;
         private IntPtr cusSigTableIntPtr;
+
         private string[] cusSigNameLang;
+        private string[] cusSigUnitLang;
+        private string[] cusSigGroupLang;
+        private string[] cusSigEnumLang;
+
         private IntPtr cusSigNameLangIntPtr;
         private BP_WORD cusSigNameLangSize;
         private IntPtr cusSigUnitLangIntPtr;
-        private UInt64 cusSigUnitLangSize;
+        private BP_WORD cusSigUnitLangSize;
         private IntPtr cusSigGroupLangIntPtr;
-        private UInt64 cusSigGroupLangSize;
+        private BP_WORD cusSigGroupLangSize;
         private IntPtr cusSigEnumLangIntPtr;
-        private UInt64 cusSigEnumLangSize;
+        private BP_WORD cusSigEnumLangSize;
+
         private BPLibApi.BP_CusLangMap[] cusSigNameLangMap;
         private IntPtr cusSigNameLangMapIntPtr;
         private BP_WORD cusSigNameLangMapSize;
@@ -107,6 +122,10 @@ namespace BcTool
             prefix2SignalDataGridView.Add(PREFIX_SIGNAL_SYSTEM_BASIC, systemBasicDataGridView);
             prefix2SignalDataGridView.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM, systemTempHumDataGridView);
 
+            prefix2SystemTableMetaData = new Dictionary<string, Tools.SignalTableMetaData>();
+            prefix2SystemTableMetaData.Add(PREFIX_SIGNAL_SYSTEM_BASIC, new Tools.SignalTableMetaData());
+            prefix2SystemTableMetaData.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM, new Tools.SignalTableMetaData());
+
             prefix2LangDataGridView = new Dictionary<string, DataGridView>();
             prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_SIGNAL, systemLangDataGridView);
             prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_UNIT, systemUnitDataGridView);
@@ -119,16 +138,23 @@ namespace BcTool
             prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_ENUM, new Dictionary<UInt16, LanguageResourceItem>());
             prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_GROUP, new Dictionary<UInt16, LanguageResourceItem>());
 
+            Tools.SignalTableMetaData signalTableMetaDataTmp = new Tools.SignalTableMetaData();
+            loadReadOnlyDataGridView("sys_unit_language_resource.csv", this.systemUnitDataGridView, ref signalTableMetaDataTmp);
+            loadReadOnlyDataGridView("sys_group_language_resource.csv", this.systemGroupDataGridView, ref signalTableMetaDataTmp);
+            loadReadOnlyDataGridView("sys_enum_language_resource.csv", this.systemEnumDataGridView, ref signalTableMetaDataTmp);
+            loadReadOnlyDataGridView("sys_sig_info_basic.csv", this.systemBasicDataGridView, ref signalTableMetaDataTmp);
+            prefix2SystemTableMetaData[PREFIX_SIGNAL_SYSTEM_BASIC] = signalTableMetaDataTmp;
+            signalTableMetaDataTmp.recordNum = 0;
+            loadReadOnlyDataGridView("sys_sig_info_basic_language_resource.csv", this.systemLangDataGridView, ref signalTableMetaDataTmp);
+            loadReadOnlyDataGridView("sys_sig_info_temp_humidity.csv", this.systemTempHumDataGridView, ref signalTableMetaDataTmp);
+            prefix2SystemTableMetaData[PREFIX_SIGNAL_SYSTEM_TEMP_HUM] = signalTableMetaDataTmp;
+            signalTableMetaDataTmp.recordNum = 0;
+            loadReadOnlyDataGridView("sys_sig_info_temp_humidity_language_resource.csv", this.systemLangDataGridView, ref signalTableMetaDataTmp);
 
-
-            loadReadOnlyDataGridView("sys_unit_language_resource.csv", this.systemUnitDataGridView, 2);
-            loadReadOnlyDataGridView("sys_group_language_resource.csv", this.systemGroupDataGridView, 2);
-            loadReadOnlyDataGridView("sys_enum_language_resource.csv", this.systemEnumDataGridView, 2);
-            loadReadOnlyDataGridView("sys_sig_info_basic.csv", this.systemBasicDataGridView, 2);
-            loadReadOnlyDataGridView("sys_sig_info_basic_language_resource.csv", this.systemLangDataGridView, 2);
-            loadReadOnlyDataGridView("sys_sig_info_temp_humidity.csv", this.systemTempHumDataGridView, 2);
-            loadReadOnlyDataGridView("sys_sig_info_temp_humidity_language_resource.csv", this.systemLangDataGridView, 2);
-
+            if(!loadSystemSignalInfo())
+            {
+                MessageBox.Show("Error: System signal table error");
+            }
 
             sysSigId2ValIntPtr = IntPtr.Zero;
             sysSigTableIntPtr = IntPtr.Zero;
@@ -142,17 +168,16 @@ namespace BcTool
             cusSigGroupLangMapIntPtr = IntPtr.Zero;
             cusSigEnumLangMapIntPtr = IntPtr.Zero;
 
-            systemSignalEnableBits = new List<byte[]>();
-            for(int i = 0; i < BPLibApi.SYSTEM_SIGNAL_TABLE_NUM; i++)
-            {
-                systemSignalEnableBits.Add(new byte[64]);
-            }
+            cusSigNameLang = new string[0];
+            cusSigUnitLang = new string[0];
+            cusSigGroupLang = new string[0];
+            cusSigEnumLang = new string[0];
 
             bpSysSigMaps = new List<BPLibApi.BP_SysSigMap>();
 
     }
 
-        private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, int offsetLine)
+        private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, ref Tools.SignalTableMetaData signalTableMetaData)
         {
 
             // dataGridView.Rows.Clear();
@@ -163,15 +188,29 @@ namespace BcTool
                 {
                     string line;
 
-                    // 从文件读取并显示行，直到文件的末尾 
-                    for (int i = 0; i < offsetLine; i++)
+                    string tmp = sr.ReadLine();
+                    signalTableMetaData.version = Tools.signalTableInfoParser("Version", tmp);
+                    try
                     {
-                        sr.ReadLine();
+                        signalTableMetaData.recordNum = int.Parse(Tools.signalTableInfoParser("RecordNum", tmp));
                     }
+                    catch (Exception e)
+                    {
 
+                    }
+                    tmp = sr.ReadLine(); // skip the title line
+
+                    int recordNum = signalTableMetaData.recordNum;
                     int rowIndex = dataGridView.Rows.Count - 1;
                     while ((line = sr.ReadLine()) != null)
                     {
+                        if(signalTableMetaData.recordNum > 0)
+                        {
+                            if(recordNum-- <= 0)
+                            {
+                                break;
+                            }
+                        }
                         dataGridView.Rows.Add();
                         string[] stringArray = line.Split(',');
                         for(int i = 0; i < stringArray.Length; i++)
@@ -196,6 +235,54 @@ namespace BcTool
                 Console.WriteLine(e.Message);
             }
         }
+
+        
+        private Boolean loadSystemSignalInfo()
+        {
+            prefix2systemSignalDataItemConstList = new Dictionary<string, List<SignalDataItem>>();
+            prefix2systemSignalDataItemConstList.Clear();
+            Boolean ret = false;
+            string err = "";
+            try
+            {
+                foreach (string prefix in prefix2SignalDataGridView.Keys)
+                {
+                    List<SignalDataItem> systemSignalDataItemConstListTmp = new List<SignalDataItem>();
+                    DataGridView dataGridViewTmp = prefix2SignalDataGridView[prefix];
+                    int size = dataGridViewTmp.Rows.Count;
+                    if (prefix2SystemTableMetaData.ContainsKey(prefix))
+                    {
+                        size = Math.Min(size, prefix2SystemTableMetaData[prefix].recordNum);
+                    }
+                      
+                    for (int i = 0; i < size; i++)
+                    {
+                        err = "";
+                        SignalDataItem tmp = SignalDataItem.parseSignalDataItem(dataGridViewTmp.Rows[i].Cells, prefix, true, ref err);
+                        if (tmp != null)
+                        {
+                            err = "line " + i + ", ";
+                            systemSignalDataItemConstListTmp.Add(tmp);
+                        }
+                        else if (!string.IsNullOrWhiteSpace(err))
+                        {
+                            err = "line " + i + ", " + err;
+                            Console.WriteLine(err);
+                            return ret;
+                        }
+
+                    }
+                    prefix2systemSignalDataItemConstList[prefix] = systemSignalDataItemConstListTmp;
+                }
+                ret = true;
+            } 
+            catch(Exception e)
+            {
+                ret = false;
+            }
+            return ret;
+        }
+        
 
         private bool exportCsv(DataGridView dataGridView, string exportCsv)
         {
@@ -286,8 +373,9 @@ namespace BcTool
                             return;
                         }
 
-                        loadSimData(signalDataItemList, systemSignalCustomInfo, null);
-                        
+                        loadSimData(signalDataItemList, systemSignalCustomInfo, new List<SignalDataItem>());
+                        // loadSimData(signalDataItemList, systemSignalCustomInfo, null);
+
 
                         simulator.setSignalDataItemList(signalDataItemList);
                         simulator.setSignalNameLangTable(prefix2LangDictionary[PREFIX_LANG_SYSTEM_SIGNAL]);
@@ -405,20 +493,77 @@ namespace BcTool
                 return;
             }
             /* free old data */
-            /* TODO: free the fields of IntPtr */
+            /* free system signal info */
             Tools.freeIntPtr(sysSigId2ValIntPtr);
+
+            if(null != sysSigTable)
+            {
+                for (int i = 0; i < sysSigTable.Count<BPLibApi.BP_SigTable>(); i++)
+                {
+                    Tools.freeIntPtr(sysSigTable[i].MinVal);
+                    Tools.freeIntPtr(sysSigTable[i].MaxVal);
+                    Tools.freeIntPtr(sysSigTable[i].DefVal);
+                }
+            }
             Tools.freeIntPtr(sysSigTableIntPtr);
+
+            if(null != bpSysSigMaps)
+            {
+                for (int i = 0; i < bpSysSigMaps.Count; i++)
+                {
+                    Tools.freeIntPtr(bpSysSigMaps[i].SigMap);
+                }
+            }
+            Tools.freeIntPtr(bpSysSigMapsIntPtr);
+
+            /* free custom system signal info */
+            if(null != bpSysCusUnitTable)
+            {
+                for (int i = 0; i < bpSysCusUnitTable.Count<BPLibApi.BP_SysCustomUnit>(); i++)
+                {
+                    Tools.freeIntPtr(bpSysCusUnitTable[i].CustomValue);
+                }
+            }
+            Tools.freeIntPtr(bpSysCusUnitTableIntPtr);
+
+            /* free custom signal info */
             Tools.freeIntPtr(cusSigId2ValIntPtr);
-            Tools.freeIntPtr(cusSigNameLangIntPtr);
-            Tools.freeIntPtr(cusSigUnitLangIntPtr);
-            Tools.freeIntPtr(cusSigGroupLangIntPtr);
-            Tools.freeIntPtr(cusSigEnumLangIntPtr);
+
+            if(null != cusSigTable)
+            {
+                for (int i = 0; i < cusSigTable.Count<BPLibApi.BP_SigTable>(); i++)
+                {
+                    Tools.freeIntPtr(cusSigTable[i].MinVal);
+                    Tools.freeIntPtr(cusSigTable[i].MaxVal);
+                    Tools.freeIntPtr(cusSigTable[i].DefVal);
+                }
+            }
+            Tools.freeIntPtr(cusSigTableIntPtr);
+
+            Tools.freeLangIntPtr(cusSigNameLangIntPtr, cusSigNameLangSize);
+            Tools.freeLangIntPtr(cusSigUnitLangIntPtr, cusSigUnitLangSize);
+            Tools.freeLangIntPtr(cusSigGroupLangIntPtr, cusSigGroupLangSize);
+            Tools.freeLangIntPtr(cusSigEnumLangIntPtr, cusSigEnumLangSize);
+
             Tools.freeIntPtr(cusSigNameLangMapIntPtr);
             Tools.freeIntPtr(cusSigUnitLangMapIntPtr);
             Tools.freeIntPtr(cusSigGroupLangMapIntPtr);
+
+            if(null != cusSigEnumLangMap)
+            {
+                for (BP_WORD i = 0; i < cusSigEnumLangMapSize; i++)
+                {
+                    Tools.freeIntPtr(cusSigEnumLangMap[i].EnumSignalMap);
+                }
+            }
             Tools.freeIntPtr(cusSigEnumLangMapIntPtr);
 
-            /* system signal set new value */
+            /* system signal info */
+            systemSignalEnableBits = new List<byte[]>();
+            for (int i = 0; i < BPLibApi.SYSTEM_SIGNAL_TABLE_NUM; i++)
+            {
+                systemSignalEnableBits.Add(new byte[64]);
+            }
             int sysSignlaSize = sysSignalDataItemList.Count;
             sysSigId2Val = new BPLibApi.BP_SigId2Val[sysSignlaSize];
             sysSigTable = new BPLibApi.BP_SigTable[sysSignlaSize];
@@ -432,6 +577,7 @@ namespace BcTool
 
             sysSigId2ValIntPtr = Tools.mallocIntPtr(sysSigId2Val);
             sysSigId2ValSize = sysSignlaSize;
+            sysSigTableIntPtr = Tools.mallocIntPtr(sysSigTable);
 
             bpSysSigMaps.Clear();
             for (int i = 0; i < BPLibApi.SYSTEM_SIGNAL_TABLE_NUM; i++)
@@ -470,7 +616,6 @@ namespace BcTool
                     bpSysSigMaps.Add(bpSysSigMap);
                 }
             }
-
             bpSysSigMapsIntPtr = Tools.mallocIntPtr(bpSysSigMaps);
             bpSysSigMapSize = bpSysSigMaps.Count;
 
@@ -478,40 +623,44 @@ namespace BcTool
             // private BPLibApi.BP_SysCustomUnit bpSysCusUnitTable;
             // private BP_WORD bpSysCusUnitTableNum;
             // private IntPtr bpSysCusUnitTableIntPtr;
-            bpSysCusUnitTable = new BPLibApi.BP_SysCustomUnit[1];
-            bpSysCusUnitTable[0].SidId = 0xE000;
-            bpSysCusUnitTable[0].CustomType = BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL;
-            bpSysCusUnitTable[0].CustomValue = Tools.mallocIntPtr("abc"); ; // IntPtr
-            bpSysCusUnitTableNum = bpSysCusUnitTable.Count<BPLibApi.BP_SysCustomUnit>();
+            List<BPLibApi.BP_SysCustomUnit> bpSysCusUnitTableList = new List<BPLibApi.BP_SysCustomUnit>();
+            int sizeTmp = sysSignalCustomInfo.Count;
+            bpSysCusUnitTableNum = 0;
+            foreach (UInt16 key in sysSignalCustomInfo.Keys)
+            {
+                Dictionary<char, Object> dicTmp = sysSignalCustomInfo[key];
+                foreach(char key2 in dicTmp.Keys)
+                {
+                    object customValueTmp = dicTmp[key2];
+                    BPLibApi.BP_SysCustomUnit bpSysCusUnitTableTmp = new BPLibApi.BP_SysCustomUnit();
+                    bpSysCusUnitTableTmp.SidId = key;
+                    bpSysCusUnitTableTmp.CustomType = key2;
+                    bpSysCusUnitTableTmp.CustomValue = Tools.mallocIntPtr(key, key2, customValueTmp); // IntPtr
+                    bpSysCusUnitTableNum++;
+                    bpSysCusUnitTableList.Add(bpSysCusUnitTableTmp);
+                }
+            }
+            bpSysCusUnitTable = bpSysCusUnitTableList.ToArray();
 
-        /* custom signal set new value */
-        int cusSignlaSize = cusSignalDataItemList.Count;
+
+            /* custom signal set new value */
+            int cusSignlaSize = cusSignalDataItemList.Count;
             cusSigId2Val = new BPLibApi.BP_SigId2Val[cusSignlaSize];
             cusSigTable = new BPLibApi.BP_SigTable[cusSignlaSize];
-            for (int i = 0; i < sysSignlaSize; i++)
+            for (int i = 0; i < cusSignlaSize; i++)
             {
-                SignalDataItem sdiTmp = sysSignalDataItemList[i];
-                Tools.setDefaultValue(ref sysSigId2Val[i], sdiTmp);
-                Tools.setSigTable(ref sysSigTable[i], sdiTmp);
-                Tools.setSysSignalEnableBits(ref systemSignalEnableBits, (UInt16)(sdiTmp.SignalId & 0xFFFF));
+                SignalDataItem sdiTmp = cusSignalDataItemList[i];
+                Tools.setDefaultValue(ref cusSigId2Val[i], sdiTmp);
+                Tools.setSigTable(ref cusSigTable[i], sdiTmp);
             }
 
-            sysSigId2ValIntPtr = Tools.mallocIntPtr(sysSigId2Val);
-            sysSigId2ValSize = sysSignlaSize;
-
-
-
-            sysSigTable = new BPLibApi.BP_SigTable[2];
-            sysSigTable[0].SigId = 0x5a5a;
-            sysSigTable[0].SigType = 3;
-            sysSigTable[0].IsDisplay = 1;
-            sysSigTable[1].SigId = 0xa5a5;
-            sysSigTable[1].SigType = 5;
-            sysSigTable[1].IsDisplay = 0;
-            sysSigTableIntPtr = Tools.mallocIntPtr(sysSigTable);
+            cusSigId2ValIntPtr = Tools.mallocIntPtr(cusSigId2Val);
+            cusSigId2ValSize = cusSignlaSize;
+            cusSigTableIntPtr = Tools.mallocIntPtr(cusSigTable);
 
             // private IntPtr cusSigNameLangIntPtr;
             // private UInt64 cusSigNameLangSize;
+            /*
             cusSigNameLang = new string[6];
             cusSigNameLang[0] = "";
             cusSigNameLang[1] = "";
@@ -519,19 +668,34 @@ namespace BcTool
             cusSigNameLang[3] = "";
             cusSigNameLang[4] = "light";
             cusSigNameLang[5] = "灯";
+            */
             cusSigNameLangIntPtr = Tools.mallocIntPtr(cusSigNameLang);
             cusSigNameLangSize = cusSigNameLang.Length;
+            cusSigUnitLangIntPtr = Tools.mallocIntPtr(cusSigUnitLang);
+            cusSigUnitLangSize = cusSigUnitLang.Length;
+            cusSigGroupLangIntPtr = Tools.mallocIntPtr(cusSigGroupLang);
+            cusSigGroupLangSize = cusSigGroupLang.Length;
+            cusSigEnumLangIntPtr = Tools.mallocIntPtr(cusSigEnumLang);
+            cusSigEnumLangSize = cusSigEnumLang.Length;
 
+            /*
             cusSigNameLangMap = new BPLibApi.BP_CusLangMap[2];
             cusSigNameLangMap[0].SigId = 0x0000;
             cusSigNameLangMap[0].LangId = 1;
             cusSigNameLangMap[1].SigId = 0x0001;
             cusSigNameLangMap[1].LangId = 2;
+            */
             cusSigNameLangMapIntPtr = Tools.mallocIntPtr(cusSigNameLangMap);
+            cusSigNameLangMapSize = cusSigNameLangMap.Count<BPLibApi.BP_CusLangMap>();
+            cusSigUnitLangMapIntPtr = Tools.mallocIntPtr(cusSigUnitLangMap);
+            cusSigUnitLangMapSize = cusSigUnitLangMap.Count<BPLibApi.BP_CusLangMap>();
+            cusSigGroupLangMapIntPtr = Tools.mallocIntPtr(cusSigGroupLangMap);
+            cusSigGroupLangMapSize = cusSigGroupLangMap.Count<BPLibApi.BP_CusLangMap>();
 
             // private BPLibApi.BP_CusLangMap[] cusSigEnumLangMap;
             // private IntPtr cusSigEnumLangMapIntPtr;
             // private BP_WORD cusSigEnumLangMapSize;
+            /*
             cusSigEnumLangMap = new BPLibApi.BP_SigId2EnumSignalMap[2];
             cusSigEnumLangMap[0].SigId = 0x0001;
             BPLibApi.BP_EnumSignalMap tmp = new BPLibApi.BP_EnumSignalMap();
@@ -539,13 +703,16 @@ namespace BcTool
             tmp.Key = 1; tmp.Val = 2;
             cusSigEnumLangMap[0].EnumSignalMap = Tools.mallocIntPtr(tmp);
             cusSigEnumLangMap[0].EnumSignalMapNum = 2;
+
             cusSigEnumLangMap[1].SigId = 0x0002;
             tmp = new BPLibApi.BP_EnumSignalMap();
             tmp.Key = 0; tmp.Val = 2;
             tmp.Key = 1; tmp.Val = 3;
             cusSigEnumLangMap[1].EnumSignalMap = Tools.mallocIntPtr(tmp);
             cusSigEnumLangMap[1].EnumSignalMapNum = 3;
-            cusSigEnumLangMapIntPtr = Tools.mallocIntPtr(cusSigNameLangMap);
+            */
+
+            cusSigEnumLangMapIntPtr = Tools.mallocIntPtr(cusSigEnumLangMap);
             cusSigEnumLangMapSize = cusSigEnumLangMap.Count<BPLibApi.BP_SigId2EnumSignalMap>();
         }
 
@@ -635,6 +802,18 @@ namespace BcTool
             else
             {
                 comboBoxCrcType.Enabled = true;
+            }
+        }
+
+        private void systemBasicDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            if (e.RowIndex < systemBasicDataGridView.Rows.Count || e.ColumnIndex < systemBasicDataGridView.Columns.Count)
+            {
+                Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + systemBasicDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
             }
         }
     }

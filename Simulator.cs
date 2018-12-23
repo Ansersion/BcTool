@@ -550,6 +550,7 @@ namespace BcTool
                 Marshal.FreeHGlobal(bufName);
                 Marshal.FreeHGlobal(bufPassword);
                 Marshal.FreeHGlobal(bPContext.packBuf);
+                Simulating = false;
 
             }
             catch (Exception e)

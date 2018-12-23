@@ -151,6 +151,54 @@ namespace BcTool
         public int AlarmAftDelay { get => alarmAftDelay; set => alarmAftDelay = value; }
         public bool HasCustomInfo { get => hasCustomInfo; set => hasCustomInfo = value; }
 
+        public static object getDefault(ValueType valueType)
+        {
+            object ret = null;
+
+            try
+            {
+                switch (valueType)
+                {
+                    case ValueType.U32:
+                        ret = Convert.ToUInt32("0");
+                        break;
+                    case ValueType.U16:
+                        ret = Convert.ToUInt16("0");
+                        break;
+                    case ValueType.I32:
+                        ret = Convert.ToInt32("0");
+                        break;
+                    case ValueType.I16:
+                        ret = Convert.ToInt16("0");
+                        break;
+                    case ValueType.ENUM:
+                        ret = Convert.ToUInt16("0");
+                        break;
+                    case ValueType.FLOAT:
+                        ret = Convert.ToDouble("0");
+                        break;
+                    case ValueType.STRING:
+                        ret = DEFAULT_VALUE;
+                        break;
+                    case ValueType.BOOLEAN:
+                        ret = float.Parse("0");
+                        break;
+                    case ValueType.MEM:
+                        ret = DEFAULT_VALUE;
+                        break;
+                    default:
+                        ret = null;
+                        break;
+
+                }
+            }
+            catch (Exception e)
+            {
+                ret = null;
+            }
+            return ret;
+        }
+
         public static object parseValue(ValueType valueType, string str)
         {
             object ret = null;
@@ -160,7 +208,7 @@ namespace BcTool
             }
             if(string.IsNullOrWhiteSpace(str))
             {
-                ret = DEFAULT_VALUE;
+                ret = getDefault(valueType);
                 return ret;
             }
 
@@ -184,7 +232,7 @@ namespace BcTool
                         ret = Convert.ToUInt16(str);
                         break;
                     case ValueType.FLOAT:
-                        ret = Convert.ToDouble(str);
+                        ret = float.Parse(str);
                         break;
                     case ValueType.STRING:
                         ret = str;
