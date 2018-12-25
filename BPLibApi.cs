@@ -135,6 +135,9 @@ namespace BcTool
         public const UInt16 SYSTEM_SIGNAL_CLASS_OFFSET = 1;
 
 
+        public const char SYS_SIG_CUSTOM_IS_DISPLAY = (char)13;
+        public const char SYS_SIG_CUSTOM_TYPE_PERMISSION = (char)12;
+        public const char SYS_SIG_CUSTOM_TYPE_UNIT_LANG = (char)11;
         public const char SYS_SIG_CUSTOM_TYPE_ALM_DLY_AFTER = (char)10;
         public const char SYS_SIG_CUSTOM_TYPE_ALM_DLY_BEFORE = (char)9;
         public const char SYS_SIG_CUSTOM_TYPE_ALM_CLASS = (char)8;

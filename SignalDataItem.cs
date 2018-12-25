@@ -106,6 +106,73 @@ namespace BcTool
             { ValueType.MEM, null },
         };
 
+        public static UInt32 parseCustomInfoMask(int offset)
+        {
+            UInt32 ret = 0;
+            switch (offset)
+            {
+                /*
+                case 0:
+                    return SignalId;
+                case 1:
+                    return Enabled;
+                case 2:
+                    return Macro;
+                    */
+                case 3:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_IS_ALARM);
+                    break;
+                    /*
+                case 4:
+                    return ValueType1;
+                    */
+                case 5:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_UNIT_LANG);
+                    break;
+                case 6:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_PERMISSION);
+                    break;
+                case 7:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_IS_DISPLAY);
+                    break;
+                case 8:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ACCURACY);
+                    break;
+                case 9:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MIN_VAL);
+                    break;
+                case 10:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MAX_VAL);
+                    break;
+                case 11:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL);
+                    break;
+                case 12:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_GROUP_LANG);
+                    break;
+                case 13:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ENUM_LANG);
+                    break;
+                case 14:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_EN_STATISTICS);
+                    break;
+                case 15:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_CLASS);
+                    break;
+                case 16:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_BEFORE);
+                    break;
+                case 17:
+                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_AFTER);
+                    break;
+                default:
+                    ret = 0;
+                    break;
+            }
+
+            return ret;
+        }
+
         private int signalId;
         private Boolean enabled;
         private String macro;
@@ -126,6 +193,7 @@ namespace BcTool
         private int alarmAftDelay;
 
         private Boolean hasCustomInfo;
+        private UInt32 customInfo;
 
         private static Regex enumIDRegex = new Regex(ENUM_ID_REGEX_PATTERN);
         private static Regex unitIDRegex = new Regex(UNIT_ID_REGEX_PATTERN);
@@ -150,6 +218,57 @@ namespace BcTool
         public int AlarmBefDelay { get => alarmBefDelay; set => alarmBefDelay = value; }
         public int AlarmAftDelay { get => alarmAftDelay; set => alarmAftDelay = value; }
         public bool HasCustomInfo { get => hasCustomInfo; set => hasCustomInfo = value; }
+        public uint CustomInfo { get => customInfo; set => customInfo = value; }
+
+        public object this[int index]
+        {
+            get
+            {
+                switch(index)
+                {
+                    case 0:
+                        return SignalId;
+                    case 1:
+                        return Enabled;
+                    case 2:
+                        return Macro;
+                    case 3:
+                        return Alarm;
+                    case 4:
+                        return ValueType1;
+                    case 5:
+                        return UnitLangId;
+                    case 6:
+                        return BcPermission1;
+                    case 7:
+                        return Display;
+                    case 8:
+                        return Accuracy;
+                    case 9:
+                        return MinValue;
+                    case 10:
+                        return MaxValue;
+                    case 11:
+                        return DefaultValue;
+                    case 12:
+                        return GroupLangId;
+                    case 13:
+                        return EnumLangIdTable;
+                    case 14:
+                        return Statistics;
+                    case 15:
+                        return AlarmClass;
+                    case 16:
+                        return AlarmBefDelay;
+                    case 17:
+                        return AlarmAftDelay;
+                    default:
+                        return null;
+                            
+                }
+               
+            }
+        }
 
         public static object getDefault(ValueType valueType)
         {

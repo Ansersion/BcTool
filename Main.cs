@@ -91,6 +91,9 @@ namespace BcTool
         private IntPtr cusSigEnumLangMapIntPtr;
         private BP_WORD cusSigEnumLangMapSize;
 
+        /* */
+        private string gererateDirectory = @".\";
+
         public BcTool()
         {
             InitializeComponent();
@@ -101,7 +104,7 @@ namespace BcTool
         {
             this.WindowState = FormWindowState.Maximized;
             progressBar1.Value = 0;
-            
+
             comboBoxCrcType.SelectedIndex = 0;
             comboBoxCrcType.Enabled = false;
             comboBoxEncryption.SelectedIndex = 0;
@@ -151,7 +154,7 @@ namespace BcTool
             signalTableMetaDataTmp.recordNum = 0;
             loadReadOnlyDataGridView("sys_sig_info_temp_humidity_language_resource.csv", this.systemLangDataGridView, ref signalTableMetaDataTmp);
 
-            if(!loadSystemSignalInfo())
+            if (!loadSystemSignalInfo())
             {
                 MessageBox.Show("Error: System signal table error");
             }
@@ -175,7 +178,19 @@ namespace BcTool
 
             bpSysSigMaps = new List<BPLibApi.BP_SysSigMap>();
 
-    }
+            foreach(DataGridView value in prefix2SignalDataGridView.Values)
+            {
+                value.AllowUserToAddRows = false;
+            }
+
+            foreach (DataGridView value in prefix2LangDataGridView.Values)
+            {
+                value.AllowUserToAddRows = false;
+            }
+
+            
+
+        }
 
         private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, ref Tools.SignalTableMetaData signalTableMetaData)
         {
@@ -204,18 +219,18 @@ namespace BcTool
                     int rowIndex = dataGridView.Rows.Count - 1;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        if(signalTableMetaData.recordNum > 0)
+                        if (signalTableMetaData.recordNum > 0)
                         {
-                            if(recordNum-- <= 0)
+                            if (recordNum-- <= 0)
                             {
                                 break;
                             }
                         }
                         dataGridView.Rows.Add();
                         string[] stringArray = line.Split(',');
-                        for(int i = 0; i < stringArray.Length; i++)
+                        for (int i = 0; i < stringArray.Length; i++)
                         {
-                            if(rowIndex % 2 == 0)
+                            if (rowIndex % 2 == 0)
                             {
                                 dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = SystemColors.ControlLightLight;
                             }
@@ -223,7 +238,7 @@ namespace BcTool
                             {
                                 dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = SystemColors.Info;
                             }
-                            
+
                             dataGridView.Rows[rowIndex].Cells[i].Value = stringArray[i];
                         }
                         rowIndex++;
@@ -236,7 +251,54 @@ namespace BcTool
             }
         }
 
-        
+        private void systemSignalCellValueChangedCallback(string prefix, object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            if (!prefix2SignalDataGridView.ContainsKey(prefix))
+            {
+                return;
+            }
+            if (null == prefix2systemSignalDataItemConstList || !prefix2systemSignalDataItemConstList.ContainsKey(prefix))
+            {
+                return;
+            }
+
+            DataGridView dataGridView = prefix2SignalDataGridView[prefix];
+            if (e.RowIndex >= dataGridView.Rows.Count || e.ColumnIndex >= dataGridView.Columns.Count)
+            {
+                return;
+            }
+            List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemConstList[prefix];
+
+            if (null == signalDataItems || signalDataItems.Count <= e.RowIndex)
+            {
+                return;
+            }
+            SignalDataItem signalDataItem = signalDataItems[e.RowIndex];
+
+            try
+            {
+                object originalValue = signalDataItem[e.ColumnIndex];
+                if (null == originalValue || !dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim().Equals(originalValue.ToString()))
+                {
+                    signalDataItem.CustomInfo |= SignalDataItem.parseCustomInfoMask(e.ColumnIndex);
+                }
+                else
+                {
+                    signalDataItem.CustomInfo = 0;
+                }
+                Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "(" + signalDataItem[e.ColumnIndex] + ")");
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
         private Boolean loadSystemSignalInfo()
         {
             prefix2systemSignalDataItemConstList = new Dictionary<string, List<SignalDataItem>>();
@@ -686,11 +748,35 @@ namespace BcTool
             cusSigNameLangMap[1].LangId = 2;
             */
             cusSigNameLangMapIntPtr = Tools.mallocIntPtr(cusSigNameLangMap);
-            cusSigNameLangMapSize = cusSigNameLangMap.Count<BPLibApi.BP_CusLangMap>();
+            if(IntPtr.Zero == cusSigNameLangMapIntPtr)
+            {
+                cusSigNameLangMapSize = 0;
+            }
+            else
+            {
+                cusSigNameLangMapSize = cusSigNameLangMap.Count<BPLibApi.BP_CusLangMap>();
+            }
+            
             cusSigUnitLangMapIntPtr = Tools.mallocIntPtr(cusSigUnitLangMap);
-            cusSigUnitLangMapSize = cusSigUnitLangMap.Count<BPLibApi.BP_CusLangMap>();
+            if (IntPtr.Zero == cusSigUnitLangMapIntPtr)
+            {
+                cusSigUnitLangMapSize = 0;
+            }
+            else
+            {
+                cusSigUnitLangMapSize = cusSigUnitLangMap.Count<BPLibApi.BP_CusLangMap>();
+            }
+
             cusSigGroupLangMapIntPtr = Tools.mallocIntPtr(cusSigGroupLangMap);
-            cusSigGroupLangMapSize = cusSigGroupLangMap.Count<BPLibApi.BP_CusLangMap>();
+            if (IntPtr.Zero == cusSigGroupLangMapIntPtr)
+            {
+                cusSigGroupLangMapSize = 0;
+            }
+            else
+            {
+                cusSigGroupLangMapSize = cusSigGroupLangMap.Count<BPLibApi.BP_CusLangMap>();
+            }
+            
 
             // private BPLibApi.BP_CusLangMap[] cusSigEnumLangMap;
             // private IntPtr cusSigEnumLangMapIntPtr;
@@ -713,7 +799,15 @@ namespace BcTool
             */
 
             cusSigEnumLangMapIntPtr = Tools.mallocIntPtr(cusSigEnumLangMap);
-            cusSigEnumLangMapSize = cusSigEnumLangMap.Count<BPLibApi.BP_SigId2EnumSignalMap>();
+            if (IntPtr.Zero == cusSigEnumLangMapIntPtr)
+            {
+                cusSigEnumLangMapSize = 0;
+            }
+            else
+            {
+                cusSigEnumLangMapSize = cusSigEnumLangMap.Count<BPLibApi.BP_SigId2EnumSignalMap>();
+            }
+            
         }
 
         private void textBoxAliveTime_KeyPress(object sender, KeyPressEventArgs e)
@@ -807,14 +901,63 @@ namespace BcTool
 
         private void systemBasicDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex < 0 || e.ColumnIndex < 0)
+            systemSignalCellValueChangedCallback(PREFIX_SIGNAL_SYSTEM_BASIC, sender, e);
+        }
+
+        private void systemTempHumDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            systemSignalCellValueChangedCallback(PREFIX_SIGNAL_SYSTEM_TEMP_HUM, sender, e);
+        }
+
+        private void buttonGenerate_Click(object sender, EventArgs e)
+        {
+            string gererateDirectory = @"D:\";
+            try
             {
-                return;
+                UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(true);
+                using (StreamReader sr = new StreamReader("bp_sig_table_h.mod", uTF8Encoding))
+                {
+                    using (StreamWriter sw = new StreamWriter(gererateDirectory + @"bp_sig_table.h", false, uTF8Encoding))
+                    {
+                        string line;
+                        string signalCodeBlock;
+                        string blockTag;
+
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            line += "\r\n";
+                            Match mat = SignalTableUtil.REGEX_SIGNAL_TABLE_BLOCK_START.Match(line);
+                            if (null == mat || mat.Groups.Count < 2)
+                            {
+                                sw.Write(line);
+                            }
+                            else
+                            {
+                                blockTag = mat.Groups[1].Value;
+                                Regex blockEndRegex = SignalTableUtil.makeSignalTableBlockEndRegex(blockTag);
+                                signalCodeBlock = "";
+                                while ((line = sr.ReadLine()) != null)
+                                {
+                                    if(blockEndRegex.IsMatch(line))
+                                    {
+                                        break;
+                                    }
+                                    line += "\r\n";
+                                    signalCodeBlock += line;
+                                }
+                                signalCodeBlock = constructCodeBlock(blockTag, signalCodeBlock);
+                                sw.Write(signalCodeBlock);
+                                
+                            }
+                        }
+                    }
+                }
             }
-            if (e.RowIndex < systemBasicDataGridView.Rows.Count || e.ColumnIndex < systemBasicDataGridView.Columns.Count)
+            catch (Exception ex)
             {
-                Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + systemBasicDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+                Console.WriteLine(ex.Message);
             }
+
         }
     }
 }
