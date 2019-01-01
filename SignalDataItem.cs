@@ -11,7 +11,7 @@ namespace BcTool
     public class SignalDataItem
     {
 
-        public enum ValueType
+        public enum BPValueType
         {
             U32,
             U16,
@@ -37,6 +37,7 @@ namespace BcTool
             WARNING,
             NOTICE,
             INFO,
+            NONE,
         }
 
         public const string GRIDVIEW_SIGNAL_ID = "SignalID";
@@ -63,17 +64,17 @@ namespace BcTool
             {"NO", false}
         };
 
-        public static Dictionary<string, ValueType> valueTypeTable = new Dictionary<string, ValueType>()
+        public static Dictionary<string, BPValueType> valueTypeTable = new Dictionary<string, BPValueType>()
         {
-            {"UINT32", ValueType.U32},
-            {"UINT16", ValueType.U16},
-            {"INT32", ValueType.I32},
-            {"INT16", ValueType.I16},
-            {"ENUM", ValueType.ENUM},
-            {"FLOAT", ValueType.FLOAT},
-            {"STRING", ValueType.STRING},
-            {"BOOLEAN", ValueType.BOOLEAN},
-            {"MEM", ValueType.MEM}
+            {"UINT32", BPValueType.U32},
+            {"UINT16", BPValueType.U16},
+            {"INT32", BPValueType.I32},
+            {"INT16", BPValueType.I16},
+            {"ENUM", BPValueType.ENUM},
+            {"FLOAT", BPValueType.FLOAT},
+            {"STRING", BPValueType.STRING},
+            {"BOOLEAN", BPValueType.BOOLEAN},
+            {"MEM", BPValueType.MEM}
         };
 
         public static Dictionary<string, BcPermission> permissionTable = new Dictionary<string, BcPermission>()
@@ -95,15 +96,15 @@ namespace BcTool
 
         public static Hashtable defaultSignalValues = new Hashtable()
         {
-            { ValueType.U32, 0xFFFFFFFF },
-            { ValueType.U16, 0xFFFF },
-            { ValueType.I32, 0x7FFFFFFF },
-            { ValueType.I16, 0x7FFF },
-            { ValueType.ENUM, 0xFFFF },
-            { ValueType.FLOAT, 0x7FFFFFFF },
-            { ValueType.STRING, "" },
-            { ValueType.BOOLEAN, false },
-            { ValueType.MEM, null },
+            { BPValueType.U32, 0xFFFFFFFF },
+            { BPValueType.U16, 0xFFFF },
+            { BPValueType.I32, 0x7FFFFFFF },
+            { BPValueType.I16, 0x7FFF },
+            { BPValueType.ENUM, 0xFFFF },
+            { BPValueType.FLOAT, 0x7FFFFFFF },
+            { BPValueType.STRING, "" },
+            { BPValueType.BOOLEAN, false },
+            { BPValueType.MEM, null },
         };
 
         public static UInt32 parseCustomInfoMask(int offset)
@@ -177,7 +178,7 @@ namespace BcTool
         private Boolean enabled;
         private String macro;
         private Boolean alarm;
-        private ValueType valueType;
+        private BPValueType valueType;
         private int unitLangId;
         private BcPermission bcPermission;
         private Boolean display;
@@ -203,7 +204,7 @@ namespace BcTool
         public bool Enabled { get => enabled; set => enabled = value; }
         public string Macro { get => macro; set => macro = value; }
         public bool Alarm { get => alarm; set => alarm = value; }
-        internal ValueType ValueType1 { get => valueType; set => valueType = value; }
+        internal BPValueType ValueType1 { get => valueType; set => valueType = value; }
         public int UnitLangId { get => unitLangId; set => unitLangId = value; }
         internal BcPermission BcPermission1 { get => bcPermission; set => bcPermission = value; }
         public bool Display { get => display; set => display = value; }
@@ -270,7 +271,7 @@ namespace BcTool
             }
         }
 
-        public static object getDefault(ValueType valueType)
+        public static object getDefault(BPValueType valueType)
         {
             object ret = null;
 
@@ -278,31 +279,31 @@ namespace BcTool
             {
                 switch (valueType)
                 {
-                    case ValueType.U32:
+                    case BPValueType.U32:
                         ret = Convert.ToUInt32("0");
                         break;
-                    case ValueType.U16:
+                    case BPValueType.U16:
                         ret = Convert.ToUInt16("0");
                         break;
-                    case ValueType.I32:
+                    case BPValueType.I32:
                         ret = Convert.ToInt32("0");
                         break;
-                    case ValueType.I16:
+                    case BPValueType.I16:
                         ret = Convert.ToInt16("0");
                         break;
-                    case ValueType.ENUM:
+                    case BPValueType.ENUM:
                         ret = Convert.ToUInt16("0");
                         break;
-                    case ValueType.FLOAT:
+                    case BPValueType.FLOAT:
                         ret = Convert.ToDouble("0");
                         break;
-                    case ValueType.STRING:
+                    case BPValueType.STRING:
                         ret = DEFAULT_VALUE;
                         break;
-                    case ValueType.BOOLEAN:
+                    case BPValueType.BOOLEAN:
                         ret = float.Parse("0");
                         break;
-                    case ValueType.MEM:
+                    case BPValueType.MEM:
                         ret = DEFAULT_VALUE;
                         break;
                     default:
@@ -318,7 +319,7 @@ namespace BcTool
             return ret;
         }
 
-        public static object parseValue(ValueType valueType, string str)
+        public static object parseValue(BPValueType valueType, string str)
         {
             object ret = null;
             if(null == str)
@@ -335,31 +336,31 @@ namespace BcTool
             {
                 switch(valueType)
                 {
-                    case ValueType.U32:
+                    case BPValueType.U32:
                         ret = Convert.ToUInt32(str);
                         break;
-                    case ValueType.U16:
+                    case BPValueType.U16:
                         ret = Convert.ToUInt16(str);
                         break;
-                    case ValueType.I32:
+                    case BPValueType.I32:
                         ret = Convert.ToInt32(str);
                         break;
-                    case ValueType.I16:
+                    case BPValueType.I16:
                         ret = Convert.ToInt16(str);
                         break;
-                    case ValueType.ENUM:
+                    case BPValueType.ENUM:
                         ret = Convert.ToUInt16(str);
                         break;
-                    case ValueType.FLOAT:
+                    case BPValueType.FLOAT:
                         ret = float.Parse(str);
                         break;
-                    case ValueType.STRING:
+                    case BPValueType.STRING:
                         ret = str;
                         break;
-                    case ValueType.BOOLEAN:
+                    case BPValueType.BOOLEAN:
                         ret = Convert.ToBoolean(str);
                         break;
-                    case ValueType.MEM:
+                    case BPValueType.MEM:
                         ret = DEFAULT_VALUE;
                         break;
                     default:
@@ -456,7 +457,7 @@ namespace BcTool
                     }
                     return signalDataItemRet;
                 }
-                ValueType valueType = valueTypeTable[tmp];
+                BPValueType valueType = valueTypeTable[tmp];
 
                 tmp = row[prefix + "UnitID"].Value.ToString().Trim();
                 int unitId = -1;
@@ -742,7 +743,7 @@ namespace BcTool
             return signalDataItemRet;
         }
 
-        public SignalDataItem(int signalId, bool enabled, string macro, bool alarm, ValueType valueType, int unitLangId, BcPermission bcPermission, bool display, int accuracy, object minValue, object maxValue, object defaultValue, int groupLangId, Dictionary<ushort, uint> enumLangIdTable, bool statistics, BcAlarmClass alarmClass, int alarmBefDelay, int alarmAftDelay)
+        public SignalDataItem(int signalId, bool enabled, string macro, bool alarm, BPValueType valueType, int unitLangId, BcPermission bcPermission, bool display, int accuracy, object minValue, object maxValue, object defaultValue, int groupLangId, Dictionary<ushort, uint> enumLangIdTable, bool statistics, BcAlarmClass alarmClass, int alarmBefDelay, int alarmAftDelay)
         {
             this.signalId = signalId;
             this.enabled = enabled;
@@ -774,31 +775,31 @@ namespace BcTool
             String ret;
             switch (valueType)
             {
-                case ValueType.U32:
+                case BPValueType.U32:
                     ret = "U32";
                     break;
-                case ValueType.U16:
+                case BPValueType.U16:
                     ret = "U16";
                     break;
-                case ValueType.I32:
+                case BPValueType.I32:
                     ret = "I32";
                     break;
-                case ValueType.I16:
+                case BPValueType.I16:
                     ret = "I16";
                     break;
-                case ValueType.ENUM:
+                case BPValueType.ENUM:
                     ret = "ENUM";
                     break;
-                case ValueType.FLOAT:
+                case BPValueType.FLOAT:
                     ret = "FLOAT";
                     break;
-                case ValueType.STRING:
+                case BPValueType.STRING:
                     ret = "STRING";
                     break;
-                case ValueType.BOOLEAN:
+                case BPValueType.BOOLEAN:
                     ret = "BOOLEAN";
                     break;
-                case ValueType.MEM:
+                case BPValueType.MEM:
                     ret = "MEM";
                     break;
                 default:

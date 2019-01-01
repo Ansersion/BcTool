@@ -402,6 +402,7 @@ namespace BcTool
 
         public static void setSysSignalEnableBits(ref List<byte[]> enableBits, UInt16 signalID)
         {
+            /*
             if(signalID < BPLibApi.SYSTEM_START_SIGNAL_ID)
             {
                 return;
@@ -411,6 +412,30 @@ namespace BcTool
             int byteOffset = (signalIDOffset - dist * BPLibApi.SYSTEM_SIGNAL_STEP) / 8;
             int bitOffset = (signalIDOffset - dist * BPLibApi.SYSTEM_SIGNAL_STEP) % 8;
             enableBits[dist][byteOffset] |= (byte)((1 << bitOffset));
+            */
+            setSysSignalEnableBits(ref enableBits, signalID, true);
+
+        }
+
+        public static void setSysSignalEnableBits(ref List<byte[]> enableBits, UInt16 signalID, Boolean enabled)
+        {
+            if (signalID < BPLibApi.SYSTEM_START_SIGNAL_ID)
+            {
+                return;
+            }
+            int signalIDOffset = signalID - BPLibApi.SYSTEM_START_SIGNAL_ID;
+            int dist = signalIDOffset / BPLibApi.SYSTEM_SIGNAL_STEP;
+            int byteOffset = (signalIDOffset - dist * BPLibApi.SYSTEM_SIGNAL_STEP) / 8;
+            int bitOffset = (signalIDOffset - dist * BPLibApi.SYSTEM_SIGNAL_STEP) % 8;
+            if(enabled)
+            {
+                enableBits[dist][byteOffset] |= (byte)((1 << bitOffset));
+            }
+            else
+            {
+                enableBits[dist][byteOffset] &= (byte)(~(1 << bitOffset));
+            }
+            
 
         }
 
@@ -492,34 +517,34 @@ namespace BcTool
             }
             switch(valueType)
             {
-                case SignalDataItem.ValueType.U32:
+                case SignalDataItem.BPValueType.U32:
                     valueTypeUInt16 = BPLibApi.BP_VALUE_TYPE_U32;
                     break;
-                case SignalDataItem.ValueType.U16:
+                case SignalDataItem.BPValueType.U16:
                     valueTypeUInt16 = BPLibApi.BP_VALUE_TYPE_U16;
                     break;
-                case SignalDataItem.ValueType.I32:
+                case SignalDataItem.BPValueType.I32:
                     valueTypeUInt16 = BPLibApi.BP_VALUE_TYPE_I32;
                     break;
-                case SignalDataItem.ValueType.I16:
+                case SignalDataItem.BPValueType.I16:
                     valueTypeUInt16 = BPLibApi.BP_VALUE_TYPE_I16;
                     break;
-                case SignalDataItem.ValueType.ENUM:
+                case SignalDataItem.BPValueType.ENUM:
                     valueTypeUInt16 = BPLibApi.BP_VALUE_TYPE_ENUM;
                     break;
-                case SignalDataItem.ValueType.FLOAT:
+                case SignalDataItem.BPValueType.FLOAT:
                     valueTypeUInt16 = BPLibApi.BP_VALUE_TYPE_FLT;
                     break;
-                case SignalDataItem.ValueType.STRING:
+                case SignalDataItem.BPValueType.STRING:
                     valueTypeUInt16 = BPLibApi.BP_VALUE_TYPE_STR;
                     break;
-                case SignalDataItem.ValueType.BOOLEAN:
+                case SignalDataItem.BPValueType.BOOLEAN:
                     valueTypeUInt16 = BPLibApi.BP_VALUE_TYPE_BOOL;
                     break;
             }
         }
 
-        public static void setSigTypeU(ref BPLibApi.SigTypeU sigTypeU, SignalDataItem.ValueType valueType, Object value)
+        public static void setSigTypeU(ref BPLibApi.SigTypeU sigTypeU, SignalDataItem.BPValueType valueType, Object value)
         {
             if(null == valueType)
             {
@@ -531,32 +556,32 @@ namespace BcTool
             }
             switch(valueType)
             {
-                case SignalDataItem.ValueType.U32:
+                case SignalDataItem.BPValueType.U32:
                     sigTypeU.t_u32 = (UInt32)value;
                     break;
-                case SignalDataItem.ValueType.U16:
+                case SignalDataItem.BPValueType.U16:
                     sigTypeU.t_u16 = (UInt16)value;
                     break;
-                case SignalDataItem.ValueType.I32:
+                case SignalDataItem.BPValueType.I32:
                     sigTypeU.t_i32 = (Int32)value;
                     break;
-                case SignalDataItem.ValueType.I16:
+                case SignalDataItem.BPValueType.I16:
                     sigTypeU.t_i16 = (Int16)value;
                     break;
-                case SignalDataItem.ValueType.ENUM:
+                case SignalDataItem.BPValueType.ENUM:
                     sigTypeU.t_enm = (UInt16)value;
                     break;
-                case SignalDataItem.ValueType.FLOAT:
+                case SignalDataItem.BPValueType.FLOAT:
                     sigTypeU.t_flt = (float)value;
                     break;
-                case SignalDataItem.ValueType.STRING:
+                case SignalDataItem.BPValueType.STRING:
                     /* TODO */
                     // sigTypeU.t_str = (UInt32)value;
                     break;
-                case SignalDataItem.ValueType.BOOLEAN:
+                case SignalDataItem.BPValueType.BOOLEAN:
                     sigTypeU.t_bool = (char)value;
                     break;
-                case SignalDataItem.ValueType.MEM:
+                case SignalDataItem.BPValueType.MEM:
                     break;
             }
         }

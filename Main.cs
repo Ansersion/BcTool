@@ -25,10 +25,13 @@ namespace BcTool
         public const string PREFIX_SIGNAL_SYSTEM_BASIC = "basic";
         public const string PREFIX_SIGNAL_SYSTEM_TEMP_HUM = "tempHum";
 
+        public const int ENABLE_COLUMN_INDEX = 1;
+
         private int[] systemLanguageTabIndex = { 4, 5, 6 };
 
         private NetMng netMng = new NetMng("127.0.0.1");
         private Simulator simulator;
+        private List<string> prefixLists;
         private List<DataGridView> dist2DataGridViewList;
         private List<Hashtable> dist2SignalDataItemHashTable;
         private Dictionary<String, DataGridView> prefix2SignalDataGridView;
@@ -112,7 +115,9 @@ namespace BcTool
             comboBoxPerformance.SelectedIndex = 0;
             comboBoxPerformance.Enabled = false;
 
-
+            prefixLists = new List<string>();
+            prefixLists.Add(PREFIX_SIGNAL_SYSTEM_BASIC);
+            prefixLists.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM);
 
             dist2DataGridViewList = new List<DataGridView>();
             dist2DataGridViewList.Add(this.systemBasicDataGridView);
@@ -178,7 +183,16 @@ namespace BcTool
 
             bpSysSigMaps = new List<BPLibApi.BP_SysSigMap>();
 
-            foreach(DataGridView value in prefix2SignalDataGridView.Values)
+            /* system signal info */
+            systemSignalEnableBits = new List<byte[]>();
+            for (int i = 0; i < BPLibApi.SYSTEM_SIGNAL_TABLE_NUM; i++)
+            {
+                systemSignalEnableBits.Add(new byte[64]);
+            }
+            /* 0xE000(SerialNumber) and 0xE001(CommunicationState) enabled as default */
+            systemSignalEnableBits[0][0] = 0x03;
+
+            foreach (DataGridView value in prefix2SignalDataGridView.Values)
             {
                 value.AllowUserToAddRows = false;
             }
@@ -188,7 +202,10 @@ namespace BcTool
                 value.AllowUserToAddRows = false;
             }
 
-            
+            /* set default generate path to current directory */
+            generatePathTextBox.Text = System.IO.Directory.GetCurrentDirectory();
+
+            initSignalBlockTools();
 
         }
 
@@ -281,15 +298,30 @@ namespace BcTool
 
             try
             {
-                object originalValue = signalDataItem[e.ColumnIndex];
-                if (null == originalValue || !dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim().Equals(originalValue.ToString()))
+                
+                if(ENABLE_COLUMN_INDEX == e.ColumnIndex)
                 {
-                    signalDataItem.CustomInfo |= SignalDataItem.parseCustomInfoMask(e.ColumnIndex);
+                    /* update enable flag */
+                    string tmp = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                    if (!SignalDataItem.yesOrNoTable.ContainsKey(tmp))
+                    {
+                        /* TODO: error */
+                        // return signalDataItemRet;
+                        return;
+                    }
+                    signalDataItem.Enabled = SignalDataItem.yesOrNoTable[tmp];
+                    Tools.setSysSignalEnableBits(ref systemSignalEnableBits, (UInt16)(signalDataItem.SignalId & 0xFFFF), signalDataItem.Enabled);
                 }
                 else
                 {
-                    signalDataItem.CustomInfo = 0;
+                    object originalValue = signalDataItem[e.ColumnIndex];
+                    if (null == originalValue || !dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim().Equals(originalValue.ToString()))
+                    {
+                        /* set system signal custom info mask */
+                        signalDataItem.CustomInfo |= SignalDataItem.parseCustomInfoMask(e.ColumnIndex);
+                    }
                 }
+
                 Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "(" + signalDataItem[e.ColumnIndex] + ")");
             }
             catch (Exception ex)
@@ -320,7 +352,7 @@ namespace BcTool
                     for (int i = 0; i < size; i++)
                     {
                         err = "";
-                        SignalDataItem tmp = SignalDataItem.parseSignalDataItem(dataGridViewTmp.Rows[i].Cells, prefix, true, ref err);
+                        SignalDataItem tmp = SignalDataItem.parseSignalDataItem(dataGridViewTmp.Rows[i].Cells, prefix, false, ref err);
                         if (tmp != null)
                         {
                             err = "line " + i + ", ";
@@ -493,7 +525,7 @@ namespace BcTool
                     for (int i = 0; i < size; i++)
                     {
                         err = "";
-                        SignalDataItem tmp = SignalDataItem.parseSignalDataItem(dataGridViewTmp.Rows[i].Cells, prefix, true, ref err);
+                        SignalDataItem tmp = SignalDataItem.parseSignalDataItem(dataGridViewTmp.Rows[i].Cells, prefix, false, ref err);
                         if (tmp != null)
                         {
                             err = "line " + i + ", ";
@@ -911,13 +943,73 @@ namespace BcTool
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-            string gererateDirectory = @"D:\";
+            string gererateDirectory = generatePathTextBox.Text;
+            if(!Directory.Exists(gererateDirectory))
+            {
+                MessageBox.Show("Invalid generate path");
+                return;
+            }
+
+            Dictionary<string, string> moduleFile2SrcFileDictionary = new Dictionary<string, string>();
+            moduleFile2SrcFileDictionary.Add("bp_sig_table_h.mod", "bp_sig_table.h");
+            moduleFile2SrcFileDictionary.Add("bp_sig_table_c.mod", "bp_sig_table.c");
+
+            foreach(string moduleFile in moduleFile2SrcFileDictionary.Keys)
+            {
+                try
+                {
+                    UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(true);
+                    using (StreamReader sr = new StreamReader(moduleFile, uTF8Encoding))
+                    {
+                        using (StreamWriter sw = new StreamWriter(gererateDirectory + @"\" + moduleFile2SrcFileDictionary[moduleFile], false, uTF8Encoding))
+                        {
+                            string line;
+                            string signalCodeBlock;
+                            string blockTag;
+
+                            while ((line = sr.ReadLine()) != null)
+                            {
+                                line += "\r\n";
+                                Match mat = SignalTableUtil.REGEX_SIGNAL_TABLE_BLOCK_START.Match(line);
+                                if (null == mat || mat.Groups.Count < 2)
+                                {
+                                    sw.Write(line);
+                                }
+                                else
+                                {
+                                    blockTag = mat.Groups[1].Value;
+                                    Regex blockEndRegex = SignalTableUtil.makeSignalTableBlockEndRegex(blockTag);
+                                    signalCodeBlock = "";
+                                    while ((line = sr.ReadLine()) != null)
+                                    {
+                                        if (blockEndRegex.IsMatch(line))
+                                        {
+                                            break;
+                                        }
+                                        line += "\r\n";
+                                        signalCodeBlock += line;
+                                    }
+                                    signalCodeBlock = constructCodeBlock(blockTag, signalCodeBlock);
+                                    sw.Write(signalCodeBlock);
+
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            /*
             try
             {
                 UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(true);
                 using (StreamReader sr = new StreamReader("bp_sig_table_h.mod", uTF8Encoding))
                 {
-                    using (StreamWriter sw = new StreamWriter(gererateDirectory + @"bp_sig_table.h", false, uTF8Encoding))
+                    using (StreamWriter sw = new StreamWriter(gererateDirectory + @"\bp_sig_table.h", false, uTF8Encoding))
                     {
                         string line;
                         string signalCodeBlock;
@@ -958,6 +1050,72 @@ namespace BcTool
                 Console.WriteLine(ex.Message);
             }
 
+            
+            try
+            {
+                UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(true);
+                using (StreamReader sr = new StreamReader("bp_sig_table_c.mod", uTF8Encoding))
+                {
+                    using (StreamWriter sw = new StreamWriter(gererateDirectory + @"\bp_sig_table.c", false, uTF8Encoding))
+                    {
+                        string line;
+                        string signalCodeBlock;
+                        string blockTag;
+
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            line += "\r\n";
+                            Match mat = SignalTableUtil.REGEX_SIGNAL_TABLE_BLOCK_START.Match(line);
+                            if (null == mat || mat.Groups.Count < 2)
+                            {
+                                sw.Write(line);
+                            }
+                            else
+                            {
+                                blockTag = mat.Groups[1].Value;
+                                Regex blockEndRegex = SignalTableUtil.makeSignalTableBlockEndRegex(blockTag);
+                                signalCodeBlock = "";
+                                while ((line = sr.ReadLine()) != null)
+                                {
+                                    if (blockEndRegex.IsMatch(line))
+                                    {
+                                        break;
+                                    }
+                                    line += "\r\n";
+                                    signalCodeBlock += line;
+                                }
+                                signalCodeBlock = constructCodeBlock(blockTag, signalCodeBlock);
+                                sw.Write(signalCodeBlock);
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            */
+
+            MessageBox.Show("Generation Done");
+        }
+
+        private void generatePathTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void generatePathBrowseButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folder = new FolderBrowserDialog();
+            folder.Description = @"Target directory";
+            if (folder.ShowDialog() == DialogResult.OK)
+            {
+                string sPath = folder.SelectedPath;
+                generatePathTextBox.Text = sPath;
+                MessageBox.Show(sPath);
+            }
         }
     }
 }
