@@ -40,6 +40,7 @@ namespace BcTool
         private Dictionary<string, Dictionary<UInt16, LanguageResourceItem>> prefix2LangDictionary;
 
         private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemConstList;
+        private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemVariableList;
 
         /* system signal info */
         private BPLibApi.BP_SigId2Val[] sysSigId2Val;
@@ -289,12 +290,14 @@ namespace BcTool
                 return;
             }
             List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemConstList[prefix];
+            List<SignalDataItem> signalDataItemsVal = prefix2systemSignalDataItemVariableList[prefix];
 
             if (null == signalDataItems || signalDataItems.Count <= e.RowIndex)
             {
                 return;
             }
             SignalDataItem signalDataItem = signalDataItems[e.RowIndex];
+            SignalDataItem signalDataItemVal = signalDataItemsVal[e.RowIndex];
 
             try
             {
@@ -309,20 +312,33 @@ namespace BcTool
                         // return signalDataItemRet;
                         return;
                     }
-                    signalDataItem.Enabled = SignalDataItem.yesOrNoTable[tmp];
-                    Tools.setSysSignalEnableBits(ref systemSignalEnableBits, (UInt16)(signalDataItem.SignalId & 0xFFFF), signalDataItem.Enabled);
+                    signalDataItemVal.Enabled = SignalDataItem.yesOrNoTable[tmp];
+                    Tools.setSysSignalEnableBits(ref systemSignalEnableBits, (UInt16)(signalDataItemVal.SignalId & 0xFFFF), signalDataItemVal.Enabled);
                 }
                 else
                 {
                     object originalValue = signalDataItem[e.ColumnIndex];
-                    if (null == originalValue || !dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim().Equals(originalValue.ToString()))
+                    string customValue = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                    UInt32 customInfo = SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);
+                    if (0xFFFFFFFF == customInfo)
                     {
-                        /* set system signal custom info mask */
-                        signalDataItem.CustomInfo |= SignalDataItem.parseCustomInfoMask(e.ColumnIndex);
+                        // TODO: prompt error
+                    }
+                    else
+                    {
+                        if (!signalDataItemVal[e.ColumnIndex].Equals(signalDataItem[e.ColumnIndex])) // TODO: '!=' is not fit for class value
+                        {
+                            /* set system signal custom info mask */
+                            signalDataItemVal.CustomInfo |= SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);
+                        }
+                        else
+                        {
+                            signalDataItemVal.CustomInfo &= ~SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);
+                        }
                     }
                 }
 
-                Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "(" + signalDataItem[e.ColumnIndex] + ")");
+                Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "(" + signalDataItemVal[e.ColumnIndex] + ")");
             }
             catch (Exception ex)
             {
@@ -334,7 +350,9 @@ namespace BcTool
         private Boolean loadSystemSignalInfo()
         {
             prefix2systemSignalDataItemConstList = new Dictionary<string, List<SignalDataItem>>();
+            prefix2systemSignalDataItemVariableList = new Dictionary<string, List<SignalDataItem>>();
             prefix2systemSignalDataItemConstList.Clear();
+            prefix2systemSignalDataItemVariableList.Clear();
             Boolean ret = false;
             string err = "";
             try
@@ -342,6 +360,7 @@ namespace BcTool
                 foreach (string prefix in prefix2SignalDataGridView.Keys)
                 {
                     List<SignalDataItem> systemSignalDataItemConstListTmp = new List<SignalDataItem>();
+                    List<SignalDataItem> systemSignalDataItemVariableListTmp = new List<SignalDataItem>();
                     DataGridView dataGridViewTmp = prefix2SignalDataGridView[prefix];
                     int size = dataGridViewTmp.Rows.Count;
                     if (prefix2SystemTableMetaData.ContainsKey(prefix))
@@ -357,6 +376,7 @@ namespace BcTool
                         {
                             err = "line " + i + ", ";
                             systemSignalDataItemConstListTmp.Add(tmp);
+                            systemSignalDataItemVariableListTmp.Add(new SignalDataItem(tmp));
                         }
                         else if (!string.IsNullOrWhiteSpace(err))
                         {
@@ -367,6 +387,7 @@ namespace BcTool
 
                     }
                     prefix2systemSignalDataItemConstList[prefix] = systemSignalDataItemConstListTmp;
+                    prefix2systemSignalDataItemVariableList[prefix] = systemSignalDataItemVariableListTmp;
                 }
                 ret = true;
             } 

@@ -56,6 +56,8 @@ namespace BcTool
         public const int DEFAULT_DBA = 5;
         public const int DEFAULT_DAA = 5;
 
+        public const UInt32 CUSTOM_INFO_PARSE_ERROR = 0xFFFFFFFF;
+
 
         public static Dictionary<string, Boolean> yesOrNoTable = new Dictionary<string, Boolean>()
         {
@@ -107,68 +109,88 @@ namespace BcTool
             { BPValueType.MEM, null },
         };
 
-        public static UInt32 parseCustomInfoMask(int offset)
+        public static UInt32 parseCustomInfoMask(int offset, ref SignalDataItem signalDataItem, string newValue)
         {
-            UInt32 ret = 0;
-            switch (offset)
+            UInt32 ret = CUSTOM_INFO_PARSE_ERROR;
+            try
             {
-                /*
-                case 0:
-                    return SignalId;
-                case 1:
-                    return Enabled;
-                case 2:
-                    return Macro;
-                    */
-                case 3:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_IS_ALARM);
-                    break;
+               
+                switch (offset)
+                {
+                    /*
+                    case 0:
+                        return SignalId;
+                    case 1:
+                        return Enabled;
+                    case 2:
+                        return Macro;
+                        */
+                    case 3:
+                        if (SignalDataItem.yesOrNoTable.ContainsKey(newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_IS_ALARM);
+                            signalDataItem.Alarm = SignalDataItem.yesOrNoTable[newValue];
+                        }
+
+                        break;
                     /*
                 case 4:
                     return ValueType1;
                     */
-                case 5:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_UNIT_LANG);
-                    break;
-                case 6:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_PERMISSION);
-                    break;
-                case 7:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_IS_DISPLAY);
-                    break;
-                case 8:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ACCURACY);
-                    break;
-                case 9:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MIN_VAL);
-                    break;
-                case 10:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MAX_VAL);
-                    break;
-                case 11:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL);
-                    break;
-                case 12:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_GROUP_LANG);
-                    break;
-                case 13:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ENUM_LANG);
-                    break;
-                case 14:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_EN_STATISTICS);
-                    break;
-                case 15:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_CLASS);
-                    break;
-                case 16:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_BEFORE);
-                    break;
-                case 17:
-                    ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_AFTER);
-                    break;
-                default:
-                    ret = 0;
-                    break;
+                    case 5:
+                        
+                        Match mat = unitIDRegex.Match(newValue);
+
+                        if (null != mat || mat.Groups.Count >= 2)
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_UNIT_LANG);
+                            signalDataItem.UnitLangId = Convert.ToInt32(mat.Groups[1].Value);
+                        }
+                        break;
+                    case 6:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_PERMISSION);
+                        break;
+                    case 7:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_IS_DISPLAY);
+                        break;
+                    case 8:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ACCURACY);
+                        break;
+                    case 9:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MIN_VAL);
+                        break;
+                    case 10:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MAX_VAL);
+                        break;
+                    case 11:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL);
+                        break;
+                    case 12:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_GROUP_LANG);
+                        break;
+                    case 13:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ENUM_LANG);
+                        break;
+                    case 14:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_EN_STATISTICS);
+                        break;
+                    case 15:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_CLASS);
+                        break;
+                    case 16:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_BEFORE);
+                        break;
+                    case 17:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_AFTER);
+                        break;
+                    default:
+                        ret = CUSTOM_INFO_PARSE_ERROR;
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                ret = CUSTOM_INFO_PARSE_ERROR;
             }
 
             return ret;
@@ -196,9 +218,9 @@ namespace BcTool
         private Boolean hasCustomInfo;
         private UInt32 customInfo;
 
-        private static Regex enumIDRegex = new Regex(ENUM_ID_REGEX_PATTERN);
-        private static Regex unitIDRegex = new Regex(UNIT_ID_REGEX_PATTERN);
-        private static Regex groupIDRegex = new Regex(GROUP_ID_REGEX_PATTERN);
+        public static Regex enumIDRegex = new Regex(ENUM_ID_REGEX_PATTERN);
+        public static Regex unitIDRegex = new Regex(UNIT_ID_REGEX_PATTERN);
+        public static Regex groupIDRegex = new Regex(GROUP_ID_REGEX_PATTERN);
 
         public int SignalId { get => signalId; set => signalId = value; }
         public bool Enabled { get => enabled; set => enabled = value; }
@@ -763,6 +785,31 @@ namespace BcTool
             this.alarmClass = alarmClass;
             this.alarmBefDelay = alarmBefDelay;
             this.alarmAftDelay = alarmAftDelay;
+        }
+
+        public SignalDataItem(SignalDataItem signalDataItem)
+        {
+            this.signalId = signalDataItem.SignalId;
+            this.enabled = signalDataItem.Enabled;
+            this.macro = signalDataItem.Macro;
+            this.alarm = signalDataItem.Alarm;
+            this.valueType = signalDataItem.ValueType1;
+            this.unitLangId = signalDataItem.UnitLangId;
+            this.bcPermission = signalDataItem.BcPermission1;
+            this.display = signalDataItem.Display;
+            this.accuracy = signalDataItem.Accuracy;
+
+            // TODO: maybe realloc mem
+            this.minValue = signalDataItem.MinValue;
+            this.maxValue = signalDataItem.MaxValue;
+            this.defaultValue = signalDataItem.DefaultValue;
+            this.groupLangId = signalDataItem.GroupLangId;
+            // TODO: maybe realloc mem
+            this.enumLangIdTable = signalDataItem.EnumLangIdTable;
+            this.statistics = signalDataItem.Statistics;
+            this.alarmClass = signalDataItem.AlarmClass;
+            this.alarmBefDelay = signalDataItem.AlarmBefDelay;
+            this.alarmAftDelay = signalDataItem.AlarmAftDelay;
         }
 
         public String getSignalIdString()

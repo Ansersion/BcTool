@@ -215,6 +215,8 @@ namespace BcTool
         private static string BLOCK_CHILD_TAG_DEF = @"<DEF>";
         private static string BLOCK_CHILD_TAG_ALARM_DELAY_BEF = @"<ALARM_DELAY_BEF>";
         private static string BLOCK_CHILD_TAG_ALARM_DELAY_AFT = @"<ALARM_DELAY_AFT>";
+        private static string BLOCK_CHILD_TAG_IS_ALARM = @"<IS_ALARM>";
+        private static string BLOCK_CHILD_TAG_UNIT_ID = @"<UNIT_ID>";
 
         private Regex REGEX_CODE_BLOCK_MACRO_DEFINED = new Regex(@"(\s*#define\s+)(<MACRO>)(\s+)(<SIGNAL_ID>)");
         private Regex REGEX_CODE_BLOCK_SIGNAL_MIN = new Regex(@"(.+)(<MACRO>)(.+)(<TYPE>)(.+)(<MIN>)(.+)");
@@ -231,13 +233,15 @@ namespace BcTool
         private string BLOCK_TAG_SYSTEM_SIGNAL_TABLE = "SYSTEM_SIGNAL_TABLE";
         private string BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST = "SYSTEM_SIGNAL_ENABLE_DIST";
         private string BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST_UNIT = "SYSTEM_SIGNAL_ENABLE_DIST_UNIT";
-        
+        private string BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE = "SYSTEM_SIGNAL_CUSTOM_VALUE";
 
 
         private delegate string DlgConstructCodeBlock(string codeBlock);
 
-        private Dictionary<string, DlgConstructCodeBlock> codeBlockTag2Dlg;
+        private delegate string DlgConstructSystemCustomCodeBlock(string codeBlock, SignalDataItem signalDataItem);
 
+        private Dictionary<string, DlgConstructCodeBlock> codeBlockTag2Dlg;
+        private Dictionary<string, DlgConstructSystemCustomCodeBlock> childCodeBlockTag2systemCustomDlg;
 
 
 
@@ -251,6 +255,13 @@ namespace BcTool
             codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_TABLE, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_TABLE));
             codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_ENABLE_DIST));
             codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST_UNIT, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_ENABLE_DIST_UNIT));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE));
+
+            childCodeBlockTag2systemCustomDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_IS_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_UNIT_ID, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_UNIT_ID));
+            // childCodeBlockTag2systemCustomFlag.Add(BLOCK_CHILD_TAG_IS_ALARM, BPLibApi.SYS_SIG_CUSTOM_TYPE_IS_ALARM);
+
         }
 
         private string constructCodeBlock_MACRO_DEFINED(string codeBlock)
@@ -260,12 +271,12 @@ namespace BcTool
             {
                 foreach (string prefix in prefixLists)
                 {
-                    if (!prefix2systemSignalDataItemConstList.ContainsKey(prefix))
+                    if (!prefix2systemSignalDataItemVariableList.ContainsKey(prefix))
                     {
                         continue;
                     }
 
-                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemConstList[prefix];
+                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemVariableList[prefix];
                     foreach (SignalDataItem signalDataItem in signalDataItems)
                     {
                         /* input.replace("$", "$$") */
@@ -327,12 +338,12 @@ namespace BcTool
             {
                 foreach (string prefix in prefixLists)
                 {
-                    if (!prefix2systemSignalDataItemConstList.ContainsKey(prefix))
+                    if (!prefix2systemSignalDataItemVariableList.ContainsKey(prefix))
                     {
                         continue;
                     }
 
-                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemConstList[prefix];
+                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemVariableList[prefix];
                     foreach (SignalDataItem signalDataItem in signalDataItems)
                     {
                         /* input.replace("$", "$$") */
@@ -366,12 +377,12 @@ namespace BcTool
             {
                 foreach (string prefix in prefixLists)
                 {
-                    if (!prefix2systemSignalDataItemConstList.ContainsKey(prefix))
+                    if (!prefix2systemSignalDataItemVariableList.ContainsKey(prefix))
                     {
                         continue;
                     }
 
-                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemConstList[prefix];
+                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemVariableList[prefix];
                     foreach (SignalDataItem signalDataItem in signalDataItems)
                     {
                         /* input.replace("$", "$$") */
@@ -401,12 +412,12 @@ namespace BcTool
             {
                 foreach (string prefix in prefixLists)
                 {
-                    if (!prefix2systemSignalDataItemConstList.ContainsKey(prefix))
+                    if (!prefix2systemSignalDataItemVariableList.ContainsKey(prefix))
                     {
                         continue;
                     }
 
-                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemConstList[prefix];
+                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemVariableList[prefix];
                     foreach (SignalDataItem signalDataItem in signalDataItems)
                     {
                         /* input.replace("$", "$$") */
@@ -563,6 +574,162 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
             {
                 Console.WriteLine(e.Message);
                 ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2systemSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        foreach (string childTag in childCodeBlockTag2systemCustomDlg.Keys)
+                        {
+                            tmp = childCodeBlockTag2systemCustomDlg[childTag](tmp, signalDataItem);
+                        }
+                        if (0 != signalDataItem.CustomInfo)
+                        {
+                            tmp = "\r\n/* Custom info: 0x" + Convert.ToString(signalDataItem.SignalId, 16) + " */" + "\r\n" + tmp;
+                        }
+                        ret += tmp;
+                    }
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if(null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if(null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_IS_ALARM)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_IS_ALARM, signalDataItem.Alarm ? BP_CODE_ENABLE_ALARM : BP_CODE_DISABLE_ALARM);
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_IS_ALARM);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_UNIT_ID(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_UNIT_LANG)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_UNIT_ID, signalDataItem.UnitLangId.ToString());
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_UNIT_ID);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
             }
 
             return ret;
