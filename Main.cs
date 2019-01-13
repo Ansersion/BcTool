@@ -25,7 +25,11 @@ namespace BcTool
         public const string PREFIX_SIGNAL_SYSTEM_BASIC = "basic";
         public const string PREFIX_SIGNAL_SYSTEM_TEMP_HUM = "tempHum";
 
+        
+
         public const int ENABLE_COLUMN_INDEX = 1;
+
+        private ColorMng colorMng;
 
         private int[] systemLanguageTabIndex = { 4, 5, 6 };
 
@@ -107,6 +111,9 @@ namespace BcTool
         private void myInit()
         {
             this.WindowState = FormWindowState.Maximized;
+
+            colorMng = new ColorMng();
+
             progressBar1.Value = 0;
 
             comboBoxCrcType.SelectedIndex = 0;
@@ -310,7 +317,15 @@ namespace BcTool
                     {
                         /* TODO: error */
                         // return signalDataItemRet;
+                        colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
                         return;
+                    }
+
+                    Color oldColor = colorMng.clearErrorInfor(e.RowIndex, e.ColumnIndex);
+                    if(ColorMng.NULL_COLOR != oldColor)
+                    {
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
                     }
                     signalDataItemVal.Enabled = SignalDataItem.yesOrNoTable[tmp];
                     Tools.setSysSignalEnableBits(ref systemSignalEnableBits, (UInt16)(signalDataItemVal.SignalId & 0xFFFF), signalDataItemVal.Enabled);
@@ -320,12 +335,19 @@ namespace BcTool
                     object originalValue = signalDataItem[e.ColumnIndex];
                     string customValue = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
                     UInt32 customInfo = SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);
-                    if (0xFFFFFFFF == customInfo)
+                    if (SignalDataItem.CUSTOM_INFO_PARSE_ERROR == customInfo)
                     {
                         // TODO: prompt error
+                        colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
                     }
                     else
                     {
+                        Color oldColor = colorMng.clearErrorInfor(e.RowIndex, e.ColumnIndex);
+                        if (ColorMng.NULL_COLOR != oldColor)
+                        {
+                            dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
+                        }
                         if (!signalDataItemVal[e.ColumnIndex].Equals(signalDataItem[e.ColumnIndex])) // TODO: '!=' is not fit for class value
                         {
                             /* set system signal custom info mask */

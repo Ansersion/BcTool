@@ -138,23 +138,68 @@ namespace BcTool
                     return ValueType1;
                     */
                     case 5:
-                        
-                        Match mat = unitIDRegex.Match(newValue);
-
-                        if (null != mat || mat.Groups.Count >= 2)
                         {
-                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_UNIT_LANG);
-                            signalDataItem.UnitLangId = Convert.ToInt32(mat.Groups[1].Value);
+                            int unitId = -1;
+                            try
+                            {
+                                
+                                if (string.IsNullOrWhiteSpace(newValue))
+                                {
+                                    unitId = DEFAULT_UNIT_ID;
+                                }
+                                else
+                                {
+                                    Match mat = unitIDRegex.Match(newValue);
+
+                                    if (null != mat && mat.Groups.Count >= 2)
+                                    {
+                                        unitId = Convert.ToInt32(mat.Groups[1].Value);
+                                    }
+                                }
+                            }
+                            catch(Exception e)
+                            {
+                                unitId = -1;
+                            }
+
+                            if(unitId >= 0)
+                            {
+                                ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_UNIT_LANG);
+                                signalDataItem.UnitLangId = unitId;
+                            }
+                            break;
+                        }
+                    case 6:
+                        
+                        if (permissionTable.ContainsKey(newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_PERMISSION);
+                            signalDataItem.BcPermission1 = permissionTable[newValue];
                         }
                         break;
-                    case 6:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_PERMISSION);
-                        break;
                     case 7:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_IS_DISPLAY);
+                        if (yesOrNoTable.ContainsKey(newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_IS_DISPLAY);
+                            signalDataItem.Display = yesOrNoTable[newValue];
+                        }
                         break;
                     case 8:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ACCURACY);
+                        int accuracy = -1;
+                        try
+                        {
+                            accuracy = Convert.ToInt32(newValue);
+                            if (accuracy >= 0)
+                            {
+                                ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ACCURACY);
+                                signalDataItem.Accuracy = accuracy;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            accuracy = -1;
+                        }
+                        
                         break;
                     case 9:
                         ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MIN_VAL);
@@ -166,23 +211,104 @@ namespace BcTool
                         ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL);
                         break;
                     case 12:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_GROUP_LANG);
-                        break;
+                        {
+                            int groupId = -1;
+                            try
+                            {
+                                if (string.IsNullOrWhiteSpace(newValue))
+                                {
+                                    groupId = DEFAULT_GROUP_ID;
+                                }
+                                else
+                                {
+                                    Match mat = groupIDRegex.Match(newValue);
+                                    if (null != mat && mat.Groups.Count >= 2)
+                                    {
+                                        groupId = Convert.ToInt32(mat.Groups[1].Value);
+                                    }
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                groupId = -1;
+                            }
+                            if (groupId >= 0)
+                            {
+                                ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_GROUP_LANG);
+                                signalDataItem.GroupLangId = groupId;
+                            }
+                            break;
+                        }
                     case 13:
                         ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ENUM_LANG);
                         break;
                     case 14:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_EN_STATISTICS);
+                        if (yesOrNoTable.ContainsKey(newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_EN_STATISTICS);
+                            signalDataItem.Statistics = yesOrNoTable[newValue];
+                        }
                         break;
                     case 15:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_CLASS);
-                        break;
+                        {
+                            if (alarmClassTable.ContainsKey(newValue))
+                            {
+                                ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_CLASS);
+                                signalDataItem.AlarmClass = alarmClassTable[newValue];
+                            }
+                            break;
+                        }
                     case 16:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_BEFORE);
-                        break;
+                        {
+                            int dba = -1;
+                            try
+                            {
+                                if (string.IsNullOrWhiteSpace(newValue))
+                                {
+                                    dba = DEFAULT_DBA; ;
+                                }
+                                else
+                                {
+                                    dba = Convert.ToUInt16(newValue);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                dba = -1;
+                            }
+                            if (dba >= 0)
+                            {
+                                ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_BEFORE);
+                                signalDataItem.AlarmBefDelay = dba;
+                            }
+
+                            break;
+                        }
                     case 17:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_AFTER);
-                        break;
+                        {
+                            int daa = -1;
+                            try
+                            {
+                                if (string.IsNullOrWhiteSpace(newValue))
+                                {
+                                    daa = DEFAULT_DBA; ;
+                                }
+                                else
+                                {
+                                    daa = Convert.ToUInt16(newValue);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                daa = -1;
+                            }
+                            if (daa >= 0)
+                            {
+                                ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_AFTER);
+                                signalDataItem.AlarmBefDelay = daa;
+                            }
+                            break;
+                        }
                     default:
                         ret = CUSTOM_INFO_PARSE_ERROR;
                         break;

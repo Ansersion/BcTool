@@ -73,7 +73,8 @@ namespace BcTool
         private static string BP_CODE_ALARM_CLASS_WARNING = "ALARM_CLASS_WARNING";
         private static string BP_CODE_ALARM_CLASS_SERIOUS = "ALARM_CLASS_SERIOUS";
         private static string BP_CODE_ALARM_CLASS_EMERGENCY = "ALARM_CLASS_EMERGENCY";
-
+        private static string BP_CODE_PERMISSION_RO = "SIG_PERM_RO";
+        private static string BP_CODE_PERMISSION_RW = "SIG_PERM_RW";
 
         public static string ValueTypeToCode(BPValueType vt)
         {
@@ -215,8 +216,11 @@ namespace BcTool
         private static string BLOCK_CHILD_TAG_DEF = @"<DEF>";
         private static string BLOCK_CHILD_TAG_ALARM_DELAY_BEF = @"<ALARM_DELAY_BEF>";
         private static string BLOCK_CHILD_TAG_ALARM_DELAY_AFT = @"<ALARM_DELAY_AFT>";
-        private static string BLOCK_CHILD_TAG_IS_ALARM = @"<IS_ALARM>";
         private static string BLOCK_CHILD_TAG_UNIT_ID = @"<UNIT_ID>";
+        private static string BLOCK_CHILD_TAG_GROUP_ID = @"<GROUP_ID>";
+        private static string BLOCK_CHILD_TAG_CUSTOM_MIN_VAL = @"<CUSTOM_MIN_VAL>";
+        private static string BLOCK_CHILD_TAG_CUSTOM_MAX_VAL = @"<CUSTOM_MAX_VAL>";
+        private static string BLOCK_CHILD_TAG_CUSTOM_DEF_VAL = @"<CUSTOM_DEF_VAL>";
 
         private Regex REGEX_CODE_BLOCK_MACRO_DEFINED = new Regex(@"(\s*#define\s+)(<MACRO>)(\s+)(<SIGNAL_ID>)");
         private Regex REGEX_CODE_BLOCK_SIGNAL_MIN = new Regex(@"(.+)(<MACRO>)(.+)(<TYPE>)(.+)(<MIN>)(.+)");
@@ -258,9 +262,19 @@ namespace BcTool
             codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE));
 
             childCodeBlockTag2systemCustomDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
-            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_IS_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_UNIT_ID, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_UNIT_ID));
-            // childCodeBlockTag2systemCustomFlag.Add(BLOCK_CHILD_TAG_IS_ALARM, BPLibApi.SYS_SIG_CUSTOM_TYPE_IS_ALARM);
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_PERMISSION, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_PERMISSION));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_DISPLAY, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_DISPLAY));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ACCURACY, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ACCURACY));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_CUSTOM_MIN_VAL, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_CUSTOM_MIN_VAL));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_CUSTOM_MAX_VAL, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_CUSTOM_MAX_VAL));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_CUSTOM_DEF_VAL, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_CUSTOM_DEF_VAL));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_GROUP_ID, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_GROUP_ID));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_STATISTICS, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_STATISTICS));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM_CLASS, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_CLASS));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM_DELAY_BEF, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_DELAY_BEF));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM_DELAY_AFT, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_DELAY_AFT));
 
         }
 
@@ -640,11 +654,11 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                 uint customInfo = signalDataItem.CustomInfo;
                 if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_IS_ALARM)) != 0)
                 {
-                    ret = ret.Replace(BLOCK_CHILD_TAG_IS_ALARM, signalDataItem.Alarm ? BP_CODE_ENABLE_ALARM : BP_CODE_DISABLE_ALARM);
+                    ret = ret.Replace(BLOCK_CHILD_TAG_ALARM, signalDataItem.Alarm ? BP_CODE_ENABLE_ALARM : BP_CODE_DISABLE_ALARM);
                 }
                 else
                 {
-                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_IS_ALARM);
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_ALARM);
                     if (tagIndex < 0)
                     {
                         return ret;
@@ -701,6 +715,644 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                 else
                 {
                     int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_UNIT_ID);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_PERMISSION(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_PERMISSION)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_PERMISSION, signalDataItem.BcPermission1 == BcPermission.RO ? BP_CODE_PERMISSION_RO : BP_CODE_PERMISSION_RW);
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_PERMISSION);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_DISPLAY(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_IS_DISPLAY)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_DISPLAY, signalDataItem.Display ? BP_CODE_ENABLE_DISPLAY : BP_CODE_DISABLE_DISPLAY);
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_DISPLAY);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ACCURACY(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ACCURACY)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_ACCURACY, signalDataItem.Accuracy.ToString());
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_ACCURACY);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_CUSTOM_MIN_VAL(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MIN_VAL)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_MIN_VAL, "{." + ValueTypeToCode(signalDataItem.ValueType1));
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_CUSTOM_MIN_VAL);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_CUSTOM_MAX_VAL(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MAX_VAL)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_MAX_VAL, signalDataItem.Accuracy.ToString());
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_CUSTOM_MAX_VAL);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_CUSTOM_DEF_VAL(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_DEF_VAL, signalDataItem.Accuracy.ToString());
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_CUSTOM_DEF_VAL);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_GROUP_ID(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_GROUP_LANG)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_GROUP_ID, signalDataItem.GroupLangId.ToString());
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_GROUP_ID);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_STATISTICS(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_EN_STATISTICS)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_STATISTICS, signalDataItem.Statistics ? BP_CODE_ENABLE_STATISTICS : BP_CODE_DISABLE_STATISTICS);
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_STATISTICS);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_CLASS(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_CLASS)) != 0)
+                {
+                    string alarmClassTmp = BP_CODE_ALARM_CLASS_NONE;
+                    switch (signalDataItem.AlarmClass)
+                    {
+                        case BcAlarmClass.EMERGENCY:
+                            alarmClassTmp = BP_CODE_ALARM_CLASS_EMERGENCY;
+                            break;
+                        case BcAlarmClass.SERIOUS:
+                            alarmClassTmp = BP_CODE_ALARM_CLASS_SERIOUS;
+                            break;
+                        case BcAlarmClass.WARNING:
+                            alarmClassTmp = BP_CODE_ALARM_CLASS_WARNING;
+                            break;
+                        case BcAlarmClass.NOTICE:
+                            alarmClassTmp = BP_CODE_ALARM_CLASS_ATTENTION;
+                            break;
+                        case BcAlarmClass.INFO:
+                            alarmClassTmp = BP_CODE_ALARM_CLASS_INFO;
+                            break;
+                        case BcAlarmClass.NONE:
+                            alarmClassTmp = BP_CODE_ALARM_CLASS_NONE;
+                            break;
+                    }
+                    ret = ret.Replace(BLOCK_CHILD_TAG_ALARM_CLASS, alarmClassTmp);
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_ALARM_CLASS);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_DELAY_BEF(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_BEFORE)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_ALARM_DELAY_BEF, signalDataItem.AlarmBefDelay.ToString());
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_ALARM_DELAY_BEF);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_DELAY_AFT(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ALM_DLY_AFTER)) != 0)
+                {
+                    ret = ret.Replace(BLOCK_CHILD_TAG_ALARM_DELAY_AFT, signalDataItem.AlarmAftDelay.ToString());
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_ALARM_DELAY_AFT);
                     if (tagIndex < 0)
                     {
                         return ret;

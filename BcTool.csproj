@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BPCmd.cs" />
     <Compile Include="BPLibApi.cs" />
+    <Compile Include="ColorMng.cs" />
     <Compile Include="DataGridViewChecker.cs" />
     <Compile Include="LanguageResourceItem.cs" />
     <Compile Include="Main.cs">
