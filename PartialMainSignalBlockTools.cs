@@ -218,6 +218,9 @@ namespace BcTool
         private static string BLOCK_CHILD_TAG_ALARM_DELAY_AFT = @"<ALARM_DELAY_AFT>";
         private static string BLOCK_CHILD_TAG_UNIT_ID = @"<UNIT_ID>";
         private static string BLOCK_CHILD_TAG_GROUP_ID = @"<GROUP_ID>";
+        private static string BLOCK_CHILD_TAG_KEY_2_VALUE = @"<KEY_2_VALUE>";
+        private static string BLOCK_CHILD_TAG_CUSTOM_ENUM_LANG_SIZE = @"<CUSTOM_ENUM_LANG_SIZE>";
+        private static string REPLACE_VALUE_CUSTOM_ENUM_LANG_SIZE = "const BP_SysCusEnumUnit <MACRO>_ENUM_LANG = {sizeof(<MACRO>_ENUM_MAP) / sizeof(BP_EnumSignalMap), <MACRO>_ENUM_MAP}";
         private static string BLOCK_CHILD_TAG_CUSTOM_MIN_VAL = @"<CUSTOM_MIN_VAL>";
         private static string BLOCK_CHILD_TAG_CUSTOM_MAX_VAL = @"<CUSTOM_MAX_VAL>";
         private static string BLOCK_CHILD_TAG_CUSTOM_DEF_VAL = @"<CUSTOM_DEF_VAL>";
@@ -271,6 +274,7 @@ namespace BcTool
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_CUSTOM_MAX_VAL, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_CUSTOM_MAX_VAL));
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_CUSTOM_DEF_VAL, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_CUSTOM_DEF_VAL));
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_GROUP_ID, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_GROUP_ID));
+            childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_KEY_2_VALUE, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_KEY_2_VALUE));
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_STATISTICS, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_STATISTICS));
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM_CLASS, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_CLASS));
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM_DELAY_BEF, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_DELAY_BEF));
@@ -621,11 +625,16 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                         if (0 != signalDataItem.CustomInfo)
                         {
                             tmp = "\r\n/* Custom info: 0x" + Convert.ToString(signalDataItem.SignalId, 16) + " */" + "\r\n" + tmp;
+                            tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
                         }
+                        
                         ret += tmp;
+                        
                     }
 
                 }
+
+                
 
             }
             catch (Exception e)
@@ -934,7 +943,7 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                 uint customInfo = signalDataItem.CustomInfo;
                 if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MIN_VAL)) != 0)
                 {
-                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_MIN_VAL, "{." + ValueTypeToCode(signalDataItem.ValueType1));
+                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_MIN_VAL, "{." + ValueTypeToCode(signalDataItem.ValueType1) + " = " + signalDataItem.MinValue.ToString() + "}");
                 }
                 else
                 {
@@ -990,7 +999,7 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                 uint customInfo = signalDataItem.CustomInfo;
                 if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MAX_VAL)) != 0)
                 {
-                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_MAX_VAL, signalDataItem.Accuracy.ToString());
+                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_MAX_VAL, "{." + ValueTypeToCode(signalDataItem.ValueType1) + " = " + signalDataItem.MaxValue.ToString() + "}");
                 }
                 else
                 {
@@ -1046,7 +1055,7 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                 uint customInfo = signalDataItem.CustomInfo;
                 if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL)) != 0)
                 {
-                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_DEF_VAL, signalDataItem.Accuracy.ToString());
+                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_DEF_VAL, "{." + ValueTypeToCode(signalDataItem.ValueType1) + " = " + signalDataItem.DefaultValue.ToString() + "}");
                 }
                 else
                 {
@@ -1123,6 +1132,76 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                         return ret;
                     }
                     // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+                    int lineStartIndex = ret.LastIndexOf("const", tagIndex);
+                    if (lineStartIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* '1' means the last character '\n' */
+                    ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_KEY_2_VALUE(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                uint customInfo = signalDataItem.CustomInfo;
+                if ((customInfo & (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ENUM_LANG)) != 0)
+                {
+                    // {< KEY >, < VALUE >},
+                    string replaceValues = "";
+                    if(signalDataItem.EnumLangIdTable != null && signalDataItem.EnumLangIdTable.Count != 0)
+                    {
+                        foreach(UInt16 key in signalDataItem.EnumLangIdTable.Keys)
+                        {
+                            replaceValues += "\t{" + key + "," + signalDataItem.EnumLangIdTable[key] + "},\r\n";
+                        }
+                    }
+                    ret = ret.Replace(BLOCK_CHILD_TAG_KEY_2_VALUE, replaceValues);
+                    ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_ENUM_LANG_SIZE, REPLACE_VALUE_CUSTOM_ENUM_LANG_SIZE);
+                }
+                else
+                {
+                    int tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_CUSTOM_ENUM_LANG_SIZE);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
+                    /* find the first ';', then find the '\n' which indicates the end of code block */
+                    int lineEndIndex = ret.IndexOf(';', tagIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+                    if (lineEndIndex < 0)
+                    {
+                        return ret;
+                    }
+                    tagIndex = ret.IndexOf(BLOCK_CHILD_TAG_KEY_2_VALUE);
+                    if (tagIndex < 0)
+                    {
+                        return ret;
+                    }
                     int lineStartIndex = ret.LastIndexOf("const", tagIndex);
                     if (lineStartIndex < 0)
                     {

@@ -29,13 +29,6 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -107,19 +100,19 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BcTool));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.customSignalLangTabPage = new System.Windows.Forms.TabPage();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.customLangDataGridView = new System.Windows.Forms.DataGridView();
-            this.customLangLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customLangSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customEnumTabPage = new System.Windows.Forms.TabPage();
             this.customEnumDataGridView = new System.Windows.Forms.DataGridView();
             this.customEnumLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -296,6 +289,13 @@
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.buttonImport = new System.Windows.Forms.Button();
             this.buttonExport = new System.Windows.Forms.Button();
+            this.customLangSpanish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangArabic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangRussian = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangFrench = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangEnglish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangChinese = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customLangLanguageID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -364,7 +364,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.groupBoxUpdate);
             this.splitContainer1.Panel2.Controls.Add(this.groupBoxGenerate);
             this.splitContainer1.Size = new System.Drawing.Size(1924, 996);
-            this.splitContainer1.SplitterDistance = 1602;
+            this.splitContainer1.SplitterDistance = 1600;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -376,7 +376,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1602, 962);
+            this.panel1.Size = new System.Drawing.Size(1600, 962);
             this.panel1.TabIndex = 4;
             // 
             // tabControl
@@ -404,7 +404,7 @@
             this.tabControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1602, 795);
+            this.tabControl.Size = new System.Drawing.Size(1600, 795);
             this.tabControl.TabIndex = 2;
             this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
             // 
@@ -416,7 +416,7 @@
             this.customSignalLangTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customSignalLangTabPage.Name = "customSignalLangTabPage";
             this.customSignalLangTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customSignalLangTabPage.Size = new System.Drawing.Size(1594, 763);
+            this.customSignalLangTabPage.Size = new System.Drawing.Size(1592, 763);
             this.customSignalLangTabPage.TabIndex = 0;
             this.customSignalLangTabPage.Text = "customLang";
             this.customSignalLangTabPage.UseVisualStyleBackColor = true;
@@ -457,73 +457,8 @@
             this.customLangDataGridView.Name = "customLangDataGridView";
             this.customLangDataGridView.RowHeadersVisible = false;
             this.customLangDataGridView.RowTemplate.Height = 23;
-            this.customLangDataGridView.Size = new System.Drawing.Size(1586, 755);
+            this.customLangDataGridView.Size = new System.Drawing.Size(1584, 755);
             this.customLangDataGridView.TabIndex = 0;
-            // 
-            // customLangLanguageID
-            // 
-            this.customLangLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangLanguageID.DefaultCellStyle = dataGridViewCellStyle2;
-            this.customLangLanguageID.HeaderText = "SignalID";
-            this.customLangLanguageID.Name = "customLangLanguageID";
-            this.customLangLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangChinese
-            // 
-            this.customLangChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangChinese.DefaultCellStyle = dataGridViewCellStyle3;
-            this.customLangChinese.HeaderText = "中文";
-            this.customLangChinese.Name = "customLangChinese";
-            this.customLangChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangEnglish
-            // 
-            this.customLangEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangEnglish.DefaultCellStyle = dataGridViewCellStyle4;
-            this.customLangEnglish.HeaderText = "English";
-            this.customLangEnglish.Name = "customLangEnglish";
-            this.customLangEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangFrench
-            // 
-            this.customLangFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangFrench.DefaultCellStyle = dataGridViewCellStyle5;
-            this.customLangFrench.HeaderText = "Français";
-            this.customLangFrench.Name = "customLangFrench";
-            this.customLangFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangRussian
-            // 
-            this.customLangRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangRussian.DefaultCellStyle = dataGridViewCellStyle6;
-            this.customLangRussian.HeaderText = "русский";
-            this.customLangRussian.Name = "customLangRussian";
-            this.customLangRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangArabic
-            // 
-            this.customLangArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangArabic.DefaultCellStyle = dataGridViewCellStyle7;
-            this.customLangArabic.HeaderText = "العربية";
-            this.customLangArabic.Name = "customLangArabic";
-            this.customLangArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // customLangSpanish
-            // 
-            this.customLangSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customLangSpanish.DefaultCellStyle = dataGridViewCellStyle8;
-            this.customLangSpanish.HeaderText = "Español";
-            this.customLangSpanish.Name = "customLangSpanish";
-            this.customLangSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // customEnumTabPage
             // 
@@ -532,7 +467,7 @@
             this.customEnumTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customEnumTabPage.Name = "customEnumTabPage";
             this.customEnumTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customEnumTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.customEnumTabPage.Size = new System.Drawing.Size(1594, 763);
             this.customEnumTabPage.TabIndex = 1;
             this.customEnumTabPage.Text = "customEnum";
             this.customEnumTabPage.UseVisualStyleBackColor = true;
@@ -571,7 +506,7 @@
             this.customEnumDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle17;
             this.customEnumDataGridView.RowHeadersVisible = false;
             this.customEnumDataGridView.RowTemplate.Height = 23;
-            this.customEnumDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.customEnumDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.customEnumDataGridView.TabIndex = 0;
             // 
             // customEnumLanguageID
@@ -645,7 +580,7 @@
             this.customUnitTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customUnitTabPage.Name = "customUnitTabPage";
             this.customUnitTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customUnitTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.customUnitTabPage.Size = new System.Drawing.Size(1594, 763);
             this.customUnitTabPage.TabIndex = 2;
             this.customUnitTabPage.Text = "customUnit";
             this.customUnitTabPage.UseVisualStyleBackColor = true;
@@ -676,7 +611,7 @@
             this.customUnitDataGridView.Name = "customUnitDataGridView";
             this.customUnitDataGridView.RowHeadersVisible = false;
             this.customUnitDataGridView.RowTemplate.Height = 23;
-            this.customUnitDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.customUnitDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.customUnitDataGridView.TabIndex = 0;
             // 
             // customUnitLanguageID
@@ -750,7 +685,7 @@
             this.customGroupTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customGroupTabPage.Name = "customGroupTabPage";
             this.customGroupTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customGroupTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.customGroupTabPage.Size = new System.Drawing.Size(1594, 763);
             this.customGroupTabPage.TabIndex = 8;
             this.customGroupTabPage.Text = "customGroup";
             this.customGroupTabPage.UseVisualStyleBackColor = true;
@@ -781,7 +716,7 @@
             this.customGroupDataGridView.Name = "customGroupDataGridView";
             this.customGroupDataGridView.RowHeadersVisible = false;
             this.customGroupDataGridView.RowTemplate.Height = 23;
-            this.customGroupDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.customGroupDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.customGroupDataGridView.TabIndex = 0;
             // 
             // customGroupLanguageID
@@ -855,7 +790,7 @@
             this.customTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.customTabPage.Name = "customTabPage";
             this.customTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.customTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.customTabPage.Size = new System.Drawing.Size(1594, 763);
             this.customTabPage.TabIndex = 3;
             this.customTabPage.Text = "custom";
             this.customTabPage.UseVisualStyleBackColor = true;
@@ -889,7 +824,7 @@
             this.customDataGridView.Name = "customDataGridView";
             this.customDataGridView.RowHeadersVisible = false;
             this.customDataGridView.RowTemplate.Height = 23;
-            this.customDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.customDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.customDataGridView.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn50
@@ -1029,7 +964,7 @@
             this.systemLangTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.systemLangTabPage.Name = "systemLangTabPage";
             this.systemLangTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.systemLangTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.systemLangTabPage.Size = new System.Drawing.Size(1594, 763);
             this.systemLangTabPage.TabIndex = 4;
             this.systemLangTabPage.Text = "systemLang";
             // 
@@ -1061,7 +996,7 @@
             this.systemLangDataGridView.Name = "systemLangDataGridView";
             this.systemLangDataGridView.RowHeadersVisible = false;
             this.systemLangDataGridView.RowTemplate.Height = 23;
-            this.systemLangDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.systemLangDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.systemLangDataGridView.TabIndex = 0;
             // 
             // systemLangLanguageID
@@ -1150,7 +1085,7 @@
             this.systemEnumTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.systemEnumTabPage.Name = "systemEnumTabPage";
             this.systemEnumTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.systemEnumTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.systemEnumTabPage.Size = new System.Drawing.Size(1594, 763);
             this.systemEnumTabPage.TabIndex = 5;
             this.systemEnumTabPage.Text = "systemEnum";
             this.systemEnumTabPage.UseVisualStyleBackColor = true;
@@ -1181,7 +1116,7 @@
             this.systemEnumDataGridView.Name = "systemEnumDataGridView";
             this.systemEnumDataGridView.RowHeadersVisible = false;
             this.systemEnumDataGridView.RowTemplate.Height = 23;
-            this.systemEnumDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.systemEnumDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.systemEnumDataGridView.TabIndex = 0;
             // 
             // systemEnumLanguageID
@@ -1262,7 +1197,7 @@
             this.systemUnitTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.systemUnitTabPage.Name = "systemUnitTabPage";
             this.systemUnitTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.systemUnitTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.systemUnitTabPage.Size = new System.Drawing.Size(1594, 763);
             this.systemUnitTabPage.TabIndex = 6;
             this.systemUnitTabPage.Text = "systemUnit";
             this.systemUnitTabPage.UseVisualStyleBackColor = true;
@@ -1293,7 +1228,7 @@
             this.systemUnitDataGridView.Name = "systemUnitDataGridView";
             this.systemUnitDataGridView.RowHeadersVisible = false;
             this.systemUnitDataGridView.RowTemplate.Height = 23;
-            this.systemUnitDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.systemUnitDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.systemUnitDataGridView.TabIndex = 0;
             // 
             // systemUnitLanguageID
@@ -1374,7 +1309,7 @@
             this.systemGroupTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.systemGroupTabPage.Name = "systemGroupTabPage";
             this.systemGroupTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.systemGroupTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.systemGroupTabPage.Size = new System.Drawing.Size(1594, 763);
             this.systemGroupTabPage.TabIndex = 9;
             this.systemGroupTabPage.Text = "systemGroup";
             this.systemGroupTabPage.UseVisualStyleBackColor = true;
@@ -1405,7 +1340,7 @@
             this.systemGroupDataGridView.Name = "systemGroupDataGridView";
             this.systemGroupDataGridView.RowHeadersVisible = false;
             this.systemGroupDataGridView.RowTemplate.Height = 23;
-            this.systemGroupDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.systemGroupDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.systemGroupDataGridView.TabIndex = 0;
             // 
             // systemGroupLanguageID
@@ -1687,7 +1622,7 @@
             this.tempHumTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.tempHumTabPage.Name = "tempHumTabPage";
             this.tempHumTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.tempHumTabPage.Size = new System.Drawing.Size(1596, 763);
+            this.tempHumTabPage.Size = new System.Drawing.Size(1594, 763);
             this.tempHumTabPage.TabIndex = 10;
             this.tempHumTabPage.Text = "temp&hum";
             this.tempHumTabPage.UseVisualStyleBackColor = true;
@@ -1738,7 +1673,7 @@
             this.systemTempHumDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle78;
             this.systemTempHumDataGridView.RowHeadersVisible = false;
             this.systemTempHumDataGridView.RowTemplate.Height = 23;
-            this.systemTempHumDataGridView.Size = new System.Drawing.Size(1588, 755);
+            this.systemTempHumDataGridView.Size = new System.Drawing.Size(1586, 755);
             this.systemTempHumDataGridView.TabIndex = 0;
             this.systemTempHumDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.systemTempHumDataGridView_CellValueChanged);
             // 
@@ -1884,7 +1819,7 @@
             this.tabPage12.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage12.Name = "tabPage12";
             this.tabPage12.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage12.Size = new System.Drawing.Size(1596, 763);
+            this.tabPage12.Size = new System.Drawing.Size(1594, 763);
             this.tabPage12.TabIndex = 11;
             this.tabPage12.Text = "reserved";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -1898,7 +1833,7 @@
             this.dataGridView12.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView12.Name = "dataGridView12";
             this.dataGridView12.RowTemplate.Height = 23;
-            this.dataGridView12.Size = new System.Drawing.Size(1588, 755);
+            this.dataGridView12.Size = new System.Drawing.Size(1586, 755);
             this.dataGridView12.TabIndex = 0;
             // 
             // tabPage13
@@ -1908,7 +1843,7 @@
             this.tabPage13.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage13.Name = "tabPage13";
             this.tabPage13.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage13.Size = new System.Drawing.Size(1596, 763);
+            this.tabPage13.Size = new System.Drawing.Size(1594, 763);
             this.tabPage13.TabIndex = 12;
             this.tabPage13.Text = "reserved";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -1922,7 +1857,7 @@
             this.dataGridView13.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView13.Name = "dataGridView13";
             this.dataGridView13.RowTemplate.Height = 23;
-            this.dataGridView13.Size = new System.Drawing.Size(1588, 755);
+            this.dataGridView13.Size = new System.Drawing.Size(1586, 755);
             this.dataGridView13.TabIndex = 0;
             // 
             // tabPage14
@@ -1932,7 +1867,7 @@
             this.tabPage14.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage14.Name = "tabPage14";
             this.tabPage14.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage14.Size = new System.Drawing.Size(1596, 763);
+            this.tabPage14.Size = new System.Drawing.Size(1594, 763);
             this.tabPage14.TabIndex = 13;
             this.tabPage14.Text = "reserved";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -1946,7 +1881,7 @@
             this.dataGridView14.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView14.Name = "dataGridView14";
             this.dataGridView14.RowTemplate.Height = 23;
-            this.dataGridView14.Size = new System.Drawing.Size(1588, 755);
+            this.dataGridView14.Size = new System.Drawing.Size(1586, 755);
             this.dataGridView14.TabIndex = 0;
             // 
             // tabPage15
@@ -1956,7 +1891,7 @@
             this.tabPage15.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage15.Size = new System.Drawing.Size(1596, 763);
+            this.tabPage15.Size = new System.Drawing.Size(1594, 763);
             this.tabPage15.TabIndex = 14;
             this.tabPage15.Text = "reserved";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -1970,7 +1905,7 @@
             this.dataGridView15.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView15.Name = "dataGridView15";
             this.dataGridView15.RowTemplate.Height = 23;
-            this.dataGridView15.Size = new System.Drawing.Size(1588, 755);
+            this.dataGridView15.Size = new System.Drawing.Size(1586, 755);
             this.dataGridView15.TabIndex = 0;
             // 
             // tabPage16
@@ -1980,7 +1915,7 @@
             this.tabPage16.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage16.Size = new System.Drawing.Size(1596, 763);
+            this.tabPage16.Size = new System.Drawing.Size(1594, 763);
             this.tabPage16.TabIndex = 15;
             this.tabPage16.Text = "reserved";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -1994,7 +1929,7 @@
             this.dataGridView16.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView16.Name = "dataGridView16";
             this.dataGridView16.RowTemplate.Height = 23;
-            this.dataGridView16.Size = new System.Drawing.Size(1588, 755);
+            this.dataGridView16.Size = new System.Drawing.Size(1586, 755);
             this.dataGridView16.TabIndex = 0;
             // 
             // tabPage17
@@ -2004,7 +1939,7 @@
             this.tabPage17.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage17.Size = new System.Drawing.Size(1596, 763);
+            this.tabPage17.Size = new System.Drawing.Size(1594, 763);
             this.tabPage17.TabIndex = 16;
             this.tabPage17.Text = "reserved";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2018,7 +1953,7 @@
             this.dataGridView17.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView17.Name = "dataGridView17";
             this.dataGridView17.RowTemplate.Height = 23;
-            this.dataGridView17.Size = new System.Drawing.Size(1588, 755);
+            this.dataGridView17.Size = new System.Drawing.Size(1586, 755);
             this.dataGridView17.TabIndex = 0;
             // 
             // tabPage18
@@ -2028,7 +1963,7 @@
             this.tabPage18.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage18.Size = new System.Drawing.Size(1596, 763);
+            this.tabPage18.Size = new System.Drawing.Size(1594, 763);
             this.tabPage18.TabIndex = 17;
             this.tabPage18.Text = "reserved";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2042,7 +1977,7 @@
             this.dataGridView18.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView18.Name = "dataGridView18";
             this.dataGridView18.RowTemplate.Height = 23;
-            this.dataGridView18.Size = new System.Drawing.Size(1588, 755);
+            this.dataGridView18.Size = new System.Drawing.Size(1586, 755);
             this.dataGridView18.TabIndex = 0;
             // 
             // richTextBox1
@@ -2051,7 +1986,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.richTextBox1.Location = new System.Drawing.Point(0, 795);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1602, 167);
+            this.richTextBox1.Size = new System.Drawing.Size(1600, 167);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             // 
@@ -2061,7 +1996,7 @@
             this.progressBar1.Location = new System.Drawing.Point(0, 962);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1602, 34);
+            this.progressBar1.Size = new System.Drawing.Size(1600, 34);
             this.progressBar1.TabIndex = 3;
             // 
             // configureGroupBox
@@ -2090,7 +2025,7 @@
             this.configureGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.configureGroupBox.Name = "configureGroupBox";
             this.configureGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.configureGroupBox.Size = new System.Drawing.Size(316, 397);
+            this.configureGroupBox.Size = new System.Drawing.Size(318, 397);
             this.configureGroupBox.TabIndex = 6;
             this.configureGroupBox.TabStop = false;
             this.configureGroupBox.Text = "Configure";
@@ -2314,7 +2249,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(316, 273);
+            this.groupBox1.Size = new System.Drawing.Size(318, 273);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Simulator";
@@ -2395,7 +2330,7 @@
             this.groupBoxUpdate.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxUpdate.Name = "groupBoxUpdate";
             this.groupBoxUpdate.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxUpdate.Size = new System.Drawing.Size(316, 134);
+            this.groupBoxUpdate.Size = new System.Drawing.Size(318, 134);
             this.groupBoxUpdate.TabIndex = 4;
             this.groupBoxUpdate.TabStop = false;
             this.groupBoxUpdate.Text = "Update";
@@ -2455,7 +2390,7 @@
             this.groupBoxGenerate.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxGenerate.Name = "groupBoxGenerate";
             this.groupBoxGenerate.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxGenerate.Size = new System.Drawing.Size(316, 192);
+            this.groupBoxGenerate.Size = new System.Drawing.Size(318, 192);
             this.groupBoxGenerate.TabIndex = 2;
             this.groupBoxGenerate.TabStop = false;
             this.groupBoxGenerate.Text = "Generator";
@@ -2512,6 +2447,71 @@
             this.buttonExport.Text = "export...";
             this.buttonExport.UseVisualStyleBackColor = true;
             this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
+            // 
+            // customLangSpanish
+            // 
+            this.customLangSpanish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangSpanish.DefaultCellStyle = dataGridViewCellStyle8;
+            this.customLangSpanish.HeaderText = "Español";
+            this.customLangSpanish.Name = "customLangSpanish";
+            this.customLangSpanish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangArabic
+            // 
+            this.customLangArabic.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangArabic.DefaultCellStyle = dataGridViewCellStyle7;
+            this.customLangArabic.HeaderText = "العربية";
+            this.customLangArabic.Name = "customLangArabic";
+            this.customLangArabic.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangRussian
+            // 
+            this.customLangRussian.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangRussian.DefaultCellStyle = dataGridViewCellStyle6;
+            this.customLangRussian.HeaderText = "русский";
+            this.customLangRussian.Name = "customLangRussian";
+            this.customLangRussian.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangFrench
+            // 
+            this.customLangFrench.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangFrench.DefaultCellStyle = dataGridViewCellStyle5;
+            this.customLangFrench.HeaderText = "Français";
+            this.customLangFrench.Name = "customLangFrench";
+            this.customLangFrench.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangEnglish
+            // 
+            this.customLangEnglish.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangEnglish.DefaultCellStyle = dataGridViewCellStyle4;
+            this.customLangEnglish.HeaderText = "English";
+            this.customLangEnglish.Name = "customLangEnglish";
+            this.customLangEnglish.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangChinese
+            // 
+            this.customLangChinese.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangChinese.DefaultCellStyle = dataGridViewCellStyle3;
+            this.customLangChinese.HeaderText = "中文";
+            this.customLangChinese.Name = "customLangChinese";
+            this.customLangChinese.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // customLangLanguageID
+            // 
+            this.customLangLanguageID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customLangLanguageID.DefaultCellStyle = dataGridViewCellStyle2;
+            this.customLangLanguageID.HeaderText = "SignalID";
+            this.customLangLanguageID.Name = "customLangLanguageID";
+            this.customLangLanguageID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // BcTool
             // 
@@ -2656,13 +2656,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column28;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column29;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn customLangLanguageID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn customLangChinese;
-        private System.Windows.Forms.DataGridViewTextBoxColumn customLangEnglish;
-        private System.Windows.Forms.DataGridViewTextBoxColumn customLangFrench;
-        private System.Windows.Forms.DataGridViewTextBoxColumn customLangRussian;
-        private System.Windows.Forms.DataGridViewTextBoxColumn customLangArabic;
-        private System.Windows.Forms.DataGridViewTextBoxColumn customLangSpanish;
         private System.Windows.Forms.DataGridViewTextBoxColumn customEnumLanguageID;
         private System.Windows.Forms.DataGridViewTextBoxColumn customEnumChinese;
         private System.Windows.Forms.DataGridViewTextBoxColumn customEnumEnglish;
@@ -2767,6 +2760,13 @@
         private System.Windows.Forms.ComboBox comboBoxEncryption;
         private System.Windows.Forms.ComboBox comboBoxPerformance;
         private System.Windows.Forms.CheckBox checkBoxPerformance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customLangLanguageID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customLangChinese;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customLangEnglish;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customLangFrench;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customLangRussian;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customLangArabic;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customLangSpanish;
     }
 }
 

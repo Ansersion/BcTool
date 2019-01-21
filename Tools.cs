@@ -586,6 +586,73 @@ namespace BcTool
             }
         }
 
+        public static Boolean setSigValue(ref Object sigValue, SignalDataItem.BPValueType valueType, string newValue)
+        {
+            Boolean ret = false;
+
+            if (null == valueType)
+            {
+                return ret;
+            }
+            if (null == newValue)
+            {
+                return ret;
+            }
+            try
+            {
+                ret = true;
+
+                switch (valueType)
+                {
+                    case SignalDataItem.BPValueType.U32:
+                        sigValue = Convert.ToUInt32(newValue);
+                        break;
+                    case SignalDataItem.BPValueType.U16:
+                        sigValue = Convert.ToUInt16(newValue);
+                        break;
+                    case SignalDataItem.BPValueType.I32:
+                        sigValue = Convert.ToInt32(newValue);
+                        break;
+                    case SignalDataItem.BPValueType.I16:
+                        sigValue = Convert.ToInt16(newValue);
+                        break;
+                    case SignalDataItem.BPValueType.ENUM:
+                        sigValue = Convert.ToUInt16(newValue);
+                        break;
+                    case SignalDataItem.BPValueType.FLOAT:
+                        sigValue = (float)(Convert.ToDouble(newValue));
+                        break;
+                    case SignalDataItem.BPValueType.STRING:
+                        sigValue = "\"" + newValue + "\"";
+                        break;
+                    case SignalDataItem.BPValueType.BOOLEAN:
+                        if(SignalDataItem.yesOrNoTable.ContainsKey(newValue))
+                        {
+                            sigValue = SignalDataItem.yesOrNoTable[newValue];
+                        }
+                        else
+                        {
+                            ret = false;
+                        }
+                        
+                        break;
+                    case SignalDataItem.BPValueType.MEM:
+                        /* TODO: set it mem values */
+                        sigValue = newValue;
+                        break;
+                }
+
+                
+            } 
+            catch(Exception e)
+            {
+                Console.Write(e.Message);
+                ret = false;
+            }
+
+            return ret;
+        }
+
         public static byte[] packBuf2Bytes(ref BPLibApi.PackBuf packBuf)
         {
             byte[] ret = null;

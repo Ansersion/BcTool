@@ -348,7 +348,8 @@ namespace BcTool
                         {
                             dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
                         }
-                        if (!signalDataItemVal[e.ColumnIndex].Equals(signalDataItem[e.ColumnIndex])) // TODO: '!=' is not fit for class value
+                        // if (!signalDataItemVal[e.ColumnIndex].Equals(signalDataItem[e.ColumnIndex])) // TODO: '!=' is not fit for class value
+                        if (!SignalDataItem.judgeEqual(signalDataItemVal, ref signalDataItem, e.ColumnIndex))
                         {
                             /* set system signal custom info mask */
                             signalDataItemVal.CustomInfo |= SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);

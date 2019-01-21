@@ -202,13 +202,22 @@ namespace BcTool
                         
                         break;
                     case 9:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MIN_VAL);
+                        if(Tools.setSigValue(ref signalDataItem.minValue, signalDataItem.ValueType1, newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MIN_VAL);
+                        }
                         break;
                     case 10:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MAX_VAL);
+                        if (Tools.setSigValue(ref signalDataItem.maxValue, signalDataItem.ValueType1, newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_MAX_VAL);
+                        }
                         break;
                     case 11:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL);
+                        if (Tools.setSigValue(ref signalDataItem.defaultValue, signalDataItem.ValueType1, newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_DEF_VAL);
+                        }
                         break;
                     case 12:
                         {
@@ -240,7 +249,43 @@ namespace BcTool
                             break;
                         }
                     case 13:
-                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ENUM_LANG);
+                        Dictionary<UInt16, UInt32> enumMap = new Dictionary<ushort, uint>();
+                        if (!string.IsNullOrWhiteSpace(newValue))
+                        {
+                            string[] enumIDArray = newValue.Split('/');
+                            if (null != enumIDArray && 0 != enumIDArray.Length)
+                            {
+                                foreach (string enumIDEntry in enumIDArray)
+                                {
+                                    Match mat = enumIDRegex.Match(enumIDEntry);
+                                    if (null == mat || mat.Groups.Count < 3)
+                                    {
+                                        enumMap = null;
+                                        break;
+                                    }
+
+                                    UInt16 key = Convert.ToUInt16(mat.Groups[1].Value);
+                                    UInt32 val = Convert.ToUInt16(mat.Groups[2].Value);
+                                    if (enumMap.ContainsKey(key))
+                                    {
+                                        enumMap = null;
+                                        break;
+                                    }
+                                    enumMap[key] = val;
+
+                                }
+                            }
+                            else
+                            {
+                                enumMap = null;
+                            }
+                        }
+                        if(null != enumMap)
+                        {
+                            signalDataItem.EnumLangIdTable = enumMap;
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ENUM_LANG);
+                        }
+                   
                         break;
                     case 14:
                         if (yesOrNoTable.ContainsKey(newValue))
@@ -317,6 +362,58 @@ namespace BcTool
             catch (Exception e)
             {
                 ret = CUSTOM_INFO_PARSE_ERROR;
+            }
+
+            return ret;
+        }
+
+        public static Boolean judgeEqual(SignalDataItem signalDataItemVal, ref SignalDataItem signalDataItem, int index)
+        {
+            Boolean ret = false;
+
+            if (null == signalDataItemVal)
+            {
+                return ret;
+            }
+            if (null == signalDataItem[index])
+            {
+                return ret;
+            }
+            
+            try
+            {
+                object value = signalDataItemVal[index];
+                if (13 == index && signalDataItem.ValueType1 == BPValueType.ENUM)
+                {
+                    Dictionary<UInt16, UInt32> enumMap = (Dictionary<ushort, uint>)value;
+
+                    if (signalDataItem.EnumLangIdTable.Count == enumMap.Count)
+                    {
+                        ret = true;
+                        foreach(UInt16 key in signalDataItem.EnumLangIdTable.Keys)
+                        {
+                            if(!enumMap.ContainsKey(key))
+                            {
+                                ret = false;
+                                break;
+                            }
+                            if(enumMap[key] != signalDataItem.EnumLangIdTable[key])
+                            {
+                                ret = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ret = value.Equals(signalDataItem[index]);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+                ret = false;
             }
 
             return ret;
