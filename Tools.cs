@@ -15,6 +15,12 @@ namespace BcTool
         {
             public string version;
             public int recordNum;
+
+            public void clear()
+            {
+                version = "";
+                recordNum = 0;
+            }
         }
 
         private static byte[] cStringEndFlag = new byte[1] { 0 };

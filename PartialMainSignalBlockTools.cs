@@ -242,6 +242,8 @@ namespace BcTool
         private string BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST_UNIT = "SYSTEM_SIGNAL_ENABLE_DIST_UNIT";
         private string BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE = "SYSTEM_SIGNAL_CUSTOM_VALUE";
 
+        private string BLOCK_TAG_CUSTOM_LANGUAGE_SUPPORTED_INFO = "LANGUAGE_SUPPORTED_INFO";
+
 
         private delegate string DlgConstructCodeBlock(string codeBlock);
 
@@ -263,6 +265,8 @@ namespace BcTool
             codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_ENABLE_DIST));
             codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST_UNIT, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_ENABLE_DIST_UNIT));
             codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE));
+
+            codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_LANGUAGE_SUPPORTED_INFO, new DlgConstructCodeBlock(constructCodeBlock_LANGUAGE_SUPPORTED_INFO));
 
             childCodeBlockTag2systemCustomDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
@@ -635,6 +639,55 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                 }
 
                 
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_LANGUAGE_SUPPORTED_INFO(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2systemSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        foreach (string childTag in childCodeBlockTag2systemCustomDlg.Keys)
+                        {
+                            tmp = childCodeBlockTag2systemCustomDlg[childTag](tmp, signalDataItem);
+                        }
+                        if (0 != signalDataItem.CustomInfo)
+                        {
+                            tmp = "\r\n/* Custom info: 0x" + Convert.ToString(signalDataItem.SignalId, 16) + " */" + "\r\n" + tmp;
+                            tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
+                        }
+
+                        ret += tmp;
+
+                    }
+
+                }
+
+
 
             }
             catch (Exception e)

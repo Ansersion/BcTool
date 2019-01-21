@@ -25,7 +25,9 @@ namespace BcTool
         public const string PREFIX_SIGNAL_SYSTEM_BASIC = "basic";
         public const string PREFIX_SIGNAL_SYSTEM_TEMP_HUM = "tempHum";
 
-        
+        public const string PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO = "custom";
+        public const string PREFIX_SIGNAL_CUSTOM_LANG = "customLang";
+
 
         public const int ENABLE_COLUMN_INDEX = 1;
 
@@ -40,11 +42,14 @@ namespace BcTool
         private List<Hashtable> dist2SignalDataItemHashTable;
         private Dictionary<String, DataGridView> prefix2SignalDataGridView;
         private Dictionary<String, Tools.SignalTableMetaData> prefix2SystemTableMetaData;
+        private Dictionary<String, Tools.SignalTableMetaData> prefix2CustomTableMetaData;
         private Dictionary<String, DataGridView> prefix2LangDataGridView;
         private Dictionary<string, Dictionary<UInt16, LanguageResourceItem>> prefix2LangDictionary;
 
         private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemConstList;
         private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemVariableList;
+
+        private Dictionary<String, List<SignalDataItem>> prefix2customSignalDataItemVariableList;
 
         /* system signal info */
         private BPLibApi.BP_SigId2Val[] sysSigId2Val;
@@ -142,6 +147,10 @@ namespace BcTool
             prefix2SystemTableMetaData.Add(PREFIX_SIGNAL_SYSTEM_BASIC, new Tools.SignalTableMetaData());
             prefix2SystemTableMetaData.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM, new Tools.SignalTableMetaData());
 
+            prefix2CustomTableMetaData = new Dictionary<string, Tools.SignalTableMetaData>();
+            prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, new Tools.SignalTableMetaData());
+            prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_LANG, new Tools.SignalTableMetaData());
+
             prefix2LangDataGridView = new Dictionary<string, DataGridView>();
             prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_SIGNAL, systemLangDataGridView);
             prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_UNIT, systemUnitDataGridView);
@@ -167,9 +176,20 @@ namespace BcTool
             signalTableMetaDataTmp.recordNum = 0;
             loadReadOnlyDataGridView("sys_sig_info_temp_humidity_language_resource.csv", this.systemLangDataGridView, ref signalTableMetaDataTmp);
 
+            loadReadOnlyDataGridView("cus_sig_info_language_resource.csv", this.customLangDataGridView, ref signalTableMetaDataTmp);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO] = signalTableMetaDataTmp;
+
+            loadReadOnlyDataGridView("cus_sig_info.csv", this.customDataGridView, ref signalTableMetaDataTmp);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_LANG] = signalTableMetaDataTmp;
+
             if (!loadSystemSignalInfo())
             {
                 MessageBox.Show("Error: System signal table error");
+            }
+
+            if (!loadCustomSignalInfo())
+            {
+                MessageBox.Show("Error: Custom signal table error");
             }
 
             sysSigId2ValIntPtr = IntPtr.Zero;
@@ -223,6 +243,7 @@ namespace BcTool
             // dataGridView.Rows.Clear();
             try
             {
+                signalTableMetaData.clear();
                 UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(true);
                 using (StreamReader sr = new StreamReader(csvName, uTF8Encoding))
                 {
@@ -420,7 +441,49 @@ namespace BcTool
             }
             return ret;
         }
-        
+
+        private Boolean loadCustomSignalInfo()
+        {
+            prefix2customSignalDataItemVariableList = new Dictionary<string, List<SignalDataItem>>();
+            prefix2customSignalDataItemVariableList.Clear();
+
+            Boolean ret = false;
+            string err = "";
+            try
+            {
+                List<SignalDataItem> customSignalDataItemVariableListTmp = new List<SignalDataItem>();
+                int size = customDataGridView.Rows.Count;
+                if (prefix2CustomTableMetaData.ContainsKey(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO))
+                {
+                    size = Math.Min(size, prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO].recordNum);
+                }
+
+                for (int i = 0; i < size; i++)
+                {
+                    err = "";
+                    SignalDataItem tmp = SignalDataItem.parseSignalDataItem(customDataGridView.Rows[i].Cells, PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, false, ref err);
+                    if (tmp != null)
+                    {
+                        err = "line " + i + ", ";
+                        customSignalDataItemVariableListTmp.Add(tmp);
+                    }
+                    else if (!string.IsNullOrWhiteSpace(err))
+                    {
+                        err = "line " + i + ", " + err;
+                        Console.WriteLine(err);
+                        return ret;
+                    }
+                    prefix2customSignalDataItemVariableList[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO] = customSignalDataItemVariableListTmp;
+                }
+                ret = true;
+            }
+            catch (Exception e)
+            {
+                ret = false;
+            }
+            return ret;
+        }
+
 
         private bool exportCsv(DataGridView dataGridView, string exportCsv)
         {
@@ -997,8 +1060,10 @@ namespace BcTool
             Dictionary<string, string> moduleFile2SrcFileDictionary = new Dictionary<string, string>();
             moduleFile2SrcFileDictionary.Add("bp_sig_table_h.mod", "bp_sig_table.h");
             moduleFile2SrcFileDictionary.Add("bp_sig_table_c.mod", "bp_sig_table.c");
+            moduleFile2SrcFileDictionary.Add("bp_custom_sig_table_h.mod", "bp_custom_sig_table.h");
+            moduleFile2SrcFileDictionary.Add("bp_custom_sig_table_c.mod", "bp_custom_sig_table.c");
 
-            foreach(string moduleFile in moduleFile2SrcFileDictionary.Keys)
+            foreach (string moduleFile in moduleFile2SrcFileDictionary.Keys)
             {
                 try
                 {
