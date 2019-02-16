@@ -225,6 +225,11 @@ namespace BcTool
         private static string BLOCK_CHILD_TAG_CUSTOM_MAX_VAL = @"<CUSTOM_MAX_VAL>";
         private static string BLOCK_CHILD_TAG_CUSTOM_DEF_VAL = @"<CUSTOM_DEF_VAL>";
 
+        /* custom signal code block tag */
+        private static string BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_NUM = @"<STD_LANG_NUM>";
+        private static string BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_MASK = @"<STD_LANG_MASK>";
+        // private static string BLOCK_CHILD_TAG_CUSTOM_SIGNAL_MACRO = @"<STD_LANG_MASK>";
+
         private Regex REGEX_CODE_BLOCK_MACRO_DEFINED = new Regex(@"(\s*#define\s+)(<MACRO>)(\s+)(<SIGNAL_ID>)");
         private Regex REGEX_CODE_BLOCK_SIGNAL_MIN = new Regex(@"(.+)(<MACRO>)(.+)(<TYPE>)(.+)(<MIN>)(.+)");
         private Regex REGEX_CODE_BLOCK_SIGNAL_MAX = new Regex(@"(.+)(<MACRO>)(.+)(<TYPE>)(.+)(<MAX>)(.+)");
@@ -242,7 +247,9 @@ namespace BcTool
         private string BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST_UNIT = "SYSTEM_SIGNAL_ENABLE_DIST_UNIT";
         private string BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE = "SYSTEM_SIGNAL_CUSTOM_VALUE";
 
+        /* custom signal table code block tag */
         private string BLOCK_TAG_CUSTOM_LANGUAGE_SUPPORTED_INFO = "LANGUAGE_SUPPORTED_INFO";
+        private string BLOCK_TAG_CUSTOM_SIGNAL_MACRO_DEFINED = "CUSTOM_SIGNAL_MACRO_DEFINED";
 
 
         private delegate string DlgConstructCodeBlock(string codeBlock);
@@ -251,6 +258,7 @@ namespace BcTool
 
         private Dictionary<string, DlgConstructCodeBlock> codeBlockTag2Dlg;
         private Dictionary<string, DlgConstructSystemCustomCodeBlock> childCodeBlockTag2systemCustomDlg;
+        private Dictionary<string, DlgConstructSystemCustomCodeBlock> childCodeBlockTag2customSignalDlg;
 
 
 
@@ -267,6 +275,7 @@ namespace BcTool
             codeBlockTag2Dlg.Add(BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE, new DlgConstructCodeBlock(constructCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE));
 
             codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_LANGUAGE_SUPPORTED_INFO, new DlgConstructCodeBlock(constructCodeBlock_LANGUAGE_SUPPORTED_INFO));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_MACRO_DEFINED, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_MACRO_DEFINED));
 
             childCodeBlockTag2systemCustomDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
@@ -284,6 +293,10 @@ namespace BcTool
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM_DELAY_BEF, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_DELAY_BEF));
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM_DELAY_AFT, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ALARM_DELAY_AFT));
 
+            childCodeBlockTag2customSignalDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
+            // childCodeBlockTag2customSignalDlg.Add(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_NUM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_CUSTOM_SIGNAL_STD_LANG_NUM));
+            // childCodeBlockTag2customSignalDlg.Add(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_MASK, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_CUSTOM_SIGNAL_STD_LANG_MASK));
+            
         }
 
         private string constructCodeBlock_MACRO_DEFINED(string codeBlock)
@@ -307,7 +320,7 @@ namespace BcTool
                             continue;
                         }
                         /* there must be " 0x{0:X000}" not "0x{:X000}", otherwise "$3" will be "$30" */
-                        string tmp = REGEX_CODE_BLOCK_MACRO_DEFINED.Replace(codeBlock, "$1" + signalDataItem.Macro + "$3" + string.Format(" 0x{0:X000}", signalDataItem.SignalId));
+                        string tmp = REGEX_CODE_BLOCK_MACRO_DEFINED.Replace(codeBlock, "$1" + signalDataItem.Macro + "$3" + string.Format(" 0x{0:X4}", signalDataItem.SignalId));
                         ret += tmp;
                     }
 
@@ -653,16 +666,76 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
         private string constructCodeBlock_LANGUAGE_SUPPORTED_INFO(string codeBlock)
         {
             string ret = "";
+            if(0 == customSignalLanguageMask)
+            {
+                return ret;
+            }
             try
             {
+                string tmp = codeBlock;
+                try
+                {
+                    UInt32 stdLangNum = 0;
+                    for(int i = LanguageResourceItem.STD_LANGUAGE_START_INDEX; i < LanguageResourceItem.STD_LANGUAGE_START_INDEX + LanguageResourceItem.MAX_STD_LANGUAGE_NUM; i++)
+                    {
+                        if((customSignalLanguageMask & (1 << i)) != 0)
+                        {
+                            stdLangNum++;
+                        }
+                    }
+                    tmp = tmp.Replace(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_NUM, stdLangNum.ToString());
+                    tmp = tmp.Replace(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_MASK, string.Format(" 0x{0:X2}", customSignalLanguageMask & LanguageResourceItem.MAX_STD_LANGUAGE_NUM_MASK));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    tmp = codeBlock;
+                }
+
                 foreach (string prefix in prefixLists)
                 {
-                    if (!prefix2systemSignalDataItemVariableList.ContainsKey(prefix))
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
                     {
                         continue;
                     }
 
-                    List<SignalDataItem> signalDataItems = prefix2systemSignalDataItemVariableList[prefix];
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        foreach (string childTag in childCodeBlockTag2customSignalDlg.Keys)
+                        {
+                            tmp = childCodeBlockTag2customSignalDlg[childTag](tmp, signalDataItem);
+                        }
+                        ret += tmp;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_CUSTOM_SIGNAL_MACRO_DEFINED(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
                     foreach (SignalDataItem signalDataItem in signalDataItems)
                     {
                         /* input.replace("$", "$$") */
@@ -670,25 +743,12 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                         {
                             continue;
                         }
-                        string tmp = codeBlock;
-                        foreach (string childTag in childCodeBlockTag2systemCustomDlg.Keys)
-                        {
-                            tmp = childCodeBlockTag2systemCustomDlg[childTag](tmp, signalDataItem);
-                        }
-                        if (0 != signalDataItem.CustomInfo)
-                        {
-                            tmp = "\r\n/* Custom info: 0x" + Convert.ToString(signalDataItem.SignalId, 16) + " */" + "\r\n" + tmp;
-                            tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
-                        }
-
+                        string tmp = REGEX_CODE_BLOCK_MACRO_DEFINED.Replace(codeBlock, "$1" + signalDataItem.Macro + "$3" + string.Format(" 0x{0:X4}", signalDataItem.SignalId));
                         ret += tmp;
 
                     }
 
                 }
-
-
-
             }
             catch (Exception e)
             {
@@ -1509,6 +1569,56 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                     /* '1' means the last character '\n' */
                     ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_CUSTOM_SIGNAL_STD_LANG_NUM(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_NUM, "12345");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = codeBlock;
+            }
+
+            return ret;
+        }
+
+        private string constructSystemCustomCodeBlock_CUSTOM_SIGNAL_STD_LANG_MASK(string codeBlock, SignalDataItem signalDataItem)
+        {
+            if (null == codeBlock || codeBlock.Length == 0)
+            {
+                return "";
+            }
+            if (null == signalDataItem)
+            {
+                return codeBlock;
+            }
+
+            string ret = codeBlock;
+            try
+            {
+                ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_MASK, "xyz");
             }
             catch (Exception e)
             {

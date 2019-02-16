@@ -4,28 +4,32 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BcTool
 {
+
+    public class CellErrorInfo
+    {
+        public Color oldColor;
+        public Color currentColor;
+        public Boolean isError;
+        public string errorInfo;
+
+        public CellErrorInfo()
+        {
+            oldColor = ColorMng.NULL_COLOR;
+            currentColor = ColorMng.NULL_COLOR;
+            isError = false;
+            errorInfo = "";
+        }
+    }
+
     class ColorMng
     {
 
         public static Color WARNING_COLOR = Color.Red;
         public static Color NULL_COLOR = Color.FromArgb(1, 2, 3, 4);
-
-        class CellErrorInfo
-        {
-            public Color oldColor;
-            public Color currentColor;
-            public Boolean isError;
-
-            public CellErrorInfo()
-            {
-                oldColor = NULL_COLOR;
-                currentColor = NULL_COLOR;
-                isError = false;
-            }
-        }
 
 
         // private Dictionary<int, Dictionary<int, Color>> gridOldColorMap;
@@ -37,7 +41,7 @@ namespace BcTool
         }
 
 
-        public Color clearErrorInfor(int rowIndex, int columnIndex)
+        public Color clearErrorInfor(ref DataGridView dataGridView, int rowIndex, int columnIndex)
         {
             Color ret = NULL_COLOR;
 
@@ -49,6 +53,16 @@ namespace BcTool
                     tmp.isError = false;
                     tmp.currentColor = tmp.oldColor;
                     ret = tmp.currentColor;
+                    try
+                    {
+                        DataGridViewCell cell =
+                            dataGridView.Rows[rowIndex].Cells[columnIndex];
+                        cell.ToolTipText = "";
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
                 }
             }
 
@@ -74,6 +88,41 @@ namespace BcTool
             // tmp.oldColor = oldColor; old color only initialized when CellErrorInfo is created
             tmp.currentColor = errorColor;
             tmp.isError = true;
+        }
+
+        public CellErrorInfo getErrorInfo(int rowIndex, int columnIndex)
+        {
+            CellErrorInfo ret = null;
+            if (cellErrorInfoMap.ContainsKey(rowIndex))
+            {
+                if(cellErrorInfoMap[rowIndex].ContainsKey(columnIndex))
+                {
+                    ret = cellErrorInfoMap[rowIndex][columnIndex];
+                }
+            }
+            return ret;
+            
+        }
+
+        public static void setDataGridViewLineColor(ref DataGridView dataGridView, int rowIndex)
+        {
+            if(rowIndex < 0)
+            {
+                return;
+            }
+            if(rowIndex >= dataGridView.Rows.Count)
+            {
+                return;
+            }
+
+            if (rowIndex % 2 == 0)
+            {
+                dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = SystemColors.ControlLightLight;
+            }
+            else
+            {
+                dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = SystemColors.Info;
+            }
         }
     }
 }

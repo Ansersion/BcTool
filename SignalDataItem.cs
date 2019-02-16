@@ -120,11 +120,18 @@ namespace BcTool
                     /*
                     case 0:
                         return SignalId;
-                    case 1:
-                        return Enabled;
-                    case 2:
-                        return Macro;
                         */
+                    case 1:
+                        if (SignalDataItem.yesOrNoTable.ContainsKey(newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_INFO_ENABLED);
+                            signalDataItem.Enabled = SignalDataItem.yesOrNoTable[newValue];
+                        }
+                        break;
+                    case 2:
+                        ret = (1 << BPLibApi.SYS_SIG_CUSTOM_INFO_MACRO);
+                        signalDataItem.Macro = newValue;
+                        break;
                     case 3:
                         if (SignalDataItem.yesOrNoTable.ContainsKey(newValue))
                         {
@@ -133,10 +140,15 @@ namespace BcTool
                         }
 
                         break;
-                    /*
-                case 4:
-                    return ValueType1;
-                    */
+                    
+                    case 4:
+                        if(SignalDataItem.valueTypeTable.ContainsKey(newValue))
+                        {
+                            ret = (1 << BPLibApi.SYS_SIG_CUSTOM_INFO_VALUE_TYPE);
+                            signalDataItem.ValueType1 = SignalDataItem.valueTypeTable[newValue];
+                        }
+                        break;
+
                     case 5:
                         {
                             int unitId = -1;
@@ -986,6 +998,11 @@ namespace BcTool
             }
 
             return signalDataItemRet;
+        }
+
+        public SignalDataItem(int signalId) : 
+            this(signalId, false, "", false, BPValueType.U32, 0, BcPermission.RO, false, 0, 0, 0, 0, 0, null, true, BcAlarmClass.NONE, DEFAULT_DBA, DEFAULT_DBA)
+        {
         }
 
         public SignalDataItem(int signalId, bool enabled, string macro, bool alarm, BPValueType valueType, int unitLangId, BcPermission bcPermission, bool display, int accuracy, object minValue, object maxValue, object defaultValue, int groupLangId, Dictionary<ushort, uint> enumLangIdTable, bool statistics, BcAlarmClass alarmClass, int alarmBefDelay, int alarmAftDelay)

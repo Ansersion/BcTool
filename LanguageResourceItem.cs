@@ -8,6 +8,11 @@ namespace BcTool
 {
     public class LanguageResourceItem
     {
+
+        public const int STD_LANGUAGE_START_INDEX = 2;
+        public const int MAX_STD_LANGUAGE_NUM = 6;
+        public const int MAX_STD_LANGUAGE_NUM_MASK = 0xFC;
+
         public const int CHINESE_KEY = 7;
         public const int ENGLISH_KEY = 6;
         public const int FRENCH_KEY = 5;

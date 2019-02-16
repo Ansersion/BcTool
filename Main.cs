@@ -22,16 +22,26 @@ namespace BcTool
         public const string PREFIX_LANG_SYSTEM_ENUM = "systemEnum";
         public const string PREFIX_LANG_SYSTEM_GROUP = "systemGroup";
 
+        public const string PREFIX_LANG_CUSTOM_SIGNAL = "customLang";
+        public const string PREFIX_LANG_CUSTOM_UNIT = "customUnit";
+        public const string PREFIX_LANG_CUSTOM_ENUM = "customEnum";
+        public const string PREFIX_LANG_CUSTOM_GROUP = "customGroup";
+
         public const string PREFIX_SIGNAL_SYSTEM_BASIC = "basic";
         public const string PREFIX_SIGNAL_SYSTEM_TEMP_HUM = "tempHum";
 
         public const string PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO = "custom";
-        public const string PREFIX_SIGNAL_CUSTOM_LANG = "customLang";
+        public const string PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG = "customLang";
+        public const string PREFIX_SIGNAL_CUSTOM_ENUM_LANG = "customEnum";
+        public const string PREFIX_SIGNAL_CUSTOM_UNIT_LANG = "customUnit";
+        public const string PREFIX_SIGNAL_CUSTOM_GROUP_LANG = "customGroup";
 
 
         public const int ENABLE_COLUMN_INDEX = 1;
 
-        private ColorMng colorMng;
+        public const int DEFAULT_LINE_NUMBER = 64;
+
+        private Dictionary<string, ColorMng> prefix2ColorMng;
 
         private int[] systemLanguageTabIndex = { 4, 5, 6 };
 
@@ -50,6 +60,8 @@ namespace BcTool
         private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemVariableList;
 
         private Dictionary<String, List<SignalDataItem>> prefix2customSignalDataItemVariableList;
+
+        private UInt32 customSignalLanguageMask;
 
         /* system signal info */
         private BPLibApi.BP_SigId2Val[] sysSigId2Val;
@@ -117,8 +129,6 @@ namespace BcTool
         {
             this.WindowState = FormWindowState.Maximized;
 
-            colorMng = new ColorMng();
-
             progressBar1.Value = 0;
 
             comboBoxCrcType.SelectedIndex = 0;
@@ -128,9 +138,20 @@ namespace BcTool
             comboBoxPerformance.SelectedIndex = 0;
             comboBoxPerformance.Enabled = false;
 
+            customSignalLanguageMask = 0xC0;
+
             prefixLists = new List<string>();
             prefixLists.Add(PREFIX_SIGNAL_SYSTEM_BASIC);
             prefixLists.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM);
+
+            prefixLists.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO);
+
+            prefix2ColorMng = new Dictionary<string, ColorMng>();
+            foreach(string prefix in prefixLists)
+            {
+                prefix2ColorMng.Add(prefix, new ColorMng());
+            }
+            
 
             dist2DataGridViewList = new List<DataGridView>();
             dist2DataGridViewList.Add(this.systemBasicDataGridView);
@@ -143,25 +164,36 @@ namespace BcTool
             prefix2SignalDataGridView.Add(PREFIX_SIGNAL_SYSTEM_BASIC, systemBasicDataGridView);
             prefix2SignalDataGridView.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM, systemTempHumDataGridView);
 
+            // prefix2SignalDataGridView.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, customDataGridView);
+            
+
             prefix2SystemTableMetaData = new Dictionary<string, Tools.SignalTableMetaData>();
             prefix2SystemTableMetaData.Add(PREFIX_SIGNAL_SYSTEM_BASIC, new Tools.SignalTableMetaData());
             prefix2SystemTableMetaData.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM, new Tools.SignalTableMetaData());
 
             prefix2CustomTableMetaData = new Dictionary<string, Tools.SignalTableMetaData>();
             prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, new Tools.SignalTableMetaData());
-            prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_LANG, new Tools.SignalTableMetaData());
+            prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG, new Tools.SignalTableMetaData());
 
             prefix2LangDataGridView = new Dictionary<string, DataGridView>();
             prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_SIGNAL, systemLangDataGridView);
             prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_UNIT, systemUnitDataGridView);
             prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_ENUM, systemEnumDataGridView);
             prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_GROUP, systemGroupDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_SIGNAL, customLangDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_UNIT, customUnitDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_ENUM, customEnumDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_GROUP, customGroupDataGridView);
 
             prefix2LangDictionary = new Dictionary<string, Dictionary<UInt16, LanguageResourceItem>>();
             prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_SIGNAL, new Dictionary<UInt16, LanguageResourceItem>());
             prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_UNIT, new Dictionary<UInt16, LanguageResourceItem>());
             prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_ENUM, new Dictionary<UInt16, LanguageResourceItem>());
             prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_GROUP, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_SIGNAL, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_UNIT, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_ENUM, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_GROUP, new Dictionary<UInt16, LanguageResourceItem>());
 
             Tools.SignalTableMetaData signalTableMetaDataTmp = new Tools.SignalTableMetaData();
             loadReadOnlyDataGridView("sys_unit_language_resource.csv", this.systemUnitDataGridView, ref signalTableMetaDataTmp);
@@ -176,11 +208,17 @@ namespace BcTool
             signalTableMetaDataTmp.recordNum = 0;
             loadReadOnlyDataGridView("sys_sig_info_temp_humidity_language_resource.csv", this.systemLangDataGridView, ref signalTableMetaDataTmp);
 
-            loadReadOnlyDataGridView("cus_sig_info_language_resource.csv", this.customLangDataGridView, ref signalTableMetaDataTmp);
-            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO] = signalTableMetaDataTmp;
+            loadReadOnlyDataGridView("cus_signal_language_resource.csv", this.customLangDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG] = signalTableMetaDataTmp;
+            loadReadOnlyDataGridView("cus_unit_language_resource.csv", this.customUnitDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_UNIT_LANG] = signalTableMetaDataTmp;
+            loadReadOnlyDataGridView("cus_group_language_resource.csv", this.customGroupDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_GROUP_LANG] = signalTableMetaDataTmp;
+            loadReadOnlyDataGridView("cus_enum_language_resource.csv", this.customEnumDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_ENUM_LANG] = signalTableMetaDataTmp;
 
-            loadReadOnlyDataGridView("cus_sig_info.csv", this.customDataGridView, ref signalTableMetaDataTmp);
-            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_LANG] = signalTableMetaDataTmp;
+            loadReadOnlyDataGridView("cus_sig_info.csv", this.customDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO] = signalTableMetaDataTmp;
 
             if (!loadSystemSignalInfo())
             {
@@ -237,6 +275,55 @@ namespace BcTool
 
         }
 
+        private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, ref Tools.SignalTableMetaData signalTableMetaData, int defaultLineNumber)
+        {
+            loadReadOnlyDataGridView(csvName, dataGridView, ref signalTableMetaData);
+
+            
+            int lineCount = dataGridView.Rows.Count;
+
+            /*
+            dataGridView.AllowUserToAddRows = true;
+            for (int i = lineCount; i < defaultLineNumber; i++)
+            {
+                dataGridView.Rows.Add();
+                dataGridView.Rows[i].Cells[0].Value = String.Format("{0:X4}", i);
+            }
+            dataGridView.AllowUserToAddRows = false;
+            */
+
+            dataGridViewAddLines(ref dataGridView, defaultLineNumber - lineCount, lineCount + 1, true);
+        }
+
+        private void dataGridViewAddLines(ref DataGridView dataGridView, int lineNum, int firstId, Boolean isHex)
+        {
+            if(lineNum <= 0)
+            {
+                return;
+            }
+
+            int rowIndex = dataGridView.Rows.Count;
+            string lineId = "";
+
+            dataGridView.AllowUserToAddRows = true;
+            for (int i = 0; i < lineNum; i++)
+            {
+                dataGridView.Rows.Add();
+                if(isHex)
+                {
+                    lineId = String.Format("{0:X4}", firstId + i);
+                }
+                else
+                {
+                    lineId = (firstId + i).ToString();
+                }
+                dataGridView.Rows[rowIndex].Cells[0].Value = lineId;
+                ColorMng.setDataGridViewLineColor(ref dataGridView, rowIndex);
+                rowIndex++;
+            }
+            dataGridView.AllowUserToAddRows = false;
+        }
+
         private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, ref Tools.SignalTableMetaData signalTableMetaData)
         {
 
@@ -272,18 +359,13 @@ namespace BcTool
                                 break;
                             }
                         }
+                        dataGridView.AllowUserToAddRows = true;
                         dataGridView.Rows.Add();
+                        dataGridView.AllowUserToAddRows = false;
                         string[] stringArray = line.Split(',');
                         for (int i = 0; i < stringArray.Length; i++)
                         {
-                            if (rowIndex % 2 == 0)
-                            {
-                                dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = SystemColors.ControlLightLight;
-                            }
-                            else
-                            {
-                                dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = SystemColors.Info;
-                            }
+                            ColorMng.setDataGridViewLineColor(ref dataGridView, rowIndex);
 
                             dataGridView.Rows[rowIndex].Cells[i].Value = stringArray[i];
                         }
@@ -311,6 +393,10 @@ namespace BcTool
             {
                 return;
             }
+            if (null == prefix2ColorMng || !prefix2ColorMng.ContainsKey(prefix))
+            {
+                return;
+            }
 
             DataGridView dataGridView = prefix2SignalDataGridView[prefix];
             if (e.RowIndex >= dataGridView.Rows.Count || e.ColumnIndex >= dataGridView.Columns.Count)
@@ -329,6 +415,8 @@ namespace BcTool
 
             try
             {
+
+                ColorMng colorMng = prefix2ColorMng[prefix];
                 
                 if(ENABLE_COLUMN_INDEX == e.ColumnIndex)
                 {
@@ -343,8 +431,144 @@ namespace BcTool
                         return;
                     }
 
-                    Color oldColor = colorMng.clearErrorInfor(e.RowIndex, e.ColumnIndex);
+                    Color oldColor = colorMng.clearErrorInfor(ref dataGridView, e.RowIndex, e.ColumnIndex);
                     if(ColorMng.NULL_COLOR != oldColor)
+                    {
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
+                    }
+                    signalDataItemVal.Enabled = SignalDataItem.yesOrNoTable[tmp];
+                    Tools.setSysSignalEnableBits(ref systemSignalEnableBits, (UInt16)(signalDataItemVal.SignalId & 0xFFFF), signalDataItemVal.Enabled);
+                }
+                else
+                {
+                    object originalValue = signalDataItem[e.ColumnIndex];
+                    string customValue = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                    UInt32 customInfo = SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);
+                    if (SignalDataItem.CUSTOM_INFO_PARSE_ERROR == customInfo)
+                    {
+                        // TODO: prompt error
+                        colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
+                    }
+                    else
+                    {
+                        Color oldColor = colorMng.clearErrorInfor(ref dataGridView, e.RowIndex, e.ColumnIndex);
+                        if (ColorMng.NULL_COLOR != oldColor)
+                        {
+                            dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
+                        }
+                        // if (!signalDataItemVal[e.ColumnIndex].Equals(signalDataItem[e.ColumnIndex])) // TODO: '!=' is not fit for class value
+                        if (!SignalDataItem.judgeEqual(signalDataItemVal, ref signalDataItem, e.ColumnIndex))
+                        {
+                            /* set system signal custom info mask */
+                            signalDataItemVal.CustomInfo |= SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);
+                        }
+                        else
+                        {
+                            signalDataItemVal.CustomInfo &= ~SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);
+                        }
+                    }
+                }
+
+                Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "(" + signalDataItemVal[e.ColumnIndex] + ")");
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void showDataGridViewToolTip(string prefix, object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            if (!prefix2SignalDataGridView.ContainsKey(prefix))
+            {
+                return;
+            }
+
+            if (null == prefix2ColorMng || !prefix2ColorMng.ContainsKey(prefix))
+            {
+                return;
+            }
+
+            DataGridView dataGridView = prefix2SignalDataGridView[prefix];
+            if (e.RowIndex >= dataGridView.Rows.Count || e.ColumnIndex >= dataGridView.Columns.Count)
+            {
+                return;
+            }
+
+            try
+            {
+                ColorMng colorMng = prefix2ColorMng[prefix];
+                CellErrorInfo cellErrorInfo = colorMng.getErrorInfo(e.RowIndex, e.ColumnIndex);
+                if(cellErrorInfo != null)
+                {
+                    if(cellErrorInfo.isError)
+                    {
+                        DataGridViewCell cell =
+                            dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                        cell.ToolTipText = "Error: " + cellErrorInfo.errorInfo;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void customSignalCellValueChangedCallback(string prefix, object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            if (!prefix2SignalDataGridView.ContainsKey(prefix))
+            {
+                return;
+            }
+            if (null == prefix2customSignalDataItemVariableList || !prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+            {
+                return;
+            }
+      
+            DataGridView dataGridView = prefix2SignalDataGridView[prefix];
+
+            if (e.RowIndex >= dataGridView.Rows.Count || e.ColumnIndex >= dataGridView.Columns.Count)
+            {
+                return;
+            }
+
+            /*
+            List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+
+            if (signalDataItems.Count <= e.RowIndex)
+            {
+                return;
+            }
+            SignalDataItem signalDataItem = signalDataItems[e.RowIndex];
+
+            try
+            {
+
+                if (ENABLE_COLUMN_INDEX == e.ColumnIndex)
+                {
+                    // update enable flag 
+                    string tmp = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                    if (!SignalDataItem.yesOrNoTable.ContainsKey(tmp))
+                    {
+                        // return signalDataItemRet;
+                        colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
+                        return;
+                    }
+
+                    Color oldColor = colorMng.clearErrorInfor(e.RowIndex, e.ColumnIndex);
+                    if (ColorMng.NULL_COLOR != oldColor)
                     {
                         dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
                     }
@@ -372,7 +596,7 @@ namespace BcTool
                         // if (!signalDataItemVal[e.ColumnIndex].Equals(signalDataItem[e.ColumnIndex])) // TODO: '!=' is not fit for class value
                         if (!SignalDataItem.judgeEqual(signalDataItemVal, ref signalDataItem, e.ColumnIndex))
                         {
-                            /* set system signal custom info mask */
+                            // set system signal custom info mask 
                             signalDataItemVal.CustomInfo |= SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItemVal, customValue);
                         }
                         else
@@ -388,8 +612,8 @@ namespace BcTool
             {
 
             }
+            */
         }
-
 
         private Boolean loadSystemSignalInfo()
         {
@@ -1225,6 +1449,113 @@ namespace BcTool
                 generatePathTextBox.Text = sPath;
                 MessageBox.Show(sPath);
             }
+        }
+
+        private void customDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            if (null == prefix2customSignalDataItemVariableList || !prefix2customSignalDataItemVariableList.ContainsKey(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO))
+            {
+                return;
+            }
+
+            if (null == prefix2ColorMng || !prefix2ColorMng.ContainsKey(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO))
+            {
+                return;
+            }
+
+            ColorMng colorMng = prefix2ColorMng[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO];
+            DataGridView dataGridView = customDataGridView;
+            int rowCount = dataGridView.Rows.Count;
+            int columnCount = dataGridView.Columns.Count;
+
+            if (e.RowIndex >= rowCount || e.ColumnIndex >= columnCount)
+            {
+                return;
+            }
+
+            /* add new lines if last line filled */
+            if (e.RowIndex == rowCount - 1)
+            {
+                int firstId = 0;
+                if(0 != rowCount)
+                {
+                    firstId = rowCount + 1;
+                }
+                /* cannot exceed into the system signal ID */
+                if(rowCount + DEFAULT_LINE_NUMBER <= BPLibApi.SYSTEM_START_SIGNAL_ID)
+                {
+                    dataGridViewAddLines(ref dataGridView, DEFAULT_LINE_NUMBER, firstId, true);
+                }   
+            }
+
+            List<SignalDataItem> customSignalDataItemList = prefix2customSignalDataItemVariableList[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO];
+            if(customSignalDataItemList.Count <= e.RowIndex)
+            {
+                for(int i = customSignalDataItemList.Count; i <= e.RowIndex; i++)
+                {
+                    customSignalDataItemList.Add(new SignalDataItem(i));
+                }
+            }
+            SignalDataItem signalDataItem = customSignalDataItemList[e.RowIndex];
+
+            try
+            {
+
+                if (ENABLE_COLUMN_INDEX == e.ColumnIndex)
+                {
+                    // update enable flag 
+                    string tmp = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                    if (!SignalDataItem.yesOrNoTable.ContainsKey(tmp))
+                    {
+                        // return signalDataItemRet;
+                        colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
+                        return;
+                    }
+
+                    Color oldColor = colorMng.clearErrorInfor(ref dataGridView, e.RowIndex, e.ColumnIndex);
+                    if (ColorMng.NULL_COLOR != oldColor)
+                    {
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
+                    }
+                    signalDataItem.Enabled = SignalDataItem.yesOrNoTable[tmp];
+                }
+                else
+                {
+                    object originalValue = signalDataItem[e.ColumnIndex];
+                    string customValue = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                    UInt32 customInfo = SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItem, customValue);
+                    if (SignalDataItem.CUSTOM_INFO_PARSE_ERROR == customInfo)
+                    {
+                        // TODO: prompt error
+                        colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
+                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
+                    }
+                    else
+                    {
+                        Color oldColor = colorMng.clearErrorInfor(ref dataGridView, e.RowIndex, e.ColumnIndex);
+                        if (ColorMng.NULL_COLOR != oldColor)
+                        {
+                            dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
+                        }
+                    }
+                }
+
+                Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "(" + signalDataItem[e.ColumnIndex] + ")");
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void systemBasicDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            showDataGridViewToolTip(PREFIX_SIGNAL_SYSTEM_BASIC, sender, e);
         }
     }
 }

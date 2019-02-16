@@ -164,7 +164,9 @@ namespace BcTool
                     DataGridViewCell dataGridViewCellTmp;
                     if (signalNameLangTable.ContainsKey(signalID))
                     {
+                        dataGridViewSignalTable.AllowUserToAddRows = true;
                         dataGridViewSignalTable.Rows.Add();
+                        dataGridViewSignalTable.AllowUserToAddRows = false;
                         dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_SIGNAL_ID].Value = signalNameLangTable[signalID].LanguageMap[languageKey];
                         dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_TYPE].Value = value.getValueTypeString();
                         dataGridViewSignalTable.Rows[dataGridViewSignalTable.Rows.Count - 1].Cells[SignalDataItem.GRIDVIEW_VALUE].Value = value.getDefaultString();
