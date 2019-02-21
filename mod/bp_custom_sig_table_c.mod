@@ -3,6 +3,12 @@
 #include <bp_custom_sig_table.h>
 #include <bp_sig_table_tools.h>
 
+<CUSTOM_SIGNAL_MIN_MAX_DEF_VAL>
+const SigTypeU <MACRO>_MIN = {.<TYPE> = <MIN>};
+const SigTypeU <MACRO>_MAX = {.<TYPE> = <MAX>};
+const SigTypeU <MACRO>_DEF = {.<TYPE> = <DEF>};
+</CUSTOM_SIGNAL_MIN_MAX_DEF_VAL>
+
 BP_SigId2Val g_CusSigId2Val[] = 
 {
 <CUSTOM_SIGNAL_ID_2_VAL>
@@ -57,7 +63,14 @@ const BP_UINT8 * g_CusSigGroupLang[] =
 
 const BP_UINT8 * g_CusSigEnumLang[] = 
 {
-    /* TODO: must be ordered */
+<SIGNAL_ENUM_LANGUAGE>
+    <SPANISH>,
+    <ARABIC>,
+    <RUSSIAN>,
+    <FRENCH>,
+    <ENGLISH>,
+    <CHINESE>,
+</SIGNAL_ENUM_LANGUAGE>
 };
 
 const BP_CusLangMap g_CusSigNameLangMap[] = 
@@ -90,10 +103,20 @@ const BP_CusLangMap g_CusSigGroupLangMap[] =
 };
 const BP_WORD g_CusSigGroupLangMapNum = sizeof(g_CusSigGroupLangMap) / sizeof(BP_CusLangMap);
 
-const BP_CusEnumLangMap g_CusSigEnumLangMap[] = 
+<SIGNAL_ENUM_LANGUAGE_MAP>
+BP_EnumSignalMap <MACRO>_ENUM_MAP[] = 
 {
-    /* 1 mean first language resource, 0 means no language resource */
-    // {SIG_CUS_DEVICE_NAME, 0},
+    {<ENUM_VAL>, <LANG_INDEX>}, 
 };
-const BP_WORD g_CusSigEnumLangMapNum = sizeof(g_CusSigEnumLangMap) / sizeof(BP_CusEnumLangMap);
+</SIGNAL_ENUM_LANGUAGE_UNIT>
+
+BP_SigId2EnumSignalMap g_CusSigId2EnumSigMap[] =
+{
+<SIGNAL_ENUM_LANGUAGE_MAP_UNIT>
+    {<MACRO>, <MACRO>_ENUM_MAP, sizeof(<MACRO>_ENUM_MAP) / sizeof(BP_EnumSignalMap)},
+</SIGNAL_ENUM_LANGUAGE_MAP_UNIT>
+};
+
+BP_WORD g_CusSigId2EnumSignalMapNum = sizeof(g_CusSigId2EnumSigMap) / sizeof(BP_SigId2EnumSignalMap);
+
 

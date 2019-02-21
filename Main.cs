@@ -48,6 +48,7 @@ namespace BcTool
         private NetMng netMng = new NetMng("127.0.0.1");
         private Simulator simulator;
         private List<string> prefixLists;
+        private List<string> signalLanguageInfoPrefixList;
         private List<DataGridView> dist2DataGridViewList;
         private List<Hashtable> dist2SignalDataItemHashTable;
         private Dictionary<String, DataGridView> prefix2SignalDataGridView;
@@ -60,6 +61,7 @@ namespace BcTool
         private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemVariableList;
 
         private Dictionary<String, List<SignalDataItem>> prefix2customSignalDataItemVariableList;
+        // private Dictionary<String, List<SignalDataItem>> prefix2customSignalDataItemVariableList;
 
         private UInt32 customSignalLanguageMask;
 
@@ -146,12 +148,23 @@ namespace BcTool
 
             prefixLists.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO);
 
+            signalLanguageInfoPrefixList = new List<string>();
+            signalLanguageInfoPrefixList.Add(PREFIX_LANG_CUSTOM_SIGNAL);
+            signalLanguageInfoPrefixList.Add(PREFIX_LANG_CUSTOM_UNIT);
+            signalLanguageInfoPrefixList.Add(PREFIX_LANG_CUSTOM_ENUM);
+            signalLanguageInfoPrefixList.Add(PREFIX_LANG_CUSTOM_GROUP);
+
+
             prefix2ColorMng = new Dictionary<string, ColorMng>();
             foreach(string prefix in prefixLists)
             {
                 prefix2ColorMng.Add(prefix, new ColorMng());
             }
             
+            foreach(string prefix in signalLanguageInfoPrefixList)
+            {
+                prefix2ColorMng.Add(prefix, new ColorMng());
+            }
 
             dist2DataGridViewList = new List<DataGridView>();
             dist2DataGridViewList.Add(this.systemBasicDataGridView);
@@ -174,26 +187,6 @@ namespace BcTool
             prefix2CustomTableMetaData = new Dictionary<string, Tools.SignalTableMetaData>();
             prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, new Tools.SignalTableMetaData());
             prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG, new Tools.SignalTableMetaData());
-
-            prefix2LangDataGridView = new Dictionary<string, DataGridView>();
-            prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_SIGNAL, systemLangDataGridView);
-            prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_UNIT, systemUnitDataGridView);
-            prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_ENUM, systemEnumDataGridView);
-            prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_GROUP, systemGroupDataGridView);
-            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_SIGNAL, customLangDataGridView);
-            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_UNIT, customUnitDataGridView);
-            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_ENUM, customEnumDataGridView);
-            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_GROUP, customGroupDataGridView);
-
-            prefix2LangDictionary = new Dictionary<string, Dictionary<UInt16, LanguageResourceItem>>();
-            prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_SIGNAL, new Dictionary<UInt16, LanguageResourceItem>());
-            prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_UNIT, new Dictionary<UInt16, LanguageResourceItem>());
-            prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_ENUM, new Dictionary<UInt16, LanguageResourceItem>());
-            prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_GROUP, new Dictionary<UInt16, LanguageResourceItem>());
-            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_SIGNAL, new Dictionary<UInt16, LanguageResourceItem>());
-            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_UNIT, new Dictionary<UInt16, LanguageResourceItem>());
-            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_ENUM, new Dictionary<UInt16, LanguageResourceItem>());
-            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_GROUP, new Dictionary<UInt16, LanguageResourceItem>());
 
             Tools.SignalTableMetaData signalTableMetaDataTmp = new Tools.SignalTableMetaData();
             loadReadOnlyDataGridView("sys_unit_language_resource.csv", this.systemUnitDataGridView, ref signalTableMetaDataTmp);
@@ -278,21 +271,10 @@ namespace BcTool
         private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, ref Tools.SignalTableMetaData signalTableMetaData, int defaultLineNumber)
         {
             loadReadOnlyDataGridView(csvName, dataGridView, ref signalTableMetaData);
-
             
             int lineCount = dataGridView.Rows.Count;
 
-            /*
-            dataGridView.AllowUserToAddRows = true;
-            for (int i = lineCount; i < defaultLineNumber; i++)
-            {
-                dataGridView.Rows.Add();
-                dataGridView.Rows[i].Cells[0].Value = String.Format("{0:X4}", i);
-            }
-            dataGridView.AllowUserToAddRows = false;
-            */
-
-            dataGridViewAddLines(ref dataGridView, defaultLineNumber - lineCount, lineCount + 1, true);
+            dataGridViewAddLines(ref dataGridView, defaultLineNumber - lineCount, lineCount, true);
         }
 
         private void dataGridViewAddLines(ref DataGridView dataGridView, int lineNum, int firstId, Boolean isHex)
@@ -331,7 +313,7 @@ namespace BcTool
             try
             {
                 signalTableMetaData.clear();
-                UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(true);
+                UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(false);
                 using (StreamReader sr = new StreamReader(csvName, uTF8Encoding))
                 {
                     string line;
@@ -671,10 +653,31 @@ namespace BcTool
             prefix2customSignalDataItemVariableList = new Dictionary<string, List<SignalDataItem>>();
             prefix2customSignalDataItemVariableList.Clear();
 
+            prefix2LangDataGridView = new Dictionary<string, DataGridView>();
+            prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_SIGNAL, systemLangDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_UNIT, systemUnitDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_ENUM, systemEnumDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_SYSTEM_GROUP, systemGroupDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_SIGNAL, customLangDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_UNIT, customUnitDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_ENUM, customEnumDataGridView);
+            prefix2LangDataGridView.Add(PREFIX_LANG_CUSTOM_GROUP, customGroupDataGridView);
+
+            prefix2LangDictionary = new Dictionary<string, Dictionary<UInt16, LanguageResourceItem>>();
+            prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_SIGNAL, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_UNIT, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_ENUM, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_SYSTEM_GROUP, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_SIGNAL, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_UNIT, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_ENUM, new Dictionary<UInt16, LanguageResourceItem>());
+            prefix2LangDictionary.Add(PREFIX_LANG_CUSTOM_GROUP, new Dictionary<UInt16, LanguageResourceItem>());
+
             Boolean ret = false;
             string err = "";
             try
             {
+                /* initialize custom SignalDataItem list */
                 List<SignalDataItem> customSignalDataItemVariableListTmp = new List<SignalDataItem>();
                 int size = customDataGridView.Rows.Count;
                 if (prefix2CustomTableMetaData.ContainsKey(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO))
@@ -699,6 +702,54 @@ namespace BcTool
                     }
                     prefix2customSignalDataItemVariableList[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO] = customSignalDataItemVariableListTmp;
                 }
+
+                /* initialize custom LanguageResourceItem Dictionary list */
+                foreach(string prefix in signalLanguageInfoPrefixList)
+                {
+                    if(!prefix2LangDataGridView.ContainsKey(prefix))
+                    {
+                        err = "Language " + prefix + "DataGridView error";
+                        Console.WriteLine(err);
+                        return ret;
+                    }
+
+                    if(!prefix2LangDictionary.ContainsKey(prefix))
+                    {
+                        err = "Language " + prefix + "Dictionary error";
+                        Console.WriteLine(err);
+                        return ret;
+                    }
+                    DataGridView dataGridViewTmp = prefix2LangDataGridView[prefix];
+                    Dictionary<UInt16, LanguageResourceItem> prefix2LanguageResourceItemDictionary = prefix2LangDictionary[prefix];
+                    size = dataGridViewTmp.Rows.Count;
+                    if (prefix2CustomTableMetaData.ContainsKey(prefix))
+                    {
+                        size = Math.Min(size, prefix2CustomTableMetaData[prefix].recordNum);
+                    }
+
+                    for (int i = 0; i < size; i++)
+                    {
+                        err = "";
+                        LanguageResourceItem tmp = LanguageResourceItem.parseLanguageResourceItem(dataGridViewTmp.Rows[i].Cells, prefix, ref err);
+                        if (tmp != null)
+                        {
+                            err = "line " + i + ", ";
+                            prefix2LanguageResourceItemDictionary.Add((UInt16)tmp.IndexId, tmp);
+                        }
+                        else if (!string.IsNullOrWhiteSpace(err))
+                        {
+                            err = "line " + i + ", ";
+                            Console.WriteLine(err);
+                        }
+                        else
+                        {
+                            /* parse ok */
+                            break;
+                        }
+                    }
+                }
+
+
                 ret = true;
             }
             catch (Exception e)
@@ -712,8 +763,8 @@ namespace BcTool
         private bool exportCsv(DataGridView dataGridView, string exportCsv)
         {
             bool ret = true;
-            
-            UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(true);
+
+            UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(false);
 
             try
             {
@@ -1291,7 +1342,7 @@ namespace BcTool
             {
                 try
                 {
-                    UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(true);
+                    UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(false);
                     using (StreamReader sr = new StreamReader(moduleFile, uTF8Encoding))
                     {
                         using (StreamWriter sw = new StreamWriter(gererateDirectory + @"\" + moduleFile2SrcFileDictionary[moduleFile], false, uTF8Encoding))
@@ -1502,50 +1553,26 @@ namespace BcTool
             }
             SignalDataItem signalDataItem = customSignalDataItemList[e.RowIndex];
 
+            /* set new value to SignalDataItem or prompt error*/
             try
             {
-
-                if (ENABLE_COLUMN_INDEX == e.ColumnIndex)
+                string customValue = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                UInt32 customInfo = SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItem, customValue);
+                if (SignalDataItem.CUSTOM_INFO_PARSE_ERROR == customInfo)
                 {
-                    // update enable flag 
-                    string tmp = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
-                    if (!SignalDataItem.yesOrNoTable.ContainsKey(tmp))
-                    {
-                        // return signalDataItemRet;
-                        colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
-                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
-                        return;
-                    }
-
+                    // TODO: prompt error
+                    colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
+                    dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
+                }
+                else
+                {
                     Color oldColor = colorMng.clearErrorInfor(ref dataGridView, e.RowIndex, e.ColumnIndex);
                     if (ColorMng.NULL_COLOR != oldColor)
                     {
                         dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
                     }
-                    signalDataItem.Enabled = SignalDataItem.yesOrNoTable[tmp];
-                }
-                else
-                {
-                    object originalValue = signalDataItem[e.ColumnIndex];
-                    string customValue = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
-                    UInt32 customInfo = SignalDataItem.parseCustomInfoMask(e.ColumnIndex, ref signalDataItem, customValue);
-                    if (SignalDataItem.CUSTOM_INFO_PARSE_ERROR == customInfo)
-                    {
-                        // TODO: prompt error
-                        colorMng.putErrorInfo(e.RowIndex, e.ColumnIndex, dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor, ColorMng.WARNING_COLOR);
-                        dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = ColorMng.WARNING_COLOR;
-                    }
-                    else
-                    {
-                        Color oldColor = colorMng.clearErrorInfor(ref dataGridView, e.RowIndex, e.ColumnIndex);
-                        if (ColorMng.NULL_COLOR != oldColor)
-                        {
-                            dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
-                        }
-                    }
                 }
 
-                Console.WriteLine("(" + e.RowIndex + "," + e.ColumnIndex + ")=" + dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "(" + signalDataItem[e.ColumnIndex] + ")");
             }
             catch (Exception ex)
             {
@@ -1557,5 +1584,123 @@ namespace BcTool
         {
             showDataGridViewToolTip(PREFIX_SIGNAL_SYSTEM_BASIC, sender, e);
         }
+
+        private void customLangDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            string prefix = PREFIX_LANG_CUSTOM_SIGNAL;
+            if (null == prefix2LangDictionary || !prefix2LangDictionary.ContainsKey(prefix))
+            {
+                return;
+            }
+            if (null == prefix2ColorMng || !prefix2ColorMng.ContainsKey(prefix))
+            {
+                return;
+            }
+            if (null == prefix2LangDataGridView || !prefix2LangDataGridView.ContainsKey(prefix))
+            {
+                return;
+            }
+
+            DataGridView dataGridViewTmp = prefix2LangDataGridView[prefix];
+            if (e.RowIndex >= dataGridViewTmp.Rows.Count || e.ColumnIndex >= dataGridViewTmp.Columns.Count)
+            {
+                return;
+            }
+
+            ColorMng colorMng = prefix2ColorMng[prefix];
+            Dictionary<UInt16, LanguageResourceItem> id2LanguageResourceItemDictionary = prefix2LangDictionary[prefix];
+            int rowCount = dataGridViewTmp.Rows.Count;
+            int columnCount = dataGridViewTmp.Columns.Count;
+
+            if (e.RowIndex >= rowCount || e.ColumnIndex >= columnCount)
+            {
+                return;
+            }
+
+            // add new lines if last line filled 
+            if (e.RowIndex == rowCount - 1)
+            {
+                int firstId = 0;
+                if (0 != rowCount)
+                {
+                    firstId = rowCount + 1;
+                }
+                // cannot exceed into the system signal ID 
+                if (rowCount + DEFAULT_LINE_NUMBER <= BPLibApi.SYSTEM_START_SIGNAL_ID)
+                {
+                    dataGridViewAddLines(ref dataGridViewTmp, DEFAULT_LINE_NUMBER, firstId, true);
+                }
+            }
+
+            int customLangId = -1;
+            try
+            {
+                customLangId = Convert.ToInt32(dataGridViewTmp.Rows[e.RowIndex].Cells[0].Value.ToString().Trim(), 16);
+
+                if (customLangId < 0)
+                {
+                    return;
+                }
+
+                LanguageResourceItem languageResourceItemTmp = null;
+                if (!id2LanguageResourceItemDictionary.ContainsKey((UInt16)customLangId))
+                {
+                    string err = "";
+                    languageResourceItemTmp = LanguageResourceItem.parseLanguageResourceItem(dataGridViewTmp.Rows[e.RowIndex].Cells, prefix, ref err);
+                    if (languageResourceItemTmp != null)
+                    {
+                        id2LanguageResourceItemDictionary[(UInt16)customLangId] = languageResourceItemTmp;
+                    }
+                    else if (!string.IsNullOrWhiteSpace(err))
+                    {
+                        Console.WriteLine(err);
+                    }
+                }
+                if (null == languageResourceItemTmp)
+                {
+                    languageResourceItemTmp = id2LanguageResourceItemDictionary[(UInt16)customLangId];
+                }
+
+                string customValue = dataGridViewTmp.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                switch(e.ColumnIndex)
+                {
+                    case 1:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.CHINESE_KEY] = customValue;
+                        break;
+                    case 2:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.ENGLISH_KEY] = customValue;
+                        break;
+                    case 3:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.FRENCH_KEY] = customValue;
+                        break;
+                    case 4:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.RUSSIAN_KEY] = customValue;
+                        break;
+                    case 5:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.ARABIC_KEY] = customValue;
+                        break;
+                    case 6:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.SPANISH_KEY] = customValue;
+                        break;
+                }
+                
+                Color oldColor = colorMng.clearErrorInfor(ref dataGridViewTmp, e.RowIndex, e.ColumnIndex);
+                if (ColorMng.NULL_COLOR != oldColor)
+                {
+                    dataGridViewTmp.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                customLangId = -1;
+            }
+        }
+
     }
 }

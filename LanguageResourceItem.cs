@@ -36,7 +36,7 @@ namespace BcTool
 
             try
             {
-                String tmp;
+                string tmp;
 
                 tmp = row[prefix + "LanguageID"].Value.ToString().Trim();
                 if(String.IsNullOrWhiteSpace(tmp))
@@ -62,9 +62,58 @@ namespace BcTool
                 }
 
                 Dictionary<UInt16, string> languageMap = new Dictionary<ushort, string>();
+                string key;
 
-                tmp = row[prefix + "Chinese"].Value.ToString().Trim();
+                key = prefix + "Chinese";
+                tmp = "";
+                if (row[key].Value != null)
+                {
+                    tmp = row[key].Value.ToString().Trim();
+                }
                 languageMap.Add(CHINESE_KEY, tmp);
+
+                key = prefix + "English";
+                tmp = "";
+                if (row[key].Value != null)
+                {
+                    tmp = row[key].Value.ToString().Trim();
+                }
+                languageMap.Add(ENGLISH_KEY, tmp);
+
+                key = prefix + "French";
+                tmp = "";
+                if (row[key].Value != null)
+                {
+                    tmp = row[key].Value.ToString().Trim();
+                }
+                languageMap.Add(FRENCH_KEY, tmp);
+
+                key = prefix + "Russian";
+                tmp = "";
+                if (row[key].Value != null)
+                {
+                    tmp = row[key].Value.ToString().Trim();
+                }
+                languageMap.Add(RUSSIAN_KEY, tmp);
+
+                key = prefix + "Arabic";
+                tmp = "";
+                if (row[key].Value != null)
+                {
+                    tmp = row[key].Value.ToString().Trim();
+                }
+                languageMap.Add(ARABIC_KEY, tmp);
+
+                key = prefix + "Spanish";
+                tmp = "";
+                if (row[key].Value != null)
+                {
+                    tmp = row[key].Value.ToString().Trim();
+                }
+                languageMap.Add(SPANISH_KEY, tmp);
+
+
+                /*
                 tmp = row[prefix + "English"].Value.ToString().Trim();
                 languageMap.Add(ENGLISH_KEY, tmp);
                 tmp = row[prefix + "French"].Value.ToString().Trim();
@@ -75,6 +124,7 @@ namespace BcTool
                 languageMap.Add(ARABIC_KEY, tmp);
                 tmp = row[prefix + "Spanish"].Value.ToString().Trim();
                 languageMap.Add(SPANISH_KEY, tmp);
+                */
 
                 languageResourceItemRet = new LanguageResourceItem(languageId, languageMap);
             }

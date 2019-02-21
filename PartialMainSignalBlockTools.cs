@@ -250,7 +250,9 @@ namespace BcTool
         /* custom signal table code block tag */
         private string BLOCK_TAG_CUSTOM_LANGUAGE_SUPPORTED_INFO = "LANGUAGE_SUPPORTED_INFO";
         private string BLOCK_TAG_CUSTOM_SIGNAL_MACRO_DEFINED = "CUSTOM_SIGNAL_MACRO_DEFINED";
-
+        private string BLOCK_TAG_CUSTOM_SIGNAL_MIN_MAX_DEF_VAL = "CUSTOM_SIGNAL_MIN_MAX_DEF_VAL";
+        private string BLOCK_TAG_CUSTOM_SIGNAL_ID_2_VAL = "CUSTOM_SIGNAL_ID_2_VAL";
+        private string BLOCK_TAG_CUSTOM_SIGNAL_TABLE = "CUSTOM_SIGNAL_TABLE";
 
         private delegate string DlgConstructCodeBlock(string codeBlock);
 
@@ -276,6 +278,9 @@ namespace BcTool
 
             codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_LANGUAGE_SUPPORTED_INFO, new DlgConstructCodeBlock(constructCodeBlock_LANGUAGE_SUPPORTED_INFO));
             codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_MACRO_DEFINED, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_MACRO_DEFINED));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_MIN_MAX_DEF_VAL, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_MIN_MAX_DEF_VAL));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_ID_2_VAL, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_ID_2_VAL));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_TABLE, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_TABLE));
 
             childCodeBlockTag2systemCustomDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
@@ -672,47 +677,17 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
             }
             try
             {
-                string tmp = codeBlock;
-                try
+                ret = codeBlock;
+                UInt32 stdLangNum = 0;
+                for (int i = LanguageResourceItem.STD_LANGUAGE_START_INDEX; i < LanguageResourceItem.STD_LANGUAGE_START_INDEX + LanguageResourceItem.MAX_STD_LANGUAGE_NUM; i++)
                 {
-                    UInt32 stdLangNum = 0;
-                    for(int i = LanguageResourceItem.STD_LANGUAGE_START_INDEX; i < LanguageResourceItem.STD_LANGUAGE_START_INDEX + LanguageResourceItem.MAX_STD_LANGUAGE_NUM; i++)
+                    if ((customSignalLanguageMask & (1 << i)) != 0)
                     {
-                        if((customSignalLanguageMask & (1 << i)) != 0)
-                        {
-                            stdLangNum++;
-                        }
-                    }
-                    tmp = tmp.Replace(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_NUM, stdLangNum.ToString());
-                    tmp = tmp.Replace(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_MASK, string.Format(" 0x{0:X2}", customSignalLanguageMask & LanguageResourceItem.MAX_STD_LANGUAGE_NUM_MASK));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    tmp = codeBlock;
-                }
-
-                foreach (string prefix in prefixLists)
-                {
-                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
-                    {
-                        continue;
-                    }
-
-                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
-                    foreach (SignalDataItem signalDataItem in signalDataItems)
-                    {
-                        if (!signalDataItem.Enabled)
-                        {
-                            continue;
-                        }
-                        foreach (string childTag in childCodeBlockTag2customSignalDlg.Keys)
-                        {
-                            tmp = childCodeBlockTag2customSignalDlg[childTag](tmp, signalDataItem);
-                        }
-                        ret += tmp;
+                        stdLangNum++;
                     }
                 }
+                ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_NUM, stdLangNum.ToString());
+                ret = ret.Replace(BLOCK_CHILD_TAG_CUSTOM_SIGNAL_STD_LANG_MASK, string.Format(" 0x{0:X2}", customSignalLanguageMask & LanguageResourceItem.MAX_STD_LANGUAGE_NUM_MASK));
             }
             catch (Exception e)
             {
@@ -744,6 +719,132 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                             continue;
                         }
                         string tmp = REGEX_CODE_BLOCK_MACRO_DEFINED.Replace(codeBlock, "$1" + signalDataItem.Macro + "$3" + string.Format(" 0x{0:X4}", signalDataItem.SignalId));
+                        ret += tmp;
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_CUSTOM_SIGNAL_MIN_MAX_DEF_VAL(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        tmp = REGEX_CODE_BLOCK_SIGNAL_MIN.Replace(tmp, "${1}" + signalDataItem.Macro + "${3}" + ValueTypeToCode(signalDataItem.ValueType1) + "${5}" + signalDataItem.MinValue.ToString() + "${7}");
+                        tmp = REGEX_CODE_BLOCK_SIGNAL_MAX.Replace(tmp, "${1}" + signalDataItem.Macro + "${3}" + ValueTypeToCode(signalDataItem.ValueType1) + "${5}" + signalDataItem.MaxValue.ToString() + "${7}");
+                        tmp = REGEX_CODE_BLOCK_SIGNAL_DEF.Replace(tmp, "${1}" + signalDataItem.Macro + "${3}" + ValueTypeToCode(signalDataItem.ValueType1) + "${5}" + signalDataItem.DefaultValue.ToString() + "${7}");
+                        ret += tmp;
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_CUSTOM_SIGNAL_ID_2_VAL(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
+                        ret += tmp;
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_CUSTOM_SIGNAL_TABLE(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_TYPE_DEFINED, ValueTypeToEnumCode(signalDataItem.ValueType1));
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_STATISTICS, signalDataItem.Statistics ? BP_CODE_ENABLE_STATISTICS : BP_CODE_DISABLE_STATISTICS);
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_DISPLAY, signalDataItem.Display ? BP_CODE_ENABLE_DISPLAY : BP_CODE_DISABLE_DISPLAY);
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_ACCURACY, signalDataItem.Accuracy.ToString());
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_ALARM, signalDataItem.Alarm ? BP_CODE_ENABLE_ALARM : BP_CODE_DISABLE_ALARM);
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_PERMISSION, BcPermissionToCode(signalDataItem.BcPermission1));
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_ALARM_CLASS, BcAlarmClassToCode(signalDataItem.AlarmClass));
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_CUSTOM_INFO, 0 == signalDataItem.CustomInfo ? BP_CODE_NO_CUSTOM_INFO : BP_CODE_HAS_CUSTOM_INFO);
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_MIN, signalDataItem.Macro + "_MIN");
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_MAX, signalDataItem.Macro + "_MAX");
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_DEF, signalDataItem.Macro + "_DEF");
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_ALARM_DELAY_BEF, signalDataItem.AlarmBefDelay.ToString());
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_ALARM_DELAY_AFT, signalDataItem.AlarmAftDelay.ToString());
                         ret += tmp;
 
                     }
