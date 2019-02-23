@@ -29,6 +29,9 @@ namespace BcTool
     {
 
         public static Color WARNING_COLOR = Color.Red;
+        public static Color ODD_COLOR = SystemColors.Info;
+        public static Color EVEN_COLOR = SystemColors.ControlLightLight;
+        public static Color READ_ONLY_COLOR = System.Drawing.SystemColors.Control;
         public static Color NULL_COLOR = Color.FromArgb(1, 2, 3, 4);
 
 
@@ -90,6 +93,46 @@ namespace BcTool
             tmp.isError = true;
         }
 
+        public void putColor(int rowIndex, int columnIndex, Color oldColor, Color newColor)
+        {
+
+            if (!cellErrorInfoMap.ContainsKey(rowIndex))
+            {
+                cellErrorInfoMap.Add(rowIndex, new Dictionary<int, CellErrorInfo>());
+            }
+
+            CellErrorInfo tmp;
+            if (!cellErrorInfoMap[rowIndex].ContainsKey(columnIndex))
+            {
+                tmp = new CellErrorInfo();
+                tmp.oldColor = oldColor;
+                cellErrorInfoMap[rowIndex].Add(columnIndex, tmp);
+            }
+            tmp = cellErrorInfoMap[rowIndex][columnIndex];
+            // tmp.oldColor = oldColor; old color only initialized when CellErrorInfo is created
+            tmp.currentColor = newColor;
+        }
+
+        public Color getColor(int rowIndex, int columnIndex)
+        {
+            if (!cellErrorInfoMap.ContainsKey(rowIndex))
+            {
+                cellErrorInfoMap.Add(rowIndex, new Dictionary<int, CellErrorInfo>());
+            }
+
+            CellErrorInfo tmp;
+            if (!cellErrorInfoMap[rowIndex].ContainsKey(columnIndex))
+            {
+                tmp = new CellErrorInfo();
+                tmp.oldColor = ColorMng.NULL_COLOR;
+                tmp.currentColor = ColorMng.NULL_COLOR;
+                cellErrorInfoMap[rowIndex].Add(columnIndex, tmp);
+            }
+            tmp = cellErrorInfoMap[rowIndex][columnIndex];
+            // tmp.oldColor = oldColor; old color only initialized when CellErrorInfo is created
+            return tmp.currentColor;
+        }
+
         public CellErrorInfo getErrorInfo(int rowIndex, int columnIndex)
         {
             CellErrorInfo ret = null;
@@ -117,12 +160,38 @@ namespace BcTool
 
             if (rowIndex % 2 == 0)
             {
-                dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = SystemColors.ControlLightLight;
+                dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = ColorMng.EVEN_COLOR;
             }
             else
             {
-                dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = SystemColors.Info;
+                dataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = ColorMng.ODD_COLOR;
             }
+        }
+
+        public static void setDataGridViewColumnColor(ref DataGridView dataGridView, int columnIndex, Color color)
+        {
+            if (columnIndex < 0)
+            {
+                return;
+            }
+            if (columnIndex >= dataGridView.Columns.Count)
+            {
+                return;
+            }
+
+            if (columnIndex % 2 == 0)
+            {
+                dataGridView.Columns[columnIndex].DefaultCellStyle.BackColor = ColorMng.EVEN_COLOR;
+            }
+            else
+            {
+                dataGridView.Columns[columnIndex].DefaultCellStyle.BackColor = ColorMng.ODD_COLOR;
+            }
+        }
+
+        public static void setDataGridViewColor(ref DataGridView dataGridView, int rowIndex, int columnIndex)
+        {
+
         }
     }
 }

@@ -48,6 +48,7 @@ namespace BcTool
         private NetMng netMng = new NetMng("127.0.0.1");
         private Simulator simulator;
         private List<string> prefixLists;
+        /* custom signal language prefix list */
         private List<string> signalLanguageInfoPrefixList;
         private List<DataGridView> dist2DataGridViewList;
         private List<Hashtable> dist2SignalDataItemHashTable;
@@ -63,7 +64,7 @@ namespace BcTool
         private Dictionary<String, List<SignalDataItem>> prefix2customSignalDataItemVariableList;
         // private Dictionary<String, List<SignalDataItem>> prefix2customSignalDataItemVariableList;
 
-        private UInt32 customSignalLanguageMask;
+        private int customSignalLanguageMask;
 
         /* system signal info */
         private BPLibApi.BP_SigId2Val[] sysSigId2Val;
@@ -140,7 +141,15 @@ namespace BcTool
             comboBoxPerformance.SelectedIndex = 0;
             comboBoxPerformance.Enabled = false;
 
-            customSignalLanguageMask = 0xC0;
+            customSignalLanguageMask = 0;
+            checkBoxLanguageCN.Checked = true;
+            checkBoxLanguageEN.Checked = true;
+            checkBoxLanguageFR.Checked = true;
+            checkBoxLanguageRU.Checked = true;
+            checkBoxLanguageAR.Checked = true;
+            checkBoxLanguageES.Checked = true;
+            // setSignalLanguageMask(LanguageResourceItem.CHINESE_KEY, true);
+            // tSignalLanguageMask(LanguageResourceItem.CHINESE_KEY, true);
 
             prefixLists = new List<string>();
             prefixLists.Add(PREFIX_SIGNAL_SYSTEM_BASIC);
@@ -156,12 +165,12 @@ namespace BcTool
 
 
             prefix2ColorMng = new Dictionary<string, ColorMng>();
-            foreach(string prefix in prefixLists)
+            foreach (string prefix in prefixLists)
             {
                 prefix2ColorMng.Add(prefix, new ColorMng());
             }
-            
-            foreach(string prefix in signalLanguageInfoPrefixList)
+
+            foreach (string prefix in signalLanguageInfoPrefixList)
             {
                 prefix2ColorMng.Add(prefix, new ColorMng());
             }
@@ -178,7 +187,7 @@ namespace BcTool
             prefix2SignalDataGridView.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM, systemTempHumDataGridView);
 
             // prefix2SignalDataGridView.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, customDataGridView);
-            
+
 
             prefix2SystemTableMetaData = new Dictionary<string, Tools.SignalTableMetaData>();
             prefix2SystemTableMetaData.Add(PREFIX_SIGNAL_SYSTEM_BASIC, new Tools.SignalTableMetaData());
@@ -271,7 +280,7 @@ namespace BcTool
         private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, ref Tools.SignalTableMetaData signalTableMetaData, int defaultLineNumber)
         {
             loadReadOnlyDataGridView(csvName, dataGridView, ref signalTableMetaData);
-            
+
             int lineCount = dataGridView.Rows.Count;
 
             dataGridViewAddLines(ref dataGridView, defaultLineNumber - lineCount, lineCount, true);
@@ -279,7 +288,7 @@ namespace BcTool
 
         private void dataGridViewAddLines(ref DataGridView dataGridView, int lineNum, int firstId, Boolean isHex)
         {
-            if(lineNum <= 0)
+            if (lineNum <= 0)
             {
                 return;
             }
@@ -291,7 +300,7 @@ namespace BcTool
             for (int i = 0; i < lineNum; i++)
             {
                 dataGridView.Rows.Add();
-                if(isHex)
+                if (isHex)
                 {
                     lineId = String.Format("{0:X4}", firstId + i);
                 }
@@ -399,8 +408,8 @@ namespace BcTool
             {
 
                 ColorMng colorMng = prefix2ColorMng[prefix];
-                
-                if(ENABLE_COLUMN_INDEX == e.ColumnIndex)
+
+                if (ENABLE_COLUMN_INDEX == e.ColumnIndex)
                 {
                     /* update enable flag */
                     string tmp = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
@@ -414,7 +423,7 @@ namespace BcTool
                     }
 
                     Color oldColor = colorMng.clearErrorInfor(ref dataGridView, e.RowIndex, e.ColumnIndex);
-                    if(ColorMng.NULL_COLOR != oldColor)
+                    if (ColorMng.NULL_COLOR != oldColor)
                     {
                         dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
                     }
@@ -486,9 +495,9 @@ namespace BcTool
             {
                 ColorMng colorMng = prefix2ColorMng[prefix];
                 CellErrorInfo cellErrorInfo = colorMng.getErrorInfo(e.RowIndex, e.ColumnIndex);
-                if(cellErrorInfo != null)
+                if (cellErrorInfo != null)
                 {
-                    if(cellErrorInfo.isError)
+                    if (cellErrorInfo.isError)
                     {
                         DataGridViewCell cell =
                             dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
@@ -517,7 +526,7 @@ namespace BcTool
             {
                 return;
             }
-      
+
             DataGridView dataGridView = prefix2SignalDataGridView[prefix];
 
             if (e.RowIndex >= dataGridView.Rows.Count || e.ColumnIndex >= dataGridView.Columns.Count)
@@ -617,7 +626,7 @@ namespace BcTool
                     {
                         size = Math.Min(size, prefix2SystemTableMetaData[prefix].recordNum);
                     }
-                      
+
                     for (int i = 0; i < size; i++)
                     {
                         err = "";
@@ -640,8 +649,8 @@ namespace BcTool
                     prefix2systemSignalDataItemVariableList[prefix] = systemSignalDataItemVariableListTmp;
                 }
                 ret = true;
-            } 
-            catch(Exception e)
+            }
+            catch (Exception e)
             {
                 ret = false;
             }
@@ -704,16 +713,16 @@ namespace BcTool
                 }
 
                 /* initialize custom LanguageResourceItem Dictionary list */
-                foreach(string prefix in signalLanguageInfoPrefixList)
+                foreach (string prefix in signalLanguageInfoPrefixList)
                 {
-                    if(!prefix2LangDataGridView.ContainsKey(prefix))
+                    if (!prefix2LangDataGridView.ContainsKey(prefix))
                     {
                         err = "Language " + prefix + "DataGridView error";
                         Console.WriteLine(err);
                         return ret;
                     }
 
-                    if(!prefix2LangDictionary.ContainsKey(prefix))
+                    if (!prefix2LangDictionary.ContainsKey(prefix))
                     {
                         err = "Language " + prefix + "Dictionary error";
                         Console.WriteLine(err);
@@ -776,7 +785,7 @@ namespace BcTool
                     for (int i = 0; i < dataGridView.Rows.Count; i++)
                     {
                         line = dataGridView.Rows[i].Cells[0].Value.ToString();
-                        for(int j = 1; j < dataGridView.Rows[i].Cells.Count; j++)
+                        for (int j = 1; j < dataGridView.Rows[i].Cells.Count; j++)
                         {
                             line += "," + dataGridView.Rows[i].Cells[j].Value.ToString();
                         }
@@ -790,7 +799,7 @@ namespace BcTool
                 Console.WriteLine(e.Message);
                 ret = false;
             }
-            
+
             return ret;
         }
 
@@ -823,13 +832,13 @@ namespace BcTool
 
             List<SignalDataItem> signalDataItemList = new List<SignalDataItem>();
             Dictionary<UInt16, Dictionary<char, Object>> systemSignalCustomInfo = new Dictionary<ushort, Dictionary<char, object>>();
-            foreach(Dictionary<UInt16, LanguageResourceItem> value in prefix2LangDictionary.Values)
+            foreach (Dictionary<UInt16, LanguageResourceItem> value in prefix2LangDictionary.Values)
             {
                 value.Clear();
             }
             Dictionary<UInt16, LanguageResourceItem> signalNameLanguageResourceTable = new Dictionary<ushort, LanguageResourceItem>();
 
-            if(!simulator.Simulating)
+            if (!simulator.Simulating)
             {
                 Boolean ret = makeSimTable(ref signalDataItemList, ref prefix2LangDictionary);
                 if (true == ret)
@@ -845,7 +854,7 @@ namespace BcTool
                         int bpTimeout = Convert.ToInt32(textBoxTimeout.Text);
                         if (bpTimeout > 255)
                         {
-                            MessageBox.Show("Error: Timeout too large(Max:" +255 + ")");
+                            MessageBox.Show("Error: Timeout too large(Max:" + 255 + ")");
                             return;
                         }
 
@@ -868,7 +877,7 @@ namespace BcTool
                     {
                         MessageBox.Show("Error: Invalid AliveTime/Timeout");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("TODO: something wrong");
                     }
@@ -894,7 +903,7 @@ namespace BcTool
             }
         }
 
-        private Boolean makeSimTable(ref List<SignalDataItem> signalDataItemList, ref Dictionary<string, Dictionary<UInt16, LanguageResourceItem> > prefix2LangTable)
+        private Boolean makeSimTable(ref List<SignalDataItem> signalDataItemList, ref Dictionary<string, Dictionary<UInt16, LanguageResourceItem>> prefix2LangTable)
         {
             Boolean ret = false;
             string err = "";
@@ -960,7 +969,7 @@ namespace BcTool
 
         private void loadSimData(List<SignalDataItem> sysSignalDataItemList, Dictionary<UInt16, Dictionary<char, Object>> sysSignalCustomInfo, List<SignalDataItem> cusSignalDataItemList)
         {
-            if(null == sysSignalDataItemList)
+            if (null == sysSignalDataItemList)
             {
                 return;
             }
@@ -972,7 +981,7 @@ namespace BcTool
             /* free system signal info */
             Tools.freeIntPtr(sysSigId2ValIntPtr);
 
-            if(null != sysSigTable)
+            if (null != sysSigTable)
             {
                 for (int i = 0; i < sysSigTable.Count<BPLibApi.BP_SigTable>(); i++)
                 {
@@ -983,7 +992,7 @@ namespace BcTool
             }
             Tools.freeIntPtr(sysSigTableIntPtr);
 
-            if(null != bpSysSigMaps)
+            if (null != bpSysSigMaps)
             {
                 for (int i = 0; i < bpSysSigMaps.Count; i++)
                 {
@@ -993,7 +1002,7 @@ namespace BcTool
             Tools.freeIntPtr(bpSysSigMapsIntPtr);
 
             /* free custom system signal info */
-            if(null != bpSysCusUnitTable)
+            if (null != bpSysCusUnitTable)
             {
                 for (int i = 0; i < bpSysCusUnitTable.Count<BPLibApi.BP_SysCustomUnit>(); i++)
                 {
@@ -1005,7 +1014,7 @@ namespace BcTool
             /* free custom signal info */
             Tools.freeIntPtr(cusSigId2ValIntPtr);
 
-            if(null != cusSigTable)
+            if (null != cusSigTable)
             {
                 for (int i = 0; i < cusSigTable.Count<BPLibApi.BP_SigTable>(); i++)
                 {
@@ -1025,7 +1034,7 @@ namespace BcTool
             Tools.freeIntPtr(cusSigUnitLangMapIntPtr);
             Tools.freeIntPtr(cusSigGroupLangMapIntPtr);
 
-            if(null != cusSigEnumLangMap)
+            if (null != cusSigEnumLangMap)
             {
                 for (BP_WORD i = 0; i < cusSigEnumLangMapSize; i++)
                 {
@@ -1065,23 +1074,23 @@ namespace BcTool
                 {
                     int k1 = 1 << j;
                     int k0 = k1 / 2;
-                    for(int k = k0; k < k1; k++)
+                    for (int k = k0; k < k1; k++)
                     {
-                        if(bits[k] != 0)
+                        if (bits[k] != 0)
                         {
                             signalEnabled = true;
                             sysSignalClass = j;
                             break;
                         }
                     }
-                    if(signalEnabled)
+                    if (signalEnabled)
                     {
                         break;
                     }
 
                 }
 
-                if(signalEnabled)
+                if (signalEnabled)
                 {
                     BPLibApi.BP_SysSigMap bpSysSigMap = new BPLibApi.BP_SysSigMap();
                     bpSysSigMap.Dist = (char)0;
@@ -1105,7 +1114,7 @@ namespace BcTool
             foreach (UInt16 key in sysSignalCustomInfo.Keys)
             {
                 Dictionary<char, Object> dicTmp = sysSignalCustomInfo[key];
-                foreach(char key2 in dicTmp.Keys)
+                foreach (char key2 in dicTmp.Keys)
                 {
                     object customValueTmp = dicTmp[key2];
                     BPLibApi.BP_SysCustomUnit bpSysCusUnitTableTmp = new BPLibApi.BP_SysCustomUnit();
@@ -1162,7 +1171,7 @@ namespace BcTool
             cusSigNameLangMap[1].LangId = 2;
             */
             cusSigNameLangMapIntPtr = Tools.mallocIntPtr(cusSigNameLangMap);
-            if(IntPtr.Zero == cusSigNameLangMapIntPtr)
+            if (IntPtr.Zero == cusSigNameLangMapIntPtr)
             {
                 cusSigNameLangMapSize = 0;
             }
@@ -1170,7 +1179,7 @@ namespace BcTool
             {
                 cusSigNameLangMapSize = cusSigNameLangMap.Count<BPLibApi.BP_CusLangMap>();
             }
-            
+
             cusSigUnitLangMapIntPtr = Tools.mallocIntPtr(cusSigUnitLangMap);
             if (IntPtr.Zero == cusSigUnitLangMapIntPtr)
             {
@@ -1190,7 +1199,7 @@ namespace BcTool
             {
                 cusSigGroupLangMapSize = cusSigGroupLangMap.Count<BPLibApi.BP_CusLangMap>();
             }
-            
+
 
             // private BPLibApi.BP_CusLangMap[] cusSigEnumLangMap;
             // private IntPtr cusSigEnumLangMapIntPtr;
@@ -1221,7 +1230,7 @@ namespace BcTool
             {
                 cusSigEnumLangMapSize = cusSigEnumLangMap.Count<BPLibApi.BP_SigId2EnumSignalMap>();
             }
-            
+
         }
 
         private void textBoxAliveTime_KeyPress(object sender, KeyPressEventArgs e)
@@ -1246,7 +1255,7 @@ namespace BcTool
         private void checkBoxAliveTime_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
-            if(cb.Checked)
+            if (cb.Checked)
             {
                 textBoxAliveTime.Text = "3600";
                 textBoxAliveTime.ReadOnly = true;
@@ -1326,7 +1335,7 @@ namespace BcTool
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
             string gererateDirectory = generatePathTextBox.Text;
-            if(!Directory.Exists(gererateDirectory))
+            if (!Directory.Exists(gererateDirectory))
             {
                 MessageBox.Show("Invalid generate path");
                 return;
@@ -1532,21 +1541,21 @@ namespace BcTool
             if (e.RowIndex == rowCount - 1)
             {
                 int firstId = 0;
-                if(0 != rowCount)
+                if (0 != rowCount)
                 {
                     firstId = rowCount + 1;
                 }
                 /* cannot exceed into the system signal ID */
-                if(rowCount + DEFAULT_LINE_NUMBER <= BPLibApi.SYSTEM_START_SIGNAL_ID)
+                if (rowCount + DEFAULT_LINE_NUMBER <= BPLibApi.SYSTEM_START_SIGNAL_ID)
                 {
                     dataGridViewAddLines(ref dataGridView, DEFAULT_LINE_NUMBER, firstId, true);
-                }   
+                }
             }
 
             List<SignalDataItem> customSignalDataItemList = prefix2customSignalDataItemVariableList[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO];
-            if(customSignalDataItemList.Count <= e.RowIndex)
+            if (customSignalDataItemList.Count <= e.RowIndex)
             {
-                for(int i = customSignalDataItemList.Count; i <= e.RowIndex; i++)
+                for (int i = customSignalDataItemList.Count; i <= e.RowIndex; i++)
                 {
                     customSignalDataItemList.Add(new SignalDataItem(i));
                 }
@@ -1666,7 +1675,7 @@ namespace BcTool
                 }
 
                 string customValue = dataGridViewTmp.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
-                switch(e.ColumnIndex)
+                switch (e.ColumnIndex)
                 {
                     case 1:
                         languageResourceItemTmp.LanguageMap[LanguageResourceItem.CHINESE_KEY] = customValue;
@@ -1687,7 +1696,7 @@ namespace BcTool
                         languageResourceItemTmp.LanguageMap[LanguageResourceItem.SPANISH_KEY] = customValue;
                         break;
                 }
-                
+
                 Color oldColor = colorMng.clearErrorInfor(ref dataGridViewTmp, e.RowIndex, e.ColumnIndex);
                 if (ColorMng.NULL_COLOR != oldColor)
                 {
@@ -1702,5 +1711,100 @@ namespace BcTool
             }
         }
 
+        private void setSignalLanguageMask(int languageKey, bool isSet)
+        {
+            if (languageKey < LanguageResourceItem.SPANISH_KEY || languageKey > LanguageResourceItem.CHINESE_KEY)
+            {
+                return;
+            }
+
+            if (isSet)
+            {
+                customSignalLanguageMask |= (1 << languageKey);
+            }
+            else
+            {
+                customSignalLanguageMask &= (~(1 << languageKey));
+            }
+
+            if (null != prefix2LangDataGridView)
+            {
+                foreach (string prefix in signalLanguageInfoPrefixList)
+                {
+                    if(!prefix2LangDataGridView.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+                    DataGridView dataGridViewTmp = prefix2LangDataGridView[prefix];
+                    int columnIndex = 8 - languageKey;
+                    
+
+                    if (prefix2ColorMng.ContainsKey(prefix))
+                    {
+                        ColorMng colorMng = prefix2ColorMng[prefix];
+                        int rowSize = dataGridViewTmp.Rows.Count;
+                        if (isSet)
+                        {
+                            for (int i = 0; i < rowSize; i++)
+                            {
+                                ColorMng.setDataGridViewLineColor(ref dataGridViewTmp, i);
+                                Color colorTmp = i % 2 == 0 ? ColorMng.EVEN_COLOR : ColorMng.ODD_COLOR;
+                                dataGridViewTmp.Rows[i].Cells[columnIndex].Style.BackColor = colorTmp;
+                                ;
+                            }
+                        }
+                        else
+                        {
+
+                            for (int i = 0; i < rowSize; i++)
+                            {
+                                colorMng.putColor(i, columnIndex, ColorMng.NULL_COLOR, ColorMng.READ_ONLY_COLOR);
+                                dataGridViewTmp.Rows[i].Cells[columnIndex].Style.BackColor = ColorMng.READ_ONLY_COLOR;
+
+                                // ColorMng.setDataGridViewColumnColor(ref dataGridViewTmp, columnIndex, ColorMng.READ_ONLY_COLOR);
+                            }
+                        }
+                    }
+                    dataGridViewTmp.Columns[columnIndex].ReadOnly = !isSet;
+                }
+            }
+        }
+
+
+    private void checkBoxLanguageCN_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            setSignalLanguageMask(LanguageResourceItem.CHINESE_KEY, cb.Checked);
+        }
+
+        private void checkBoxLanguageEN_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            setSignalLanguageMask(LanguageResourceItem.ENGLISH_KEY, cb.Checked);
+        }
+
+        private void checkBoxLanguageFR_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            setSignalLanguageMask(LanguageResourceItem.FRENCH_KEY, cb.Checked);
+        }
+
+        private void checkBoxLanguageRU_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            setSignalLanguageMask(LanguageResourceItem.RUSSIAN_KEY, cb.Checked);
+        }
+
+        private void checkBoxLanguageAR_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            setSignalLanguageMask(LanguageResourceItem.ARABIC_KEY, cb.Checked);
+        }
+
+        private void checkBoxLanguageES_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            setSignalLanguageMask(LanguageResourceItem.SPANISH_KEY, cb.Checked);
+        }
     }
 }

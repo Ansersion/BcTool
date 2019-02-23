@@ -238,21 +238,29 @@ namespace BcTool
         // private Regex REGEX_CODE_BLOCK_SIGNAL_ID_2_VAL = new Regex(@"(<MACRO>)");
 
         private Regex REGEX_CODE_BLOCK_DIST_N = new Regex(@"(<DIST_N>)");
-        private string BLOCK_TAG_MACRO_DEFINED = "MACRO_DEFINED";
-        private string BLOCK_TAG_SYSTEM_SIGNAL_MAP_DIST = "SYSTEM_SIGNAL_MAP_DIST";
-        private string BLOCK_TAG_SIGNAL_MIN_MAX_DEF = "SIGNAL_MIN_MAX_DEF";
-        private string BLOCK_TAG_SIGNAL_ID_2_VAL = "SIGNAL_ID_2_VAL";
-        private string BLOCK_TAG_SYSTEM_SIGNAL_TABLE = "SYSTEM_SIGNAL_TABLE";
-        private string BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST = "SYSTEM_SIGNAL_ENABLE_DIST";
-        private string BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST_UNIT = "SYSTEM_SIGNAL_ENABLE_DIST_UNIT";
-        private string BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE = "SYSTEM_SIGNAL_CUSTOM_VALUE";
+        private static string BLOCK_TAG_MACRO_DEFINED = "MACRO_DEFINED";
+        private static string BLOCK_TAG_SYSTEM_SIGNAL_MAP_DIST = "SYSTEM_SIGNAL_MAP_DIST";
+        private static string BLOCK_TAG_SIGNAL_MIN_MAX_DEF = "SIGNAL_MIN_MAX_DEF";
+        private static string BLOCK_TAG_SIGNAL_ID_2_VAL = "SIGNAL_ID_2_VAL";
+        private static string BLOCK_TAG_SYSTEM_SIGNAL_TABLE = "SYSTEM_SIGNAL_TABLE";
+        private static string BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST = "SYSTEM_SIGNAL_ENABLE_DIST";
+        private static string BLOCK_TAG_SYSTEM_SIGNAL_ENABLE_DIST_UNIT = "SYSTEM_SIGNAL_ENABLE_DIST_UNIT";
+        private static string BLOCK_TAG_SYSTEM_SIGNAL_CUSTOM_VALUE = "SYSTEM_SIGNAL_CUSTOM_VALUE";
 
         /* custom signal table code block tag */
-        private string BLOCK_TAG_CUSTOM_LANGUAGE_SUPPORTED_INFO = "LANGUAGE_SUPPORTED_INFO";
-        private string BLOCK_TAG_CUSTOM_SIGNAL_MACRO_DEFINED = "CUSTOM_SIGNAL_MACRO_DEFINED";
-        private string BLOCK_TAG_CUSTOM_SIGNAL_MIN_MAX_DEF_VAL = "CUSTOM_SIGNAL_MIN_MAX_DEF_VAL";
-        private string BLOCK_TAG_CUSTOM_SIGNAL_ID_2_VAL = "CUSTOM_SIGNAL_ID_2_VAL";
-        private string BLOCK_TAG_CUSTOM_SIGNAL_TABLE = "CUSTOM_SIGNAL_TABLE";
+        private static string BLOCK_TAG_CUSTOM_LANGUAGE_SUPPORTED_INFO = "LANGUAGE_SUPPORTED_INFO";
+        private static string BLOCK_TAG_CUSTOM_SIGNAL_MACRO_DEFINED = "CUSTOM_SIGNAL_MACRO_DEFINED";
+        private static string BLOCK_TAG_CUSTOM_SIGNAL_MIN_MAX_DEF_VAL = "CUSTOM_SIGNAL_MIN_MAX_DEF_VAL";
+        private static string BLOCK_TAG_CUSTOM_SIGNAL_ID_2_VAL = "CUSTOM_SIGNAL_ID_2_VAL";
+        private static string BLOCK_TAG_CUSTOM_SIGNAL_TABLE = "CUSTOM_SIGNAL_TABLE";
+        private static string BLOCK_TAG_SIGNAL_NAME_LANGUAGE = "SIGNAL_NAME_LANGUAGE";
+
+        private static string BLOCK_CHILD_TAG_SPANISH = @"<SPANISH>";
+        private static string BLOCK_CHILD_TAG_ARABIC = @"<ARABIC>";
+        private static string BLOCK_CHILD_TAG_RUSSIAN = @"<RUSSIAN>";
+        private static string BLOCK_CHILD_TAG_FRENCH = @"<FRENCH>";
+        private static string BLOCK_CHILD_TAG_ENGLISH = @"<ENGLISH>";
+        private static string BLOCK_CHILD_TAG_CHINESE = @"<CHINESE>";
 
         private delegate string DlgConstructCodeBlock(string codeBlock);
 
@@ -281,6 +289,7 @@ namespace BcTool
             codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_MIN_MAX_DEF_VAL, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_MIN_MAX_DEF_VAL));
             codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_ID_2_VAL, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_ID_2_VAL));
             codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_TABLE, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_TABLE));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_NAME_LANGUAGE, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_NAME_LANGUAGE));
 
             childCodeBlockTag2systemCustomDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
@@ -845,6 +854,90 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                         tmp = tmp.Replace(BLOCK_CHILD_TAG_DEF, signalDataItem.Macro + "_DEF");
                         tmp = tmp.Replace(BLOCK_CHILD_TAG_ALARM_DELAY_BEF, signalDataItem.AlarmBefDelay.ToString());
                         tmp = tmp.Replace(BLOCK_CHILD_TAG_ALARM_DELAY_AFT, signalDataItem.AlarmAftDelay.ToString());
+                        ret += tmp;
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_SIGNAL_NAME_LANGUAGE(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                if(!prefix2LangDictionary.ContainsKey(PREFIX_LANG_CUSTOM_SIGNAL))
+                {
+                    return ret;
+                }
+                Dictionary<UInt16, LanguageResourceItem>  id2LanguageResourceItemDictionary = prefix2LangDictionary[PREFIX_LANG_CUSTOM_SIGNAL];
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        if(!id2LanguageResourceItemDictionary.ContainsKey((ushort)signalDataItem.SignalId))
+                        {
+                            Console.WriteLine("error !ContainsKey(signalDataItem.SignalId");
+                            continue;
+                            // return;
+                        }
+                        LanguageResourceItem lri = id2LanguageResourceItemDictionary[(ushort)signalDataItem.SignalId];
+                        string tmp = "/* " + signalDataItem.Macro + " */\r\n" + codeBlock;
+                        for (int i = 2; i < 8; i++)
+                        {
+                            string blockTag = "";
+                            switch(i)
+                            {
+                                case 2:
+                                    blockTag = BLOCK_CHILD_TAG_SPANISH;
+                                    break;
+                                case 3:
+                                    blockTag = BLOCK_CHILD_TAG_ARABIC;
+                                    break;
+                                case 4:
+                                    blockTag = BLOCK_CHILD_TAG_RUSSIAN;
+                                    break;
+                                case 5:
+                                    blockTag = BLOCK_CHILD_TAG_FRENCH;
+                                    break;
+                                case 6:
+                                    blockTag = BLOCK_CHILD_TAG_ENGLISH;
+                                    break;
+                                case 7:
+                                    blockTag = BLOCK_CHILD_TAG_CHINESE;
+                                    break;
+                                default:
+                                    return ret;
+    
+                            }
+                            if((customSignalLanguageMask & (1 << i)) != 0)
+                            {
+                                tmp = tmp.Replace(blockTag, lri.LanguageMap[(ushort)i]);
+                            }
+                            else
+                            {
+                                tmp = deleteBlockLine(tmp, blockTag);
+                            }
+                        }
                         ret += tmp;
 
                     }
@@ -1764,5 +1857,49 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
 
             return ret;
         }
+
+        private string deleteBlockLine(string block, string blockTag)
+        {
+            string ret = block;
+            if(String.IsNullOrWhiteSpace(block) || String.IsNullOrWhiteSpace(blockTag))
+            {
+                return ret;
+            }
+
+            int tagIndex = ret.IndexOf(blockTag);
+            if (tagIndex < 0)
+            {
+                return ret;
+            }
+            /* find the first ';', then find the '\n' which indicates the end of code block */
+            int lineEndIndex = ret.IndexOf('\n', tagIndex);
+            if (lineEndIndex < 0)
+            {
+                return ret;
+            }
+            /*
+            lineEndIndex = ret.IndexOf('\n', lineEndIndex);
+            if (lineEndIndex < 0)
+            {
+                return ret;
+            }
+            */
+            // int lineStartIndex = ret.LastIndexOf("const", isAlarmTagIndex, isAlarmTagIndex);
+            int lineStartIndex = ret.LastIndexOf("\n", tagIndex);
+            if (lineStartIndex < 0)
+            {
+                lineStartIndex = 0;
+            }
+            else
+            {
+                lineStartIndex += 1;
+            }
+            /* '1' means the last character '\n' */
+            ret = ret.Remove(lineStartIndex, lineEndIndex + 1 - lineStartIndex);
+
+            return ret;
+        }
     }
+
+    
 }
