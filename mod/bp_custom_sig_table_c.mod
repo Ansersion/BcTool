@@ -73,20 +73,9 @@ const BP_UINT8 * g_CusSigEnumLang[] =
 </SIGNAL_ENUM_LANGUAGE>
 };
 
-const BP_CusLangMap g_CusSigNameLangMap[] = 
-{
-    /* 1 mean first language resource, 0 means no language resource */
-<SIGNAL_NAME_LANGUAGE_UNIT>
-    {<MACRO>, <SIGNAL_NAME_LANGUAGE_INDEX>},
-</SIGNAL_NAME_LANGUAGE_UNIT>
-};
-
-const BP_WORD g_CusSigNameLangMapNum = sizeof(g_CusSigNameLangMap) / sizeof(BP_CusLangMap);
-
 const BP_CusLangMap g_CusSigUnitLangMap[] = 
 {
     /* 1 mean first language resource, 0 means no language resource */
-    // {SIG_CUS_DEVICE_NAME, 0},
 <SIGNAL_UNIT_LANGUAGE_UNIT>
     {<MACRO>, <SIGNAL_UNIT_LANGUAGE_INDEX>},
 </SIGNAL_UNIT_LANGUAGE_UNIT>
@@ -96,7 +85,6 @@ const BP_WORD g_CusSigUnitLangMapNum = sizeof(g_CusSigUnitLangMap) / sizeof(BP_C
 const BP_CusLangMap g_CusSigGroupLangMap[] = 
 {
     /* 1 mean first language resource, 0 means no language resource */
-    // {SIG_CUS_DEVICE_NAME, 0},
 <SIGNAL_GROUP_LANGUAGE_UNIT>
     {<MACRO>, <SIGNAL_GROUP_LANGUAGE_INDEX>},
 </SIGNAL_GROUP_LANGUAGE_UNIT>

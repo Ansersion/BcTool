@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -254,6 +255,11 @@ namespace BcTool
         private static string BLOCK_TAG_CUSTOM_SIGNAL_ID_2_VAL = "CUSTOM_SIGNAL_ID_2_VAL";
         private static string BLOCK_TAG_CUSTOM_SIGNAL_TABLE = "CUSTOM_SIGNAL_TABLE";
         private static string BLOCK_TAG_SIGNAL_NAME_LANGUAGE = "SIGNAL_NAME_LANGUAGE";
+        private static string BLOCK_TAG_SIGNAL_UNIT_LANGUAGE = "SIGNAL_UNIT_LANGUAGE";
+        private static string BLOCK_TAG_SIGNAL_GROUP_LANGUAGE = "SIGNAL_GROUP_LANGUAGE";
+        private static string BLOCK_TAG_SIGNAL_ENUM_LANGUAGE = "SIGNAL_ENUM_LANGUAGE";
+        private static string BLOCK_TAG_SIGNAL_UNIT_LANGUAGE_UNIT = "SIGNAL_UNIT_LANGUAGE_UNIT";
+        private static string BLOCK_TAG_SIGNAL_GROUP_LANGUAGE_UNIT = "SIGNAL_GROUP_LANGUAGE_UNIT";
 
         private static string BLOCK_CHILD_TAG_SPANISH = @"<SPANISH>";
         private static string BLOCK_CHILD_TAG_ARABIC = @"<ARABIC>";
@@ -261,6 +267,8 @@ namespace BcTool
         private static string BLOCK_CHILD_TAG_FRENCH = @"<FRENCH>";
         private static string BLOCK_CHILD_TAG_ENGLISH = @"<ENGLISH>";
         private static string BLOCK_CHILD_TAG_CHINESE = @"<CHINESE>";
+        private static string BLOCK_CHILD_TAG_SIGNAL_UNIT_LANGUAGE_INDEX = @"<SIGNAL_UNIT_LANGUAGE_INDEX>";
+        private static string BLOCK_CHILD_TAG_SIGNAL_GROUP_LANGUAGE_INDEX = @"<SIGNAL_GROUP_LANGUAGE_INDEX>";
 
         private delegate string DlgConstructCodeBlock(string codeBlock);
 
@@ -290,6 +298,11 @@ namespace BcTool
             codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_ID_2_VAL, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_ID_2_VAL));
             codeBlockTag2Dlg.Add(BLOCK_TAG_CUSTOM_SIGNAL_TABLE, new DlgConstructCodeBlock(constructCodeBlock_CUSTOM_SIGNAL_TABLE));
             codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_NAME_LANGUAGE, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_NAME_LANGUAGE));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_UNIT_LANGUAGE, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_UNIT_LANGUAGE));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_GROUP_LANGUAGE, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_GROUP_LANGUAGE));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_ENUM_LANGUAGE, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_ENUM_LANGUAGE));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_UNIT_LANGUAGE_UNIT, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_UNIT_LANGUAGE_UNIT));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_GROUP_LANGUAGE_UNIT, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_GROUP_LANGUAGE_UNIT));
 
             childCodeBlockTag2systemCustomDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
@@ -938,6 +951,181 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                                 tmp = deleteBlockLine(tmp, blockTag);
                             }
                         }
+                        ret += tmp;
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlockLanguage(string prefix, string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                if (!prefix2LangDictionary.ContainsKey(prefix))
+                {
+                    return ret;
+                }
+                Dictionary<UInt16, LanguageResourceItem> id2LanguageResourceItemDictionary = prefix2LangDictionary[prefix];
+                ArrayList arrayList = new ArrayList();
+                arrayList.AddRange(id2LanguageResourceItemDictionary.Keys);
+                arrayList.Sort();
+                foreach (UInt16 key in arrayList)
+                {
+                    if(0 == key)
+                    {
+                        /* "0" is the default language resource(NULL) */
+                        continue;
+                    }
+                    LanguageResourceItem lri = id2LanguageResourceItemDictionary[key];
+
+                    string tmp = codeBlock;
+                    for (int i = 2; i < 8; i++)
+                    {
+                        string blockTag = "";
+                        switch (i)
+                        {
+                            case 2:
+                                blockTag = BLOCK_CHILD_TAG_SPANISH;
+                                break;
+                            case 3:
+                                blockTag = BLOCK_CHILD_TAG_ARABIC;
+                                break;
+                            case 4:
+                                blockTag = BLOCK_CHILD_TAG_RUSSIAN;
+                                break;
+                            case 5:
+                                blockTag = BLOCK_CHILD_TAG_FRENCH;
+                                break;
+                            case 6:
+                                blockTag = BLOCK_CHILD_TAG_ENGLISH;
+                                break;
+                            case 7:
+                                blockTag = BLOCK_CHILD_TAG_CHINESE;
+                                break;
+                            default:
+                                return ret;
+
+                        }
+                        if ((customSignalLanguageMask & (1 << i)) != 0)
+                        {
+                            tmp = tmp.Replace(blockTag, lri.LanguageMap[(ushort)i]);
+                        }
+                        else
+                        {
+                            tmp = deleteBlockLine(tmp, blockTag);
+                        }
+
+
+                    }
+                    ret += tmp;
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_SIGNAL_UNIT_LANGUAGE(string codeBlock)
+        {
+            return constructCodeBlockLanguage(PREFIX_LANG_CUSTOM_UNIT, codeBlock);
+        }
+
+        private string constructCodeBlock_SIGNAL_GROUP_LANGUAGE(string codeBlock)
+        {
+            return constructCodeBlockLanguage(PREFIX_LANG_CUSTOM_GROUP, codeBlock);
+        }
+
+        private string constructCodeBlock_SIGNAL_ENUM_LANGUAGE(string codeBlock)
+        {
+            return constructCodeBlockLanguage(PREFIX_LANG_CUSTOM_ENUM, codeBlock);
+        }
+
+        private string constructCodeBlock_SIGNAL_UNIT_LANGUAGE_UNIT(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        if (0 == signalDataItem.UnitLangId)
+                        {
+                            /* "0" is the default language resource(NULL) */
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_SIGNAL_UNIT_LANGUAGE_INDEX, signalDataItem.UnitLangId.ToString());
+                        ret += tmp;
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_SIGNAL_GROUP_LANGUAGE_UNIT(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        if (0 == signalDataItem.GroupLangId)
+                        {
+                            /* "0" is the default language resource(NULL) */
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_SIGNAL_GROUP_LANGUAGE_INDEX, signalDataItem.GroupLangId.ToString());
                         ret += tmp;
 
                     }

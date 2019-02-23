@@ -1594,8 +1594,126 @@ namespace BcTool
             showDataGridViewToolTip(PREFIX_SIGNAL_SYSTEM_BASIC, sender, e);
         }
 
+        private void customLanguageCellValueChangedCallback(string prefix, object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+            if (null == prefix2LangDictionary || !prefix2LangDictionary.ContainsKey(prefix))
+            {
+                return;
+            }
+            if (null == prefix2ColorMng || !prefix2ColorMng.ContainsKey(prefix))
+            {
+                return;
+            }
+            if (null == prefix2LangDataGridView || !prefix2LangDataGridView.ContainsKey(prefix))
+            {
+                return;
+            }
+
+            DataGridView dataGridViewTmp = prefix2LangDataGridView[prefix];
+            if (e.RowIndex >= dataGridViewTmp.Rows.Count || e.ColumnIndex >= dataGridViewTmp.Columns.Count)
+            {
+                return;
+            }
+
+            ColorMng colorMng = prefix2ColorMng[prefix];
+            Dictionary<UInt16, LanguageResourceItem> id2LanguageResourceItemDictionary = prefix2LangDictionary[prefix];
+            int rowCount = dataGridViewTmp.Rows.Count;
+            int columnCount = dataGridViewTmp.Columns.Count;
+
+            if (e.RowIndex >= rowCount || e.ColumnIndex >= columnCount)
+            {
+                return;
+            }
+
+            // add new lines if last line filled 
+            if (e.RowIndex == rowCount - 1)
+            {
+                int firstId = 0;
+                if (0 != rowCount)
+                {
+                    firstId = rowCount + 1;
+                }
+                // cannot exceed into the system signal ID 
+                if (rowCount + DEFAULT_LINE_NUMBER <= BPLibApi.SYSTEM_START_SIGNAL_ID)
+                {
+                    dataGridViewAddLines(ref dataGridViewTmp, DEFAULT_LINE_NUMBER, firstId, true);
+                }
+            }
+
+            int customLangId = -1;
+            try
+            {
+                customLangId = Convert.ToInt32(dataGridViewTmp.Rows[e.RowIndex].Cells[0].Value.ToString().Trim(), 16);
+
+                if (customLangId < 0)
+                {
+                    return;
+                }
+
+                LanguageResourceItem languageResourceItemTmp = null;
+                if (!id2LanguageResourceItemDictionary.ContainsKey((UInt16)customLangId))
+                {
+                    string err = "";
+                    languageResourceItemTmp = LanguageResourceItem.parseLanguageResourceItem(dataGridViewTmp.Rows[e.RowIndex].Cells, prefix, ref err);
+                    if (languageResourceItemTmp != null)
+                    {
+                        id2LanguageResourceItemDictionary[(UInt16)customLangId] = languageResourceItemTmp;
+                    }
+                    else if (!string.IsNullOrWhiteSpace(err))
+                    {
+                        Console.WriteLine(err);
+                    }
+                }
+                if (null == languageResourceItemTmp)
+                {
+                    languageResourceItemTmp = id2LanguageResourceItemDictionary[(UInt16)customLangId];
+                }
+
+                string customValue = dataGridViewTmp.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().Trim();
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.CHINESE_KEY] = customValue;
+                        break;
+                    case 2:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.ENGLISH_KEY] = customValue;
+                        break;
+                    case 3:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.FRENCH_KEY] = customValue;
+                        break;
+                    case 4:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.RUSSIAN_KEY] = customValue;
+                        break;
+                    case 5:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.ARABIC_KEY] = customValue;
+                        break;
+                    case 6:
+                        languageResourceItemTmp.LanguageMap[LanguageResourceItem.SPANISH_KEY] = customValue;
+                        break;
+                }
+
+                Color oldColor = colorMng.clearErrorInfor(ref dataGridViewTmp, e.RowIndex, e.ColumnIndex);
+                if (ColorMng.NULL_COLOR != oldColor)
+                {
+                    dataGridViewTmp.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = oldColor;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                customLangId = -1;
+            }
+        }
+
         private void customLangDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            customLanguageCellValueChangedCallback(PREFIX_LANG_CUSTOM_SIGNAL, sender, e);
+            /*
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
             {
                 return;
@@ -1709,6 +1827,8 @@ namespace BcTool
                 Console.WriteLine(ex.Message);
                 customLangId = -1;
             }
+
+            */
         }
 
         private void setSignalLanguageMask(int languageKey, bool isSet)
@@ -1805,6 +1925,21 @@ namespace BcTool
         {
             CheckBox cb = (CheckBox)sender;
             setSignalLanguageMask(LanguageResourceItem.SPANISH_KEY, cb.Checked);
+        }
+
+        private void customEnumDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            customLanguageCellValueChangedCallback(PREFIX_LANG_CUSTOM_ENUM, sender, e);
+        }
+
+        private void customUnitDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            customLanguageCellValueChangedCallback(PREFIX_LANG_CUSTOM_UNIT, sender, e);
+        }
+
+        private void customGroupDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            customLanguageCellValueChangedCallback(PREFIX_LANG_CUSTOM_GROUP, sender, e);
         }
     }
 }
