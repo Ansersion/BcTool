@@ -260,6 +260,9 @@ namespace BcTool
         private static string BLOCK_TAG_SIGNAL_ENUM_LANGUAGE = "SIGNAL_ENUM_LANGUAGE";
         private static string BLOCK_TAG_SIGNAL_UNIT_LANGUAGE_UNIT = "SIGNAL_UNIT_LANGUAGE_UNIT";
         private static string BLOCK_TAG_SIGNAL_GROUP_LANGUAGE_UNIT = "SIGNAL_GROUP_LANGUAGE_UNIT";
+        private static string BLOCK_TAG_SIGNAL_ENUM_LANGUAGE_MAP = "SIGNAL_ENUM_LANGUAGE_MAP";
+        private static string BLOCK_TAG_SIGNAL_ENUM_LANGUAGE_MAP_UNIT = "SIGNAL_ENUM_LANGUAGE_MAP_UNIT";
+
 
         private static string BLOCK_CHILD_TAG_SPANISH = @"<SPANISH>";
         private static string BLOCK_CHILD_TAG_ARABIC = @"<ARABIC>";
@@ -269,6 +272,7 @@ namespace BcTool
         private static string BLOCK_CHILD_TAG_CHINESE = @"<CHINESE>";
         private static string BLOCK_CHILD_TAG_SIGNAL_UNIT_LANGUAGE_INDEX = @"<SIGNAL_UNIT_LANGUAGE_INDEX>";
         private static string BLOCK_CHILD_TAG_SIGNAL_GROUP_LANGUAGE_INDEX = @"<SIGNAL_GROUP_LANGUAGE_INDEX>";
+        private static string BLOCK_CHILD_TAG_SIGNAL_ENUM_LANGUAGE_UNIT = @"<SIGNAL_ENUM_LANGUAGE_UNIT>";
 
         private delegate string DlgConstructCodeBlock(string codeBlock);
 
@@ -303,6 +307,8 @@ namespace BcTool
             codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_ENUM_LANGUAGE, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_ENUM_LANGUAGE));
             codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_UNIT_LANGUAGE_UNIT, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_UNIT_LANGUAGE_UNIT));
             codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_GROUP_LANGUAGE_UNIT, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_GROUP_LANGUAGE_UNIT));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_ENUM_LANGUAGE_MAP, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_ENUM_LANGUAGE_MAP));
+            codeBlockTag2Dlg.Add(BLOCK_TAG_SIGNAL_ENUM_LANGUAGE_MAP_UNIT, new DlgConstructCodeBlock(constructCodeBlock_SIGNAL_ENUM_LANGUAGE_MAP_UNIT));
 
             childCodeBlockTag2systemCustomDlg = new Dictionary<string, DlgConstructSystemCustomCodeBlock>();
             childCodeBlockTag2systemCustomDlg.Add(BLOCK_CHILD_TAG_ALARM, new DlgConstructSystemCustomCodeBlock(constructSystemCustomCodeBlock_SYSTEM_SIGNAL_CUSTOM_VALUE_ENABLE_ALARM));
@@ -1126,6 +1132,98 @@ private static string BLOCK_CHILD_TAG_DIST_END_FLAG = @"<DIST_END_FLAG>";
                         string tmp = codeBlock;
                         tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
                         tmp = tmp.Replace(BLOCK_CHILD_TAG_SIGNAL_GROUP_LANGUAGE_INDEX, signalDataItem.GroupLangId.ToString());
+                        ret += tmp;
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_SIGNAL_ENUM_LANGUAGE_MAP(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        if (BPValueType.ENUM != signalDataItem.ValueType1)
+                        {
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
+                        string enumMapTmp = "";
+                        if(null != signalDataItem.EnumLangIdTable && 0 != signalDataItem.EnumLangIdTable.Count)
+                        {
+                            foreach(UInt16 key in signalDataItem.EnumLangIdTable.Keys)
+                            {
+                                enumMapTmp += "{" + key.ToString() + "," + signalDataItem.EnumLangIdTable[key].ToString() + "},\r\n";
+                            }
+                        }
+
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_SIGNAL_ENUM_LANGUAGE_UNIT, enumMapTmp);
+                        ret += tmp;
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ret = "";
+            }
+
+            return ret;
+        }
+
+        private string constructCodeBlock_SIGNAL_ENUM_LANGUAGE_MAP_UNIT(string codeBlock)
+        {
+            string ret = "";
+            try
+            {
+                foreach (string prefix in prefixLists)
+                {
+                    if (!prefix2customSignalDataItemVariableList.ContainsKey(prefix))
+                    {
+                        continue;
+                    }
+
+                    List<SignalDataItem> signalDataItems = prefix2customSignalDataItemVariableList[prefix];
+                    foreach (SignalDataItem signalDataItem in signalDataItems)
+                    {
+                        /* input.replace("$", "$$") */
+                        if (!signalDataItem.Enabled)
+                        {
+                            continue;
+                        }
+                        if (BPValueType.ENUM != signalDataItem.ValueType1)
+                        {
+                            continue;
+                        }
+                        string tmp = codeBlock;
+                        tmp = tmp.Replace(BLOCK_CHILD_TAG_MACRO, signalDataItem.Macro);
                         ret += tmp;
 
                     }

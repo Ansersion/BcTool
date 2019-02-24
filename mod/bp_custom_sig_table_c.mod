@@ -94,9 +94,9 @@ const BP_WORD g_CusSigGroupLangMapNum = sizeof(g_CusSigGroupLangMap) / sizeof(BP
 <SIGNAL_ENUM_LANGUAGE_MAP>
 BP_EnumSignalMap <MACRO>_ENUM_MAP[] = 
 {
-    {<ENUM_VAL>, <LANG_INDEX>}, 
+<SIGNAL_ENUM_LANGUAGE_UNIT>
 };
-</SIGNAL_ENUM_LANGUAGE_UNIT>
+</SIGNAL_ENUM_LANGUAGE_MAP>
 
 BP_SigId2EnumSignalMap g_CusSigId2EnumSigMap[] =
 {
