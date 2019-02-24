@@ -36,6 +36,7 @@ namespace BcTool
         public const string PREFIX_SIGNAL_CUSTOM_UNIT_LANG = "customUnit";
         public const string PREFIX_SIGNAL_CUSTOM_GROUP_LANG = "customGroup";
 
+        
 
         public const int ENABLE_COLUMN_INDEX = 1;
 
@@ -48,6 +49,7 @@ namespace BcTool
         private NetMng netMng = new NetMng("127.0.0.1");
         private Simulator simulator;
         private List<string> prefixLists;
+        private List<string> csvFileNameList;
         /* custom signal language prefix list */
         private List<string> signalLanguageInfoPrefixList;
         private List<DataGridView> dist2DataGridViewList;
@@ -119,9 +121,6 @@ namespace BcTool
         private IntPtr cusSigEnumLangMapIntPtr;
         private BP_WORD cusSigEnumLangMapSize;
 
-        /* */
-        private string gererateDirectory = @".\";
-
         public BcTool()
         {
             InitializeComponent();
@@ -156,6 +155,21 @@ namespace BcTool
             prefixLists.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM);
 
             prefixLists.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO);
+
+            csvFileNameList = new List<string>();
+            csvFileNameList.Add(EXPORT_TMP_Directory);
+            csvFileNameList.Add(CSV_SYS_UNIT_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_SYS_GROUP_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_SYS_ENUM_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_SYS_SIG_INFO_BASIC);
+            csvFileNameList.Add(CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_SYS_SIG_INFO_TEMP_HUMIDITY);
+            csvFileNameList.Add(CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_CUS_SIGNAL_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_CUS_UNIT_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_CUS_GROUP_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_CUS_ENUM_LANGUAGE_RESOURCE);
+            csvFileNameList.Add(CSV_CUS_SIG_INFO);
 
             signalLanguageInfoPrefixList = new List<string>();
             signalLanguageInfoPrefixList.Add(PREFIX_LANG_CUSTOM_SIGNAL);
@@ -815,7 +829,81 @@ namespace BcTool
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
-            exportCsv(this.systemLangDataGridView, "export.csv");
+            string currPath = Application.StartupPath;
+            string subPath = currPath + EXPORT_TMP_Directory;
+            try
+            {
+                if (false == Directory.Exists(subPath))
+                {
+                    Directory.CreateDirectory(subPath);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+            /*
+            System.DateTime currentTime = new System.DateTime();
+            currentTime = System.DateTime.Now;
+            string picName;
+            picName =
+                currentTime.Year.ToString() +
+                currentTime.Month.ToString() +
+                currentTime.Day.ToString() +
+                currentTime.Hour.ToString() +
+                currentTime.Minute.ToString() +
+                currentTime.Second.ToString() +
+                currentTime.Millisecond.ToString() +
+                ".jpg";
+
+            string picPath;
+            if (false == System.IO.Directory.Exists(subPath))
+            {
+                picPath = currPath + "/" + picName;
+            }
+            else
+            {
+                picPath = subPath + picName;
+            }
+            */
+
+            return;
+
+            string localFilePath = "";
+            //string localFilePath, fileNameExt, newFileName, FilePath; 
+            SaveFileDialog sfd = new SaveFileDialog();
+            //设置文件类型 
+            sfd.Filter = "Zip（*.zip）|*.zip";
+
+            //设置默认文件类型显示顺序 
+            sfd.FilterIndex = 1;
+
+            //保存对话框是否记忆上次打开的目录 
+            sfd.RestoreDirectory = true;
+
+            //点了保存按钮进入 
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                localFilePath = sfd.FileName.ToString(); //获得文件路径 
+                string fileNameExt = localFilePath.Substring(localFilePath.LastIndexOf("\\") + 1); //获取文件名，不带路径
+
+                //获取文件路径，不带文件名 
+                //FilePath = localFilePath.Substring(0, localFilePath.LastIndexOf("\\")); 
+
+                //给文件名前加上时间 
+                //newFileName = DateTime.Now.ToString("yyyyMMdd") + fileNameExt; 
+
+                //在文件名里加字符 
+                //saveFileDialog1.FileName.Insert(1,"dameng"); 
+
+                //System.IO.FileStream fs = (System.IO.FileStream)sfd.OpenFile();//输出文件 
+
+                ////fs输出带文字或图片的文件，就看需求了 
+            }
+
+            // return localFilePath;
+            // exportCsv(this.systemLangDataGridView, "export.csv");
         }
 
         private void buttonImport_Click(object sender, EventArgs e)
