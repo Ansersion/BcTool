@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Zip;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -59,6 +60,7 @@ namespace BcTool
         private Dictionary<String, Tools.SignalTableMetaData> prefix2CustomTableMetaData;
         private Dictionary<String, DataGridView> prefix2LangDataGridView;
         private Dictionary<string, Dictionary<UInt16, LanguageResourceItem>> prefix2LangDictionary;
+        private Dictionary<string, DataGridView> csv2DataGridViewDictionary;
 
         private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemConstList;
         private Dictionary<String, List<SignalDataItem>> prefix2systemSignalDataItemVariableList;
@@ -211,29 +213,56 @@ namespace BcTool
             prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, new Tools.SignalTableMetaData());
             prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG, new Tools.SignalTableMetaData());
 
+            csv2DataGridViewDictionary = new Dictionary<string, DataGridView>();
+            /*
+             *         private const string CSV_SYS_UNIT_LANGUAGE_RESOURCE = @"sys_unit_language_resource.csv";
+        private const string CSV_SYS_GROUP_LANGUAGE_RESOURCE = @"sys_group_language_resource.csv";
+        private const string CSV_SYS_ENUM_LANGUAGE_RESOURCE = @"sys_enum_language_resource.csv";
+        private const string CSV_SYS_SIG_INFO_BASIC = @"sys_sig_info_basic.csv";
+        private const string CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE = @"sys_sig_info_basic_language_resource.csv";
+        private const string CSV_SYS_SIG_INFO_TEMP_HUMIDITY = @"sys_sig_info_temp_humidity.csv";
+        private const string CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE = @"sys_sig_info_temp_humidity_language_resource.csv";
+        private const string CSV_CUS_SIGNAL_LANGUAGE_RESOURCE = @"cus_signal_language_resource.csv";
+        private const string CSV_CUS_UNIT_LANGUAGE_RESOURCE = @"cus_unit_language_resource.csv";
+        private const string CSV_CUS_GROUP_LANGUAGE_RESOURCE = @"cus_group_language_resource.csv";
+        private const string CSV_CUS_ENUM_LANGUAGE_RESOURCE = @"cus_enum_language_resource.csv";
+        private const string CSV_CUS_SIG_INFO = @"cus_sig_info.csv";
+             */
             Tools.SignalTableMetaData signalTableMetaDataTmp = new Tools.SignalTableMetaData();
-            loadReadOnlyDataGridView("sys_unit_language_resource.csv", this.systemUnitDataGridView, ref signalTableMetaDataTmp);
-            loadReadOnlyDataGridView("sys_group_language_resource.csv", this.systemGroupDataGridView, ref signalTableMetaDataTmp);
-            loadReadOnlyDataGridView("sys_enum_language_resource.csv", this.systemEnumDataGridView, ref signalTableMetaDataTmp);
-            loadReadOnlyDataGridView("sys_sig_info_basic.csv", this.systemBasicDataGridView, ref signalTableMetaDataTmp);
+            loadReadOnlyDataGridView(CSV_SYS_UNIT_LANGUAGE_RESOURCE, this.systemUnitDataGridView, ref signalTableMetaDataTmp);
+            csv2DataGridViewDictionary.Add(CSV_SYS_UNIT_LANGUAGE_RESOURCE, this.systemUnitDataGridView);
+            loadReadOnlyDataGridView(CSV_SYS_GROUP_LANGUAGE_RESOURCE, this.systemGroupDataGridView, ref signalTableMetaDataTmp);
+            csv2DataGridViewDictionary.Add(CSV_SYS_GROUP_LANGUAGE_RESOURCE, this.systemGroupDataGridView);
+            loadReadOnlyDataGridView(CSV_SYS_ENUM_LANGUAGE_RESOURCE, this.systemEnumDataGridView, ref signalTableMetaDataTmp);
+            csv2DataGridViewDictionary.Add(CSV_SYS_ENUM_LANGUAGE_RESOURCE, this.systemEnumDataGridView);
+            loadReadOnlyDataGridView(CSV_SYS_SIG_INFO_BASIC, this.systemBasicDataGridView, ref signalTableMetaDataTmp);
+            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_BASIC, this.systemBasicDataGridView);
             prefix2SystemTableMetaData[PREFIX_SIGNAL_SYSTEM_BASIC] = signalTableMetaDataTmp;
             signalTableMetaDataTmp.recordNum = 0;
-            loadReadOnlyDataGridView("sys_sig_info_basic_language_resource.csv", this.systemLangDataGridView, ref signalTableMetaDataTmp);
-            loadReadOnlyDataGridView("sys_sig_info_temp_humidity.csv", this.systemTempHumDataGridView, ref signalTableMetaDataTmp);
+            loadReadOnlyDataGridView(CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE, this.systemLangDataGridView, ref signalTableMetaDataTmp);
+            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE, this.systemLangDataGridView);
+            loadReadOnlyDataGridView(CSV_SYS_SIG_INFO_TEMP_HUMIDITY, this.systemTempHumDataGridView, ref signalTableMetaDataTmp);
+            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_TEMP_HUMIDITY, this.systemTempHumDataGridView);
             prefix2SystemTableMetaData[PREFIX_SIGNAL_SYSTEM_TEMP_HUM] = signalTableMetaDataTmp;
             signalTableMetaDataTmp.recordNum = 0;
-            loadReadOnlyDataGridView("sys_sig_info_temp_humidity_language_resource.csv", this.systemLangDataGridView, ref signalTableMetaDataTmp);
+            loadReadOnlyDataGridView(CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE, this.systemLangDataGridView, ref signalTableMetaDataTmp);
+            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE, this.systemLangDataGridView);
 
-            loadReadOnlyDataGridView("cus_signal_language_resource.csv", this.customLangDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            loadReadOnlyDataGridView(CSV_CUS_SIGNAL_LANGUAGE_RESOURCE, this.customLangDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            csv2DataGridViewDictionary.Add(CSV_CUS_SIGNAL_LANGUAGE_RESOURCE, this.customLangDataGridView);
             prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG] = signalTableMetaDataTmp;
-            loadReadOnlyDataGridView("cus_unit_language_resource.csv", this.customUnitDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            loadReadOnlyDataGridView(CSV_CUS_UNIT_LANGUAGE_RESOURCE, this.customUnitDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            csv2DataGridViewDictionary.Add(CSV_CUS_UNIT_LANGUAGE_RESOURCE, this.customUnitDataGridView);
             prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_UNIT_LANG] = signalTableMetaDataTmp;
-            loadReadOnlyDataGridView("cus_group_language_resource.csv", this.customGroupDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            loadReadOnlyDataGridView(CSV_CUS_GROUP_LANGUAGE_RESOURCE, this.customGroupDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            csv2DataGridViewDictionary.Add(CSV_CUS_GROUP_LANGUAGE_RESOURCE, this.customGroupDataGridView);
             prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_GROUP_LANG] = signalTableMetaDataTmp;
-            loadReadOnlyDataGridView("cus_enum_language_resource.csv", this.customEnumDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            loadReadOnlyDataGridView(CSV_CUS_ENUM_LANGUAGE_RESOURCE, this.customEnumDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            csv2DataGridViewDictionary.Add(CSV_CUS_ENUM_LANGUAGE_RESOURCE, this.customEnumDataGridView);
             prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_ENUM_LANG] = signalTableMetaDataTmp;
 
-            loadReadOnlyDataGridView("cus_sig_info.csv", this.customDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            loadReadOnlyDataGridView(CSV_CUS_SIG_INFO, this.customDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            csv2DataGridViewDictionary.Add(CSV_CUS_SIG_INFO, this.customDataGridView);
             prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO] = signalTableMetaDataTmp;
 
             if (!loadSystemSignalInfo())
@@ -829,81 +858,95 @@ namespace BcTool
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
-            string currPath = Application.StartupPath;
-            string subPath = currPath + EXPORT_TMP_Directory;
-            try
-            {
-                if (false == Directory.Exists(subPath))
-                {
-                    Directory.CreateDirectory(subPath);
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            
-            /*
-            System.DateTime currentTime = new System.DateTime();
-            currentTime = System.DateTime.Now;
-            string picName;
-            picName =
-                currentTime.Year.ToString() +
-                currentTime.Month.ToString() +
-                currentTime.Day.ToString() +
-                currentTime.Hour.ToString() +
-                currentTime.Minute.ToString() +
-                currentTime.Second.ToString() +
-                currentTime.Millisecond.ToString() +
-                ".jpg";
-
-            string picPath;
-            if (false == System.IO.Directory.Exists(subPath))
-            {
-                picPath = currPath + "/" + picName;
-            }
-            else
-            {
-                picPath = subPath + picName;
-            }
-            */
-
-            return;
-
-            string localFilePath = "";
-            //string localFilePath, fileNameExt, newFileName, FilePath; 
             SaveFileDialog sfd = new SaveFileDialog();
-            //设置文件类型 
             sfd.Filter = "Zip（*.zip）|*.zip";
-
-            //设置默认文件类型显示顺序 
             sfd.FilterIndex = 1;
-
-            //保存对话框是否记忆上次打开的目录 
             sfd.RestoreDirectory = true;
 
-            //点了保存按钮进入 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                localFilePath = sfd.FileName.ToString(); //获得文件路径 
-                string fileNameExt = localFilePath.Substring(localFilePath.LastIndexOf("\\") + 1); //获取文件名，不带路径
+                string currPath = Application.StartupPath;
+                string subPath = currPath + EXPORT_TMP_Directory;
 
-                //获取文件路径，不带文件名 
-                //FilePath = localFilePath.Substring(0, localFilePath.LastIndexOf("\\")); 
+                string exportZip = sfd.FileName.ToString(); //获得文件路径 
+                // string fileNameExt = localFilePath.Substring(localFilePath.LastIndexOf("\\") + 1); //获取文件名，不带路径
 
-                //给文件名前加上时间 
-                //newFileName = DateTime.Now.ToString("yyyyMMdd") + fileNameExt; 
+                try
+                {
+                    if (false == Directory.Exists(subPath))
+                    {
+                        Directory.CreateDirectory(subPath);
+                    }
+                    UTF8Encoding uTF8Encoding = new System.Text.UTF8Encoding(false);
 
-                //在文件名里加字符 
-                //saveFileDialog1.FileName.Insert(1,"dameng"); 
+                    using (ZipFile zip = ZipFile.Create(exportZip))
+                    {
+                        zip.BeginUpdate();
 
-                //System.IO.FileStream fs = (System.IO.FileStream)sfd.OpenFile();//输出文件 
+                        foreach (string key in csv2DataGridViewDictionary.Keys)
+                        {
+                            string csvFile = subPath + @"\" + key;
+                            using (StreamWriter sw = new StreamWriter(csvFile, false, uTF8Encoding))
+                            {
+                                string line = "";
+                                DataGridView dataGridViewTmp = csv2DataGridViewDictionary[key];
+                                int columnCount = dataGridViewTmp.Columns.Count;
+                                int rowCount = dataGridViewTmp.Rows.Count;
 
-                ////fs输出带文字或图片的文件，就看需求了 
+                                line = "<Version>0.1</Version><RecordNum>" + rowCount + "</RecordNum>";
+                                for (int i = 0; i < columnCount - 1; i++)
+                                {
+                                    line += ",";
+                                }
+                                line += "\r\n";
+                                sw.Write(line);
+                                line = dataGridViewTmp.Columns[0].HeaderText;
+                                for (int i = 1; i < columnCount; i++)
+                                {
+                                    line += "," + dataGridViewTmp.Columns[i].HeaderText;
+                                }
+                                line += "\r\n";
+                                sw.Write(line);
+
+
+                                for (int i = 0; i < rowCount; i++)
+                                {
+                                    string tmp = "";
+                                    if (null != dataGridViewTmp.Rows[i].Cells[0].Value)
+                                    {
+                                        tmp = dataGridViewTmp.Rows[i].Cells[0].Value.ToString().Trim();
+                                    }
+                                    line = tmp;
+                                    for (int j = 1; j < columnCount; j++)
+                                    {
+                                        tmp = "";
+                                        if (null != dataGridViewTmp.Rows[i].Cells[j].Value)
+                                        {
+                                            tmp = dataGridViewTmp.Rows[i].Cells[j].Value.ToString().Trim();
+                                        }
+                                        line += "," + tmp;
+                                    }
+                                    line += "\r\n";
+                                    sw.Write(line);
+                                }
+
+                            }
+                            zip.Add(csvFile, Path.GetFileName(csvFile));
+
+                        }
+
+                        zip.CommitUpdate();
+                    }
+
+                    MessageBox.Show("export done");
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
-            // return localFilePath;
-            // exportCsv(this.systemLangDataGridView, "export.csv");
         }
 
         private void buttonImport_Click(object sender, EventArgs e)
