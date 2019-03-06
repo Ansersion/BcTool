@@ -951,7 +951,36 @@ namespace BcTool
 
         private void buttonImport_Click(object sender, EventArgs e)
         {
-            // messageBox.AppendText("" + x++ + "\n");
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;//该值确定是否可以选择多个文件
+            dialog.Title = "Select Zip";
+            dialog.Filter = "Zip（*.zip）|*.zip";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string currPath = Application.StartupPath;
+                string subPath = currPath + IMPORT_TMP_Directory;
+                string importZip = dialog.FileName.ToString(); //获得文件路径 
+               
+                try
+                {
+                    if (false == Directory.Exists(subPath))
+                    {
+                        Directory.CreateDirectory(subPath);
+                    }
+                    FastZip fastZip = new FastZip();
+                    string fileFilter = null;
+                    fastZip.ExtractZip(importZip, subPath, fileFilter);
+
+                    MessageBox.Show("import done");
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)

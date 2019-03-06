@@ -9,6 +9,7 @@ namespace BcTool
     public partial class BcTool
     {
         private const string EXPORT_TMP_Directory = @".\ExportTmpDirectory";
+        private const string IMPORT_TMP_Directory = @".\ImportTmpDirectory";
         private const string CSV_SYS_UNIT_LANGUAGE_RESOURCE = @"sys_unit_language_resource.csv";
         private const string CSV_SYS_GROUP_LANGUAGE_RESOURCE = @"sys_group_language_resource.csv";
         private const string CSV_SYS_ENUM_LANGUAGE_RESOURCE = @"sys_enum_language_resource.csv";
