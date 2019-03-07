@@ -53,8 +53,8 @@ namespace BcTool
         private List<string> csvFileNameList;
         /* custom signal language prefix list */
         private List<string> signalLanguageInfoPrefixList;
-        private List<DataGridView> dist2DataGridViewList;
-        private List<Hashtable> dist2SignalDataItemHashTable;
+        // private List<DataGridView> dist2DataGridViewList;
+        // private List<Hashtable> dist2SignalDataItemHashTable;
         private Dictionary<String, DataGridView> prefix2SignalDataGridView;
         private Dictionary<String, Tools.SignalTableMetaData> prefix2SystemTableMetaData;
         private Dictionary<String, Tools.SignalTableMetaData> prefix2CustomTableMetaData;
@@ -159,7 +159,7 @@ namespace BcTool
             prefixLists.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO);
 
             csvFileNameList = new List<string>();
-            csvFileNameList.Add(EXPORT_TMP_Directory);
+            // csvFileNameList.Add(EXPORT_TMP_Directory);
             csvFileNameList.Add(CSV_SYS_UNIT_LANGUAGE_RESOURCE);
             csvFileNameList.Add(CSV_SYS_GROUP_LANGUAGE_RESOURCE);
             csvFileNameList.Add(CSV_SYS_ENUM_LANGUAGE_RESOURCE);
@@ -179,31 +179,23 @@ namespace BcTool
             signalLanguageInfoPrefixList.Add(PREFIX_LANG_CUSTOM_ENUM);
             signalLanguageInfoPrefixList.Add(PREFIX_LANG_CUSTOM_GROUP);
 
+            csv2DataGridViewDictionary = new Dictionary<string, DataGridView>();
+            csv2DataGridViewDictionary.Add(CSV_SYS_UNIT_LANGUAGE_RESOURCE, this.systemUnitDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_SYS_GROUP_LANGUAGE_RESOURCE, this.systemGroupDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_SYS_ENUM_LANGUAGE_RESOURCE, this.systemEnumDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_BASIC, this.systemBasicDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE, this.systemLangDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_TEMP_HUMIDITY, this.systemTempHumDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE, this.systemLangDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_CUS_SIGNAL_LANGUAGE_RESOURCE, this.customLangDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_CUS_UNIT_LANGUAGE_RESOURCE, this.customUnitDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_CUS_GROUP_LANGUAGE_RESOURCE, this.customGroupDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_CUS_ENUM_LANGUAGE_RESOURCE, this.customEnumDataGridView);
+            csv2DataGridViewDictionary.Add(CSV_CUS_SIG_INFO, this.customDataGridView);
 
-            prefix2ColorMng = new Dictionary<string, ColorMng>();
-            foreach (string prefix in prefixLists)
-            {
-                prefix2ColorMng.Add(prefix, new ColorMng());
-            }
-
-            foreach (string prefix in signalLanguageInfoPrefixList)
-            {
-                prefix2ColorMng.Add(prefix, new ColorMng());
-            }
-
-            dist2DataGridViewList = new List<DataGridView>();
-            dist2DataGridViewList.Add(this.systemBasicDataGridView);
-            dist2SignalDataItemHashTable = new List<Hashtable>();
-            for (int i = 0; i < BPLibApi.SYSTEM_SIGNAL_TABLE_NUM; i++)
-            {
-                dist2SignalDataItemHashTable.Add(new Hashtable());
-            }
             prefix2SignalDataGridView = new Dictionary<string, DataGridView>();
             prefix2SignalDataGridView.Add(PREFIX_SIGNAL_SYSTEM_BASIC, systemBasicDataGridView);
             prefix2SignalDataGridView.Add(PREFIX_SIGNAL_SYSTEM_TEMP_HUM, systemTempHumDataGridView);
-
-            // prefix2SignalDataGridView.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, customDataGridView);
-
 
             prefix2SystemTableMetaData = new Dictionary<string, Tools.SignalTableMetaData>();
             prefix2SystemTableMetaData.Add(PREFIX_SIGNAL_SYSTEM_BASIC, new Tools.SignalTableMetaData());
@@ -213,68 +205,16 @@ namespace BcTool
             prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO, new Tools.SignalTableMetaData());
             prefix2CustomTableMetaData.Add(PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG, new Tools.SignalTableMetaData());
 
-            csv2DataGridViewDictionary = new Dictionary<string, DataGridView>();
-            /*
-             *         private const string CSV_SYS_UNIT_LANGUAGE_RESOURCE = @"sys_unit_language_resource.csv";
-        private const string CSV_SYS_GROUP_LANGUAGE_RESOURCE = @"sys_group_language_resource.csv";
-        private const string CSV_SYS_ENUM_LANGUAGE_RESOURCE = @"sys_enum_language_resource.csv";
-        private const string CSV_SYS_SIG_INFO_BASIC = @"sys_sig_info_basic.csv";
-        private const string CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE = @"sys_sig_info_basic_language_resource.csv";
-        private const string CSV_SYS_SIG_INFO_TEMP_HUMIDITY = @"sys_sig_info_temp_humidity.csv";
-        private const string CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE = @"sys_sig_info_temp_humidity_language_resource.csv";
-        private const string CSV_CUS_SIGNAL_LANGUAGE_RESOURCE = @"cus_signal_language_resource.csv";
-        private const string CSV_CUS_UNIT_LANGUAGE_RESOURCE = @"cus_unit_language_resource.csv";
-        private const string CSV_CUS_GROUP_LANGUAGE_RESOURCE = @"cus_group_language_resource.csv";
-        private const string CSV_CUS_ENUM_LANGUAGE_RESOURCE = @"cus_enum_language_resource.csv";
-        private const string CSV_CUS_SIG_INFO = @"cus_sig_info.csv";
-             */
-            Tools.SignalTableMetaData signalTableMetaDataTmp = new Tools.SignalTableMetaData();
-            loadReadOnlyDataGridView(CSV_SYS_UNIT_LANGUAGE_RESOURCE, this.systemUnitDataGridView, ref signalTableMetaDataTmp);
-            csv2DataGridViewDictionary.Add(CSV_SYS_UNIT_LANGUAGE_RESOURCE, this.systemUnitDataGridView);
-            loadReadOnlyDataGridView(CSV_SYS_GROUP_LANGUAGE_RESOURCE, this.systemGroupDataGridView, ref signalTableMetaDataTmp);
-            csv2DataGridViewDictionary.Add(CSV_SYS_GROUP_LANGUAGE_RESOURCE, this.systemGroupDataGridView);
-            loadReadOnlyDataGridView(CSV_SYS_ENUM_LANGUAGE_RESOURCE, this.systemEnumDataGridView, ref signalTableMetaDataTmp);
-            csv2DataGridViewDictionary.Add(CSV_SYS_ENUM_LANGUAGE_RESOURCE, this.systemEnumDataGridView);
-            loadReadOnlyDataGridView(CSV_SYS_SIG_INFO_BASIC, this.systemBasicDataGridView, ref signalTableMetaDataTmp);
-            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_BASIC, this.systemBasicDataGridView);
-            prefix2SystemTableMetaData[PREFIX_SIGNAL_SYSTEM_BASIC] = signalTableMetaDataTmp;
-            signalTableMetaDataTmp.recordNum = 0;
-            loadReadOnlyDataGridView(CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE, this.systemLangDataGridView, ref signalTableMetaDataTmp);
-            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE, this.systemLangDataGridView);
-            loadReadOnlyDataGridView(CSV_SYS_SIG_INFO_TEMP_HUMIDITY, this.systemTempHumDataGridView, ref signalTableMetaDataTmp);
-            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_TEMP_HUMIDITY, this.systemTempHumDataGridView);
-            prefix2SystemTableMetaData[PREFIX_SIGNAL_SYSTEM_TEMP_HUM] = signalTableMetaDataTmp;
-            signalTableMetaDataTmp.recordNum = 0;
-            loadReadOnlyDataGridView(CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE, this.systemLangDataGridView, ref signalTableMetaDataTmp);
-            csv2DataGridViewDictionary.Add(CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE, this.systemLangDataGridView);
+            loadCsvFiles(null);
 
-            loadReadOnlyDataGridView(CSV_CUS_SIGNAL_LANGUAGE_RESOURCE, this.customLangDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
-            csv2DataGridViewDictionary.Add(CSV_CUS_SIGNAL_LANGUAGE_RESOURCE, this.customLangDataGridView);
-            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG] = signalTableMetaDataTmp;
-            loadReadOnlyDataGridView(CSV_CUS_UNIT_LANGUAGE_RESOURCE, this.customUnitDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
-            csv2DataGridViewDictionary.Add(CSV_CUS_UNIT_LANGUAGE_RESOURCE, this.customUnitDataGridView);
-            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_UNIT_LANG] = signalTableMetaDataTmp;
-            loadReadOnlyDataGridView(CSV_CUS_GROUP_LANGUAGE_RESOURCE, this.customGroupDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
-            csv2DataGridViewDictionary.Add(CSV_CUS_GROUP_LANGUAGE_RESOURCE, this.customGroupDataGridView);
-            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_GROUP_LANG] = signalTableMetaDataTmp;
-            loadReadOnlyDataGridView(CSV_CUS_ENUM_LANGUAGE_RESOURCE, this.customEnumDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
-            csv2DataGridViewDictionary.Add(CSV_CUS_ENUM_LANGUAGE_RESOURCE, this.customEnumDataGridView);
-            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_ENUM_LANG] = signalTableMetaDataTmp;
 
-            loadReadOnlyDataGridView(CSV_CUS_SIG_INFO, this.customDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
-            csv2DataGridViewDictionary.Add(CSV_CUS_SIG_INFO, this.customDataGridView);
-            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO] = signalTableMetaDataTmp;
 
-            if (!loadSystemSignalInfo())
-            {
-                MessageBox.Show("Error: System signal table error");
-            }
+            /* set default generate path to current directory */
+            generatePathTextBox.Text = System.IO.Directory.GetCurrentDirectory();
 
-            if (!loadCustomSignalInfo())
-            {
-                MessageBox.Show("Error: Custom signal table error");
-            }
+            initSignalBlockTools();
 
+            /* simulator init */
             sysSigId2ValIntPtr = IntPtr.Zero;
             sysSigTableIntPtr = IntPtr.Zero;
             cusSigId2ValIntPtr = IntPtr.Zero;
@@ -303,6 +243,84 @@ namespace BcTool
             /* 0xE000(SerialNumber) and 0xE001(CommunicationState) enabled as default */
             systemSignalEnableBits[0][0] = 0x03;
 
+        }
+
+        private void loadCsvFiles(string importPath)
+        {
+            string csvFilesPath = Application.StartupPath;
+            if (importPath != null)
+            {
+                csvFilesPath = importPath;
+
+                /* import  zip signal info */
+                foreach (DataGridView value in prefix2SignalDataGridView.Values)
+                {
+                    value.AllowUserToAddRows = true;
+                }
+
+                foreach (DataGridView value in prefix2LangDataGridView.Values)
+                {
+                    value.AllowUserToAddRows = true;
+                }
+            }
+
+            prefix2ColorMng = new Dictionary<string, ColorMng>();
+            foreach (string prefix in prefixLists)
+            {
+                prefix2ColorMng.Add(prefix, new ColorMng());
+            }
+
+            foreach (string prefix in signalLanguageInfoPrefixList)
+            {
+                prefix2ColorMng.Add(prefix, new ColorMng());
+            }
+
+            Tools.SignalTableMetaData signalTableMetaDataTmp = new Tools.SignalTableMetaData();
+            this.systemUnitDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_SYS_UNIT_LANGUAGE_RESOURCE, this.systemUnitDataGridView, ref signalTableMetaDataTmp);
+            this.systemGroupDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_SYS_GROUP_LANGUAGE_RESOURCE, this.systemGroupDataGridView, ref signalTableMetaDataTmp);
+            this.systemEnumDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_SYS_ENUM_LANGUAGE_RESOURCE, this.systemEnumDataGridView, ref signalTableMetaDataTmp);
+            this.systemBasicDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_SYS_SIG_INFO_BASIC, this.systemBasicDataGridView, ref signalTableMetaDataTmp);
+            prefix2SystemTableMetaData[PREFIX_SIGNAL_SYSTEM_BASIC] = signalTableMetaDataTmp;
+            signalTableMetaDataTmp.recordNum = 0;
+            this.systemLangDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_SYS_SIG_INFO_BASIC_LANGUAGE_RESOURCE, this.systemLangDataGridView, ref signalTableMetaDataTmp);
+            this.systemTempHumDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_SYS_SIG_INFO_TEMP_HUMIDITY, this.systemTempHumDataGridView, ref signalTableMetaDataTmp);
+            prefix2SystemTableMetaData[PREFIX_SIGNAL_SYSTEM_TEMP_HUM] = signalTableMetaDataTmp;
+            signalTableMetaDataTmp.recordNum = 0;
+            // this.systemLangDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_SYS_SIG_INFO_TEMP_HUMIDITY_LANGUAGE_RESOURCE, this.systemLangDataGridView, ref signalTableMetaDataTmp);
+            this.customLangDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_CUS_SIGNAL_LANGUAGE_RESOURCE, this.customLangDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_LANG] = signalTableMetaDataTmp;
+            this.customUnitDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_CUS_UNIT_LANGUAGE_RESOURCE, this.customUnitDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_UNIT_LANG] = signalTableMetaDataTmp;
+            this.customGroupDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_CUS_GROUP_LANGUAGE_RESOURCE, this.customGroupDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_GROUP_LANG] = signalTableMetaDataTmp;
+            this.customEnumDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_CUS_ENUM_LANGUAGE_RESOURCE, this.customEnumDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_ENUM_LANG] = signalTableMetaDataTmp;
+            this.customDataGridView.Rows.Clear();
+            loadReadOnlyDataGridView(csvFilesPath + @"\" + CSV_CUS_SIG_INFO, this.customDataGridView, ref signalTableMetaDataTmp, DEFAULT_LINE_NUMBER);
+
+            prefix2CustomTableMetaData[PREFIX_SIGNAL_CUSTOM_SIGNAL_INFO] = signalTableMetaDataTmp;
+
+            if (!loadSystemSignalInfo())
+            {
+                MessageBox.Show("Error: System signal table error");
+            }
+
+            if (!loadCustomSignalInfo())
+            {
+                MessageBox.Show("Error: Custom signal table error");
+            }
+
             foreach (DataGridView value in prefix2SignalDataGridView.Values)
             {
                 value.AllowUserToAddRows = false;
@@ -312,12 +330,6 @@ namespace BcTool
             {
                 value.AllowUserToAddRows = false;
             }
-
-            /* set default generate path to current directory */
-            generatePathTextBox.Text = System.IO.Directory.GetCurrentDirectory();
-
-            initSignalBlockTools();
-
         }
 
         private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, ref Tools.SignalTableMetaData signalTableMetaData, int defaultLineNumber)
@@ -326,7 +338,11 @@ namespace BcTool
 
             int lineCount = dataGridView.Rows.Count;
 
-            dataGridViewAddLines(ref dataGridView, defaultLineNumber - lineCount, lineCount, true);
+            if(defaultLineNumber - lineCount > 0)
+            {
+                dataGridViewAddLines(ref dataGridView, defaultLineNumber - lineCount, lineCount, true);
+            }
+            
         }
 
         private void dataGridViewAddLines(ref DataGridView dataGridView, int lineNum, int firstId, Boolean isHex)
@@ -361,7 +377,7 @@ namespace BcTool
         private void loadReadOnlyDataGridView(string csvName, DataGridView dataGridView, ref Tools.SignalTableMetaData signalTableMetaData)
         {
 
-            // dataGridView.Rows.Clear();
+            int rowIndex = 0;
             try
             {
                 signalTableMetaData.clear();
@@ -383,7 +399,18 @@ namespace BcTool
                     tmp = sr.ReadLine(); // skip the title line
 
                     int recordNum = signalTableMetaData.recordNum;
-                    int rowIndex = dataGridView.Rows.Count - 1;
+                    if(dataGridView.Rows.Count == 0)
+                    {
+                        dataGridView.Rows.Add();
+                    }
+
+                    rowIndex = dataGridView.Rows.Count - 1;
+                    /*
+                    if(rowIndex < 0)
+                    {
+                        rowIndex = 0;
+                    }
+                    */
                     while ((line = sr.ReadLine()) != null)
                     {
                         if (signalTableMetaData.recordNum > 0)
@@ -866,7 +893,7 @@ namespace BcTool
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string currPath = Application.StartupPath;
-                string subPath = currPath + EXPORT_TMP_Directory;
+                string subPath = currPath + @"\" + EXPORT_TMP_Directory;
 
                 string exportZip = sfd.FileName.ToString(); //获得文件路径 
                 // string fileNameExt = localFilePath.Substring(localFilePath.LastIndexOf("\\") + 1); //获取文件名，不带路径
@@ -959,7 +986,7 @@ namespace BcTool
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string currPath = Application.StartupPath;
-                string subPath = currPath + IMPORT_TMP_Directory;
+                string subPath = currPath + @"\" + IMPORT_TMP_Directory;
                 string importZip = dialog.FileName.ToString(); //获得文件路径 
                
                 try
@@ -972,7 +999,9 @@ namespace BcTool
                     string fileFilter = null;
                     fastZip.ExtractZip(importZip, subPath, fileFilter);
 
-                    MessageBox.Show("import done");
+                    loadCsvFiles(subPath);
+
+                    // MessageBox.Show("import done");
 
                 }
                 catch (Exception ex)
@@ -1698,7 +1727,7 @@ namespace BcTool
             }
 
             /* add new lines if last line filled */
-            if (e.RowIndex == rowCount - 1)
+            if (e.RowIndex == rowCount - 1 && rowCount >= DEFAULT_LINE_NUMBER)
             {
                 int firstId = 0;
                 if (0 != rowCount)
@@ -1745,7 +1774,7 @@ namespace BcTool
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 

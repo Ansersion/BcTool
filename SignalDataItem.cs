@@ -50,6 +50,7 @@ namespace BcTool
         public const string UNIT_ID_REGEX_PATTERN = @"ULR(\d+)\s*";
         public const string GROUP_ID_REGEX_PATTERN = @"GLR(\d+)\s*";
         public const int DEFAULT_UNIT_ID = 0;
+        public const int DEFAULT_ACCURACY = 0;
         public const int DEFAULT_GROUP_ID = 0;
         public const BcPermission DEFAULT_PERMISSION = BcPermission.RO;
         public const BcAlarmClass DEFAULT_ALARM_CLASS = BcAlarmClass.SERIOUS;
@@ -200,7 +201,14 @@ namespace BcTool
                         int accuracy = -1;
                         try
                         {
-                            accuracy = Convert.ToInt32(newValue);
+                            if (string.IsNullOrWhiteSpace(newValue))
+                            {
+                                accuracy = DEFAULT_ACCURACY;
+                            }
+                            else
+                            {
+                                accuracy = Convert.ToInt32(newValue);
+                            }
                             if (accuracy >= 0)
                             {
                                 ret = (1 << BPLibApi.SYS_SIG_CUSTOM_TYPE_ACCURACY);
@@ -653,6 +661,7 @@ namespace BcTool
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     signalId = -1;
                 }
                 if(signalId < 0)
@@ -688,7 +697,7 @@ namespace BcTool
                 {
                     if (null != err)
                     {
-                        err = "<Macro> error: \"" + tmp + "\"";
+                        err = "<Macro> error: \"" + macro + "\"";
                     }
                     return signalDataItemRet;
                 }
@@ -743,6 +752,7 @@ namespace BcTool
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     unitId = -1;
                 }
                 if (unitId < 0)
@@ -784,6 +794,7 @@ namespace BcTool
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     accuracy = -1;
                 }
                 if (accuracy < 0)
@@ -859,6 +870,7 @@ namespace BcTool
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     groupId = -1;
                 }
                 if (groupId < 0)
@@ -949,6 +961,7 @@ namespace BcTool
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     dba = -1;
                 }
                 if(dba < 0)
@@ -975,6 +988,7 @@ namespace BcTool
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     daa = -1;
                 }
                 if (daa < 0)
@@ -991,6 +1005,7 @@ namespace BcTool
             catch (Exception e)
             {
                 signalDataItemRet = null;
+                Console.WriteLine(e.Message);
                 if (err != null)
                 {
                     err += "(Catch exception)";

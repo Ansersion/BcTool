@@ -611,22 +611,76 @@ namespace BcTool
                 switch (valueType)
                 {
                     case SignalDataItem.BPValueType.U32:
-                        sigValue = Convert.ToUInt32(newValue);
+                        if(string.IsNullOrWhiteSpace(newValue))
+                        {
+                            UInt32 tmp = new UInt32();
+                            tmp = 0;
+                            sigValue = tmp;
+                        }
+                        else
+                        {
+                            sigValue = Convert.ToUInt32(newValue);
+                        }
                         break;
                     case SignalDataItem.BPValueType.U16:
-                        sigValue = Convert.ToUInt16(newValue);
+                        if (string.IsNullOrWhiteSpace(newValue))
+                        {
+                            UInt16 tmp = new UInt16();
+                            tmp = 0;
+                            sigValue = tmp;
+                        }
+                        else
+                        {
+                            sigValue = Convert.ToUInt16(newValue);
+                        }
                         break;
                     case SignalDataItem.BPValueType.I32:
-                        sigValue = Convert.ToInt32(newValue);
+                        if (string.IsNullOrWhiteSpace(newValue))
+                        {
+                            Int32 tmp = new Int32();
+                            tmp = 0;
+                            sigValue = tmp;
+                        }
+                        else
+                        {
+                            sigValue = Convert.ToInt32(newValue);
+                        }
                         break;
                     case SignalDataItem.BPValueType.I16:
-                        sigValue = Convert.ToInt16(newValue);
+                        if (string.IsNullOrWhiteSpace(newValue))
+                        {
+                            Int16 tmp = new Int16();
+                            tmp = 0;
+                            sigValue = tmp;
+                        }
+                        else
+                        {
+                            sigValue = Convert.ToInt16(newValue);
+                        }
                         break;
                     case SignalDataItem.BPValueType.ENUM:
-                        sigValue = Convert.ToUInt16(newValue);
+                        if (string.IsNullOrWhiteSpace(newValue))
+                        {
+                            UInt16 tmp = new UInt16();
+                            tmp = 0;
+                            sigValue = tmp;
+                        }
+                        else
+                        {
+                            sigValue = Convert.ToUInt16(newValue);
+                        }
                         break;
                     case SignalDataItem.BPValueType.FLOAT:
-                        sigValue = (float)(Convert.ToDouble(newValue));
+                        if (string.IsNullOrWhiteSpace(newValue))
+                        {
+                            float tmp;
+                            tmp = 0;
+                            sigValue = tmp;
+                        }
+                        else
+                        {
+                            sigValue = (float)(Convert.ToDouble(newValue));
+                        }
                         break;
                     case SignalDataItem.BPValueType.STRING:
                         sigValue = "\"" + newValue + "\"";
